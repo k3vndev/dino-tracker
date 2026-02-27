@@ -1,22 +1,6 @@
 @import 'tailwindcss';
 
-:root {
-  --app-bg-color: #111;
-}
-
 @theme inline {
   --font-plus: var(--font-plus-jakarta-sans), sans;
   --font-poppins: var(--font-poppins), sans-serif;
-}
-
-@utility app-bg-dots-pattern {
-  background-color: var(--app-bg-color);
-
-  --dot-size: 1px;
-  background-image: radial-gradient(
-    circle,
-    rgb(107 114 128 / 0.5) var(--dot-size),
-    transparent var(--dot-size)
-  );
-  background-size: 24px 24px;
 }
