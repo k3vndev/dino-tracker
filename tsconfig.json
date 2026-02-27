@@ -22,7 +22,8 @@
       "@/*": ["./src/*"],
       "@components": ["./src/components/index.ts"],
       "@components/*": ["./src/components/*"],
-      "@consts": ["./src/consts.ts"]
+      "@consts/*": ["./src/consts/*"],
+      "@consts": ["./src/consts/index.ts"]
     }
   },
   "include": [

@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently -k -n next,icons -c cyan,magenta \"next dev\" \"pnpm run watch:icon-types\"",
     "build": "next build",
     "start": "next start",
+    "generate:icon-types": "python scripts/generate_icon_types.py",
+    "watch:icon-types": "chokidar \"public/icons/**/*.svg\" -c \"pnpm run generate:icon-types\" --initial",
     "lint": "biome check",
     "format": "biome format --write"
   },
@@ -13,6 +15,7 @@
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "tailwind-merge": "^3.5.0",
     "zustand": "^5.0.11"
   },
   "devDependencies": {
@@ -21,6 +24,8 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "chokidar-cli": "^3.0.0",
+    "concurrently": "^9.2.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

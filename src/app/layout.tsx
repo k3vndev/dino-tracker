@@ -1,16 +1,18 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { AppBackground } from '@components'
-import { FONT_VARIABLES } from '@consts'
+import { APP_NAME, FONT_VARIABLES } from '@consts'
+
+const faviconPath = '/icons/favicon.svg'
 
 export const metadata: Metadata = {
-  title: 'Dino Tracker',
+  title: APP_NAME,
   description:
     'Dino Tracker helps freelancers track projects, log hours, and monitor progress in one clean workspace. Stay organized, move faster, and make better decisions with clear stats and insights.',
   icons: {
-    icon: '/app-icon.svg',
-    shortcut: '/app-icon.svg',
-    apple: '/app-icon.svg'
+    icon: faviconPath,
+    shortcut: faviconPath,
+    apple: faviconPath
   }
 }
 
