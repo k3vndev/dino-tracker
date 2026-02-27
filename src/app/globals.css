@@ -1,6 +1,20 @@
 @import 'tailwindcss';
 
+* {
+  color-scheme: dark;
+}
+
+body {
+  --app-sidebar-width: 400px;
+  --app-sidebar-margin: 3rem;
+  --app-margin-y: 3rem;
+}
+
 @theme inline {
   --font-plus: var(--font-plus-jakarta-sans), sans;
   --font-poppins: var(--font-poppins), sans-serif;
+}
+
+@utility button {
+  @apply hover:brightness-[120%] transition-all active:scale-95 active:brightness-95 disabled:scale-100 disabled:brightness-50 disabled:pointer-events-none select-none;
 }

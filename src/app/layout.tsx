@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { AppBackground } from '@components'
 import { APP_NAME, FONT_VARIABLES } from '@consts'
+import { AppSidebar } from '@/components/app-sidebar'
 
 const faviconPath = '/icons/favicon.svg'
 
@@ -23,8 +24,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${FONT_VARIABLES} antialiased`}>
-        {children}
+      <body
+        className={`${FONT_VARIABLES} antialiased overflow-x-hidden px-40 py-(--app-margin-y) min-h-dvh w-screen`}
+      >
+        <div id='app-shell' className='relative h-full'>
+          <main className='ml-[calc(var(--app-sidebar-width)+var(--app-sidebar-margin))]'>{children}</main>
+
+          <AppSidebar />
+        </div>
 
         <AppBackground />
       </body>

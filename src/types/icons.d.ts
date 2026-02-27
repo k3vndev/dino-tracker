@@ -1,1 +1,1 @@
-export type IconName = 'chart' | 'favicon'
+export type IconName = 'chart' | 'dashboard' | 'favicon' | 'settings' | 'trash'
