@@ -1,3 +1,5 @@
 export * from './cn'
+export * from './format-project-date'
+export * from './get-project-bg-gradient'
 export * from './hue-rotate'
 export * from './state-setter'
