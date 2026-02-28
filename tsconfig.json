@@ -23,7 +23,9 @@
       "@types/*": ["./src/types/*"],
       "@types": ["./src/types/index.ts"],
       "@utils/*": ["./src/utils/*"],
-      "@utils": ["./src/utils/index.ts"]
+      "@utils": ["./src/utils/index.ts"],
+      "@store/*": ["./src/store/*"],
+      "@store": ["./src/store/index.ts"]
     }
   },
   "include": [

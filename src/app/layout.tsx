@@ -25,11 +25,10 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${FONT_VARIABLES} antialiased overflow-x-hidden px-40 py-(--app-margin-y) min-h-dvh w-screen`}
+        className={`${FONT_VARIABLES} antialiased overflow-x-hidden px-40 py-(--app-margin-y) min-h-dvh w-screen font-plus`}
       >
         <div id='app-shell' className='relative h-full'>
-          <main className='ml-[calc(var(--app-sidebar-width)+var(--app-sidebar-margin))]'>{children}</main>
-
+          {children}
           <AppSidebar />
         </div>
 
