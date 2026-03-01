@@ -31,7 +31,7 @@ export const AppSidebar = () => {
   ]
 
   return (
-    <aside className='fixed bg-linear-to-r from-black/90 to-black/30 w-(--app-sidebar-width) px-8 py-12 rounded-2xl border border-white/10 backdrop-blur-xs top-(--app-margin-y) bottom-(--app-margin-y) flex flex-col gap-10'>
+    <aside className='fixed bg-linear-to-r from-black/90 to-black/30 w-(--app-sidebar-width) px-8 py-12 rounded-2xl border border-white/10 backdrop-blur-xs top-(--app-margin-y) bottom-(--app-margin-y) flex flex-col gap-10 shadow-card'>
       <AppName />
 
       <ul className='flex flex-col gap-2'>

@@ -27,7 +27,9 @@
       "@store/*": ["./src/store/*"],
       "@store": ["./src/store/index.ts"],
       "@context/*": ["./src/context/*"],
-      "@context": ["./src/context/index.ts"]
+      "@context": ["./src/context/index.ts"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@hooks": ["./src/hooks/index.ts"]
     }
   },
   "include": [

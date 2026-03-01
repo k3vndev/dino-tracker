@@ -37,6 +37,9 @@ type CustomDataField =
       type: 'daily'
       value: Array<{
         date: string
-        value: number
+        value: {
+          date: string
+          value: number
+        }
       }>
     }

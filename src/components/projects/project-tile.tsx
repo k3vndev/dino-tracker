@@ -26,7 +26,7 @@ export const ProjectTile = ({ data: p, index, className, style, onClick, ...prop
   return (
     <article
       className={cn(
-        'rounded-2xl border shadow-black/50 border-white/25 min-h-48 backdrop-blur-md',
+        'rounded-2xl border shadow-black/50 border-white/25 min-h-48 backdrop-blur-md shadow-card',
         styleClass,
         className
       )}
