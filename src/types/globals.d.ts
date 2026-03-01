@@ -23,12 +23,12 @@ export interface Project {
   customData?: Record<string, CustomDataField>
 }
 
-type ProjectStatus = keyof typeof PROJECT_STATUSES
+export type ProjectStatus = keyof typeof PROJECT_STATUSES
 
 /**
  * Custom data field can either be a static number or a daily time series. This allows for flexibility in the types of data that can be associated with a project, such as total hours worked (static) or daily revenue (time series).
  */
-type CustomDataField =
+export type CustomDataField =
   | {
       type: 'static'
       value: number

@@ -14,7 +14,7 @@ export const PROJECT_STATUSES = {
 
 export const PROJECT_DEFAULT_VALUES = {
   name: 'My New Project',
-  clientName: 'Client Name',
+  clientName: "My Client's Name",
   status: 'Not Started',
   customData: {
     'Daily Hours': {

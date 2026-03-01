@@ -4,6 +4,7 @@ import { cn, formatProjectDate, getProjectBgGradient } from '@utils'
 import Link from 'next/link'
 import { useMemo } from 'react'
 import { Icon } from '../icon'
+import { StatusChip } from './status-chip'
 
 interface Props extends React.HTMLAttributes<HTMLElement> {
   data: Project
@@ -37,14 +38,17 @@ export const ProjectTile = ({ data: p, index, className, style, onClick, ...prop
       <Link className='flex flex-col justify-between gap-4 px-5 py-4 size-full' href={`/projects/${p.id}`}>
         {/* Header section */}
         <div className='flex items-start justify-between gap-4'>
-          <div className='flex flex-col gap-1.5'>
-            <h3 className='font-poppins font-bold text-2xl text-pretty'>{p.name}</h3>
-            <p>{p.clientName}</p>
+          <div className='flex min-w-0 flex-1 flex-col gap-1.5'>
+            <h3 className='font-poppins font-bold text-2xl wrap-break-word whitespace-normal overflow-hidden text-ellipsis line-clamp-2'>
+              {p.name}
+            </h3>
+            <p className='wrap-break-word whitespace-normal overflow-hidden text-ellipsis line-clamp-2'>
+              {p.clientName}
+            </p>
           </div>
 
-          <div className='flex items-center gap-2'>
-            <div className='size-3 min-w-3 rounded-full bg-green-500' />
-            <small className='text-nowrap text-xs'>{p.status}</small>
+          <div className='shrink-0'>
+            <StatusChip status={p.status} />
           </div>
         </div>
 

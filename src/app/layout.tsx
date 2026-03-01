@@ -27,10 +27,7 @@ export default function RootLayout({
       <body
         className={`${FONT_VARIABLES} antialiased overflow-x-hidden 2xl:px-40 xl:px-32 lg:px-24 px-8 py-(--app-margin-y) min-h-dvh w-screen font-plus`}
       >
-        <div id='app-shell' className='relative h-full'>
-          {children}
-          <AppSidebar />
-        </div>
+        {children}
 
         <AppBackground />
       </body>

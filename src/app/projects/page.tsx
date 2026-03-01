@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, MainWrapper } from '@components'
+import { AppShell, Button } from '@components'
 import { ProjectTile } from '@components/projects'
 import { ProjectsContext } from '@context'
 import { useProjectsStore } from '@store'
@@ -12,7 +12,7 @@ export default function ProjectsPage() {
 
   return (
     <ProjectsContext.Provider value={{ projectsDisabled, setProjectsDisabled }}>
-      <MainWrapper>
+      <AppShell>
         <Button icon='plus' primary>
           New Project
         </Button>
@@ -22,7 +22,7 @@ export default function ProjectsPage() {
             <ProjectTile key={project.id} data={project} index={index} />
           ))}
         </section>
-      </MainWrapper>
+      </AppShell>
     </ProjectsContext.Provider>
   )
 }

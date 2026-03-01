@@ -5,6 +5,7 @@ import { formatProjectDate, getProjectBgGradient } from '@utils'
 import { useMemo } from 'react'
 import { PROJECT_DEFAULT_VALUES } from '@/consts'
 import { useProjectsStore } from '@/store'
+import { StatusChip } from './status-chip'
 
 export const ProjectViewEditable = ({
   id,
@@ -44,7 +45,7 @@ export const ProjectViewEditable = ({
     >
       {/* Header section */}
       <div className='flex items-start justify-between gap-4'>
-        <div className='flex flex-col gap-0'>
+        <div className='flex flex-1 min-w-0 flex-col gap-0'>
           <EditableText
             className='text-3xl font-semibold'
             defaultValue={PROJECT_DEFAULT_VALUES.name}
@@ -61,10 +62,7 @@ export const ProjectViewEditable = ({
           />
         </div>
 
-        <div className='flex items-center gap-2'>
-          <div className='size-3 min-w-3 rounded-full bg-green-500' />
-          <small className='text-nowrap text-xs'>{status}</small>
-        </div>
+        <StatusChip status={status} showBorder />
       </div>
 
       {/* Footer section */}

@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, MainWrapper } from '@components'
+import { AppShell, Button } from '@components'
 import { ProjectViewEditable } from '@components/projects'
 import { useProjectsStore } from '@store'
 import { useParams } from 'next/navigation'
@@ -14,17 +14,17 @@ export default function ProjectViewPage() {
 
   if (!p) {
     return (
-      <MainWrapper>
+      <AppShell>
         <section className='flex items-center text-white text-center font-poppins flex-col w-full justify-center gap-2 size-64 bg-white/5 rounded-xl border border-white/10 backdrop-blur-xs'>
           <h2 className='font-semibold text-2xl'>404</h2>
           <h1 className='font-bold text-4xl'>Project Not Found</h1>
         </section>
-      </MainWrapper>
+      </AppShell>
     )
   }
 
   return (
-    <MainWrapper>
+    <AppShell>
       <ProjectViewEditable {...p} />
 
       <section className='flex items-center w-full gap-4 flex-wrap'>
@@ -36,6 +36,6 @@ export default function ProjectViewPage() {
           Add Chart
         </Button>
       </section>
-    </MainWrapper>
+    </AppShell>
   )
 }

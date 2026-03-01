@@ -1,6 +1,6 @@
 export * from './app-background'
+export * from './app-shell'
 export * from './app-sidebar'
 export * from './button'
 export * from './hover-animated-box'
 export * from './icon'
-export * from './main-wrapper'
