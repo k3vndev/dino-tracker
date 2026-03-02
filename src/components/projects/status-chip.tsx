@@ -15,7 +15,7 @@ export const StatusChip = ({ status, showBorder = false, className }: Props) => 
 
   return (
     <div
-      className={cn('flex items-center gap-1 rounded-lg px-3 py-1', borderStyle, className)}
+      className={cn('text-white flex items-center gap-1 rounded-lg px-3 py-1', borderStyle, className)}
       style={{ borderColor: mainColor, background: bgColor }}
     >
       <div className={`size-3 min-w-3 rounded-full`} style={{ background: mainColor }} />

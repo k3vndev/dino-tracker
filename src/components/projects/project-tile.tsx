@@ -1,9 +1,9 @@
+import { Icon } from '@components'
 import { useProjectsContext } from '@context'
 import type { ClassName, Project } from '@types'
 import { cn, formatProjectDate, getProjectBgGradient } from '@utils'
 import Link from 'next/link'
 import { useMemo } from 'react'
-import { Icon } from '../icon'
 import { StatusChip } from './status-chip'
 
 interface Props extends React.HTMLAttributes<HTMLElement> {
@@ -24,10 +24,12 @@ export const ProjectTile = ({ data: p, index, className, style, onClick, ...prop
     onClick?.(e)
   }
 
+  const displayDate = useMemo(() => formatProjectDate(p.startDate, p.endDate), [p.startDate, p.endDate])
+
   return (
     <article
       className={cn(
-        'rounded-2xl border shadow-black/50 border-white/25 min-h-48 backdrop-blur-md shadow-card',
+        'rounded-2xl border shadow-black/50 border-white/25 min-h-48 backdrop-blur-md shadow-element',
         styleClass,
         className
       )}
@@ -39,10 +41,10 @@ export const ProjectTile = ({ data: p, index, className, style, onClick, ...prop
         {/* Header section */}
         <div className='flex items-start justify-between gap-4'>
           <div className='flex min-w-0 flex-1 flex-col gap-1.5'>
-            <h3 className='font-poppins font-bold text-2xl wrap-break-word whitespace-normal overflow-hidden text-ellipsis line-clamp-2'>
+            <h3 className='text-white font-poppins font-bold text-2xl wrap-break-word whitespace-normal overflow-hidden text-ellipsis line-clamp-2'>
               {p.name}
             </h3>
-            <p className='wrap-break-word whitespace-normal overflow-hidden text-ellipsis line-clamp-2'>
+            <p className='text-white/75 wrap-break-word whitespace-normal overflow-hidden text-ellipsis line-clamp-2'>
               {p.clientName}
             </p>
           </div>
@@ -56,14 +58,12 @@ export const ProjectTile = ({ data: p, index, className, style, onClick, ...prop
         <div className='flex items-center justify-between'>
           {/* Date range */}
           <div className='flex items-center gap-1'>
-            <Icon name='clock' className='size-5' />
-            <span className='text-sm text-nowrap'>
-              {formatProjectDate(p.startDate)} - {formatProjectDate(p.endDate)}
-            </span>
+            <Icon name='calendar' className='size-5' />
+            <span className='text-sm text-nowrap text-white/90'>{displayDate}</span>
           </div>
 
           {/* Payment or Rate */}
-          <div className='flex items-center gap-1 font-poppins text-xl font-semibold'>
+          <div className='flex items-center gap-1 font-poppins text-xl font-semibold text-white'>
             {p.finalPayment ? (
               <span>${p.finalPayment}</span>
             ) : p.hourlyRate ? (

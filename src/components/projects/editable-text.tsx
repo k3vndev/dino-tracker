@@ -135,10 +135,10 @@ export const EditableText = ({
   }, [isEditing, text])
 
   const internalElementClassName: ClassName =
-    'text-wrap border font-poppins text-white px-2 py-1 rounded-lg wrap-break-word whitespace-pre-wrap min-w-20 max-w-full'
+    'text-wrap border font-poppins px-2 py-1 rounded-lg wrap-break-word whitespace-pre-wrap min-w-20 max-w-full'
 
   return (
-    <div className={cn('w-full min-w-0 flex text-xl', propsClassName)}>
+    <div className={cn('w-full min-w-0 flex text-white text-xl', propsClassName)}>
       {!isEditing ? (
         <span className='relative group min-w-0 flex'>
           <Element

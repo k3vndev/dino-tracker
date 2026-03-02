@@ -1,10 +1,10 @@
-import { Icon } from '@components'
 import { EditableText } from '@components/projects'
 import type { Project } from '@types'
-import { formatProjectDate, getProjectBgGradient } from '@utils'
+import { getProjectBgGradient } from '@utils'
 import { useMemo } from 'react'
 import { PROJECT_DEFAULT_VALUES } from '@/consts'
 import { useProjectsStore } from '@/store'
+import { DatePicker } from './date-picker'
 import { StatusChip } from './status-chip'
 
 export const ProjectViewEditable = ({
@@ -40,7 +40,7 @@ export const ProjectViewEditable = ({
 
   return (
     <section
-      className='flex flex-col p-8 rounded-2xl border border-white/15 gap-10 backdrop-blur-xs shadow-card'
+      className='flex flex-col p-8 rounded-2xl border border-white/15 gap-10 backdrop-blur-xs shadow-element'
       style={{ background: bgLinearGradient }}
     >
       {/* Header section */}
@@ -54,7 +54,7 @@ export const ProjectViewEditable = ({
             setState={setName}
           />
           <EditableText
-            className='text-lg font-medium'
+            className='text-lg text-white/75'
             defaultValue={PROJECT_DEFAULT_VALUES.clientName}
             element='h2'
             initialText={clientName}
@@ -68,12 +68,7 @@ export const ProjectViewEditable = ({
       {/* Footer section */}
       <div className='flex items-center justify-between'>
         {/* Date range */}
-        <div className='flex items-center gap-1'>
-          <Icon name='clock' className='size-5' />
-          <span className='text-sm text-nowrap'>
-            {formatProjectDate(startDate)} - {formatProjectDate(endDate)}
-          </span>
-        </div>
+        <DatePicker {...{ startDate, endDate }} />
 
         {/* Payment or Rate */}
         <div className='flex items-center gap-1 font-poppins text-xl font-semibold'>

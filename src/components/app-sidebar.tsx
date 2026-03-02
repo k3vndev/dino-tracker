@@ -31,7 +31,7 @@ export const AppSidebar = () => {
   ]
 
   return (
-    <aside className='fixed bg-linear-to-r from-black/90 to-black/30 w-(--app-sidebar-width) px-8 py-12 rounded-2xl border border-white/10 backdrop-blur-xs top-(--app-margin-y) bottom-(--app-margin-y) flex flex-col gap-10 shadow-card'>
+    <aside className='fixed bg-linear-to-r from-black/90 to-black/30 w-(--app-sidebar-width) px-8 py-12 rounded-2xl border border-white/10 backdrop-blur-xs top-(--app-margin-y) bottom-(--app-margin-y) flex flex-col gap-10 shadow-element'>
       <AppName />
 
       <ul className='flex flex-col gap-2'>
@@ -83,7 +83,7 @@ const AppName = () => {
 }
 
 const Chart = () => (
-  <div className='border border-white/10 bg-white/5 w-full h-full rounded-xl flex items-center justify-center flex-col gap-2'>
+  <div className='border text-white border-white/10 bg-white/5 w-full h-full rounded-xl flex items-center justify-center flex-col gap-2'>
     <Icon name='chart' className='size-16' />
     <span className='font-poppins italic text-xl text-pretty px-16 text-center'>YOUR CHART WILL GO HERE</span>
   </div>
