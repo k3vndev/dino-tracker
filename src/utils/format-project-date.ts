@@ -1,3 +1,5 @@
+import { DATE_SEPARATOR } from '@consts'
+
 /**
  * Format a date string into a more readable format (e.g., "Jan 1")
  * @param dateStr - The date string to format
@@ -19,7 +21,7 @@ export const formatProjectDate = (startDateStr?: string, endDateStr?: string) =>
   const formattedEndDate = parseDate(endDateStr)
 
   if (formattedStartDate && formattedEndDate) {
-    return `${formattedStartDate} - ${formattedEndDate}`
+    return `${formattedStartDate} ${DATE_SEPARATOR} ${formattedEndDate}`
   }
 
   if (formattedStartDate) return `From ${formattedStartDate}`

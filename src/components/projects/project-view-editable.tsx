@@ -1,10 +1,11 @@
 import { EditableText } from '@components/projects'
+import type { DatePickerDates } from '@context'
 import type { Project } from '@types'
 import { getProjectBgGradient } from '@utils'
 import { useMemo } from 'react'
 import { PROJECT_DEFAULT_VALUES } from '@/consts'
 import { useProjectsStore } from '@/store'
-import { DatePicker } from './date-picker'
+import { DatePicker } from './date-picker/index'
 import { StatusChip } from './status-chip'
 
 export const ProjectViewEditable = ({
@@ -37,6 +38,10 @@ export const ProjectViewEditable = ({
 
   const setName = (newName: string) => updateStoreProject('name', newName)
   const setClientName = (newClientName: string) => updateStoreProject('clientName', newClientName)
+  const setDates = ({ from, to }: DatePickerDates) => {
+    updateStoreProject('startDate', from)
+    updateStoreProject('endDate', to)
+  }
 
   return (
     <section
@@ -68,7 +73,7 @@ export const ProjectViewEditable = ({
       {/* Footer section */}
       <div className='flex items-center justify-between'>
         {/* Date range */}
-        <DatePicker {...{ startDate, endDate }} />
+        <DatePicker {...{ startDate, endDate, setDates }} />
 
         {/* Payment or Rate */}
         <div className='flex items-center gap-1 font-poppins text-xl font-semibold'>
