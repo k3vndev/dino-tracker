@@ -6,6 +6,7 @@ import { useMemo } from 'react'
 import { PROJECT_DEFAULT_VALUES } from '@/consts'
 import { useProjectsStore } from '@/store'
 import { DatePicker } from './date-picker/index'
+import { Payment } from './payment'
 import { StatusChip } from './status-chip'
 
 export const ProjectViewEditable = ({
@@ -42,10 +43,12 @@ export const ProjectViewEditable = ({
     updateStoreProject('startDate', from)
     updateStoreProject('endDate', to)
   }
+  const setFinalPayment = (amount: number) => updateStoreProject('finalPayment', amount)
+  const setHourlyRate = (amount: number) => updateStoreProject('hourlyRate', amount)
 
   return (
     <section
-      className='flex flex-col p-8 rounded-2xl border border-white/15 gap-10 backdrop-blur-xs shadow-element'
+      className='flex flex-col p-8 rounded-2xl border border-white/15 gap-10 backdrop-blur-xs shadow-element group/project'
       style={{ background: bgLinearGradient }}
     >
       {/* Header section */}
@@ -57,6 +60,7 @@ export const ProjectViewEditable = ({
             element='h1'
             initialText={name}
             setState={setName}
+            multiline
           />
           <EditableText
             className='text-lg text-white/75'
@@ -64,6 +68,7 @@ export const ProjectViewEditable = ({
             element='h2'
             initialText={clientName}
             setState={setClientName}
+            multiline
           />
         </div>
 
@@ -71,22 +76,14 @@ export const ProjectViewEditable = ({
       </div>
 
       {/* Footer section */}
-      <div className='flex items-center justify-between'>
+      <div className='flex items-center justify-between text-white'>
         {/* Date range */}
         <DatePicker {...{ startDate, endDate, setDates }} />
 
         {/* Payment or Rate */}
-        <div className='flex items-center gap-1 font-poppins text-xl font-semibold'>
-          {finalPayment ? (
-            <span>${finalPayment}</span>
-          ) : hourlyRate ? (
-            <>
-              <span>${hourlyRate}</span>
-              <span className='opacity-50'>/hr</span>
-            </>
-          ) : (
-            <span className='opacity-50'>N/D</span>
-          )}
+        <div className='flex items-center gap-10'>
+          <Payment label='FINAL' data={finalPayment} setData={setFinalPayment} />
+          <Payment label='HOURLY' data={hourlyRate} hourly setData={setHourlyRate} />
         </div>
       </div>
     </section>

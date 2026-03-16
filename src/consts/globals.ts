@@ -25,3 +25,5 @@ export const PROJECT_DEFAULT_VALUES = {
 } as const satisfies Omit<Project, 'id' | 'startDate' | 'endDate' | 'color'>
 
 export const DATE_SEPARATOR = '-'
+
+export const NO_DATA_LABEL = 'N/D'

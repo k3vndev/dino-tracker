@@ -32,7 +32,6 @@ export const MOCK_PROJECTS: Project[] = [
     id: 'p-004',
     name: 'Internal CRM Migration',
     clientName: 'Maple Partners',
-    startDate: '2025-08-12',
     endDate: '2025-12-20',
     finalPayment: 9800,
     status: 'Completed',

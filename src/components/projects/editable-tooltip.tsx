@@ -13,7 +13,7 @@ export const EditableTooltip = ({ displayLeft = false, className, ...props }: Pr
   return (
     <div
       className={cn(
-        'absolute top-1/2 -translate-y-1/2 group-hover:opacity-100 opacity-0 transition-opacity aspect-square h-full flex items-center',
+        'absolute top-1/2 -translate-y-1/2 group-hover:opacity-100 group-hover/tooltip:opacity-100 opacity-0 transition-opacity aspect-square h-full flex items-center',
         positionClass,
         className
       )}
