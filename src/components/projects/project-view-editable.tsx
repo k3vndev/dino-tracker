@@ -1,10 +1,10 @@
 import { EditableText } from '@components/projects'
+import { PROJECT_DEFAULT_VALUES } from '@consts'
 import type { DatePickerDates } from '@context'
+import { useProjectsStore } from '@store'
 import type { Project } from '@types'
 import { getProjectBgGradient } from '@utils'
 import { useMemo } from 'react'
-import { PROJECT_DEFAULT_VALUES } from '@/consts'
-import { useProjectsStore } from '@/store'
 import { DatePicker } from './date-picker/index'
 import { Payment } from './payment'
 import { StatusChip } from './status-chip'
@@ -21,30 +21,15 @@ export const ProjectViewEditable = ({
   color
 }: Project) => {
   const bgLinearGradient = useMemo(() => getProjectBgGradient(color, 0.3, 40), [color])
-  const setProjects = useProjectsStore(s => s.setProjects)
+  const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
 
-  const updateStoreProject = (key: keyof Omit<Project, 'id'>, value: Project[typeof key]) => {
-    setProjects(prev => {
-      const projectIndex = prev.findIndex(p => p.id === id)
-      if (projectIndex === -1) return prev
-
-      const updatedProjects = [...prev]
-      updatedProjects[projectIndex] = {
-        ...updatedProjects[projectIndex],
-        [key]: value
-      }
-      return updatedProjects
-    })
-  }
-
-  const setName = (newName: string) => updateStoreProject('name', newName)
-  const setClientName = (newClientName: string) => updateStoreProject('clientName', newClientName)
+  const setName = (name: string) => setProjectAttributes(id, { name })
+  const setClientName = (clientName: string) => setProjectAttributes(id, { clientName })
   const setDates = ({ from, to }: DatePickerDates) => {
-    updateStoreProject('startDate', from)
-    updateStoreProject('endDate', to)
+    setProjectAttributes(id, { startDate: from, endDate: to })
   }
-  const setFinalPayment = (amount: number) => updateStoreProject('finalPayment', amount)
-  const setHourlyRate = (amount: number) => updateStoreProject('hourlyRate', amount)
+  const setFinalPayment = (finalPayment: number) => setProjectAttributes(id, { finalPayment })
+  const setHourlyRate = (hourlyRate: number) => setProjectAttributes(id, { hourlyRate })
 
   return (
     <section

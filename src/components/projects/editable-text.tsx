@@ -2,7 +2,7 @@ import { NO_DATA_LABEL } from '@consts'
 import { useFreshRefs } from '@hooks'
 import type { ClassName } from '@types'
 import { cn } from '@utils'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { EditableTooltip } from './editable-tooltip'
 
 interface Props {
@@ -31,8 +31,14 @@ export const EditableText = ({
   ...props
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false)
-  const textWaterfall = initialText || defaultValue || NO_DATA_LABEL
-  const [text, setText] = useState(textWaterfall)
+
+  const textWaterfall = useMemo(
+    () => initialText || defaultValue || NO_DATA_LABEL,
+    [initialText, defaultValue]
+  )
+  const textWaterfallRef = useFreshRefs(textWaterfall)
+
+  const [text, setText] = useState(textWaterfallRef.current)
   const textRef = useFreshRefs(text)
 
   const inputRef = useRef<HTMLTextAreaElement | HTMLInputElement | null>(null)
@@ -44,7 +50,6 @@ export const EditableText = ({
     if (!wrapper) return
 
     const label = wrapper.closest('label')
-    console.log({ label })
     if (!label) return
 
     const handleLabelClick = (e: MouseEvent) => {
@@ -107,7 +112,7 @@ export const EditableText = ({
     onClick?.(e)
 
     setIsEditing(true)
-    setText(textWaterfall)
+    setText(textWaterfallRef.current)
 
     // Handle the input on the next animation frame to ensure it exists in the DOM
     requestAnimationFrame(() => {
@@ -141,7 +146,8 @@ export const EditableText = ({
 
     if (hasKey) e.preventDefault()
 
-    setText(validateText(textRef.current))
+    const validated = validateText(textRef.current)
+    setText(validated)
 
     requestAnimationFrame(() => {
       refreshState()

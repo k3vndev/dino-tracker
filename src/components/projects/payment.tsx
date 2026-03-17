@@ -12,9 +12,9 @@ export const Payment = ({ label, hourly = false, data, setData }: Props) => {
 
   const handleSetData = (txt: string) => {
     const numericValue = Number.parseFloat(txt.trim())
+
     if (!Number.isNaN(numericValue)) {
       setData?.(numericValue)
-      console.log(numericValue)
     }
   }
 
