@@ -14,6 +14,15 @@ export const MOCK_PROJECTS: Project[] = [
         type: 'static',
         key: 'total commits',
         value: 120
+      },
+      {
+        type: 'daily',
+        key: 'daily worked hours',
+        value: [
+          { date: '2026-01-06', value: 5 },
+          { date: '2026-01-07', value: 8 },
+          { date: '2026-01-08', value: 12 }
+        ]
       }
     ],
     dataDisplay: [
@@ -21,6 +30,11 @@ export const MOCK_PROJECTS: Project[] = [
         id: 'dd-001',
         fieldKeys: ['total commits'],
         title: 'Total Commits'
+      },
+      {
+        id: 'dd-002',
+        fieldKeys: ['daily worked hours'],
+        title: 'Daily Worked Hours'
       }
     ]
   },

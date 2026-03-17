@@ -25,10 +25,10 @@ export default function ProjectViewPage() {
   }
 
   return (
-    <AppShell>
+    <AppShell className='gap-0'>
       <ProjectViewEditable {...p} />
 
-      <section className='flex items-center w-full gap-4 flex-wrap'>
+      <section className='flex items-center w-full gap-4 flex-wrap mt-4'>
         <Button icon='chart' primary>
           Register Data
         </Button>
@@ -38,7 +38,7 @@ export default function ProjectViewPage() {
         </Button>
       </section>
 
-      <section className='flex items-center flex-col gap-8'>
+      <section className='flex items-center flex-col gap-4 mt-8'>
         {p.dataDisplay?.map((dataDisplay, index) => (
           <DataDisplay key={index} {...dataDisplay} projectId={p.id} />
         ))}

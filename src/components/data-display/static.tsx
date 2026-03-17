@@ -1,9 +1,10 @@
 import { useDataDisplayContext } from '@/context'
+import { ErrorCard } from './error-card'
 
 export const Static = () => {
   const { fields, title } = useDataDisplayContext()
   if (!fields || fields.length === 0) {
-    return <span>No data available</span>
+    return <ErrorCard />
   }
 
   const [staticField] = fields // This has been validated already
