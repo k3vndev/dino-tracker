@@ -16,7 +16,7 @@ export const PROJECT_DEFAULT_VALUES = {
   name: 'My New Project',
   clientName: "My Client's Name",
   status: 'Not Started',
-  customData: {
+  customFields: {
     'Daily Hours': {
       type: 'daily',
       value: []

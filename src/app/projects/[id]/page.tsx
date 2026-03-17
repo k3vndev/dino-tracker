@@ -1,6 +1,7 @@
 'use client'
 
 import { AppShell, Button } from '@components'
+import { DataDisplay } from '@components/data-display'
 import { ProjectViewEditable } from '@components/projects'
 import { useProjectsStore } from '@store'
 import { useParams } from 'next/navigation'
@@ -35,6 +36,12 @@ export default function ProjectViewPage() {
         <Button icon='plus' primary className='ml-auto'>
           Add Chart
         </Button>
+      </section>
+
+      <section className='flex items-center flex-col gap-8'>
+        {p.dataDisplay?.map((dataDisplay, index) => (
+          <DataDisplay key={index} {...dataDisplay} projectId={p.id} />
+        ))}
       </section>
     </AppShell>
   )

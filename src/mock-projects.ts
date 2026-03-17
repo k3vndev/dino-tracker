@@ -8,7 +8,21 @@ export const MOCK_PROJECTS: Project[] = [
     startDate: '2026-01-06',
     hourlyRate: 95,
     status: 'Active',
-    color: '#F85A5A'
+    color: '#F85A5A',
+    customFields: [
+      {
+        type: 'static',
+        key: 'total commits',
+        value: 120
+      }
+    ],
+    dataDisplay: [
+      {
+        id: 'dd-001',
+        fieldKeys: ['total commits'],
+        title: 'Total Commits'
+      }
+    ]
   },
   {
     id: 'p-002',
