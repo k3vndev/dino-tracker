@@ -15,15 +15,11 @@ export const PROJECT_STATUSES = {
 export const PROJECT_DEFAULT_VALUES = {
   name: 'My New Project',
   clientName: "My Client's Name",
-  status: 'Not Started',
-  customFields: {
-    'Daily Hours': {
-      type: 'daily',
-      value: []
-    }
-  }
+  status: 'Not Started'
 } as const satisfies Omit<Project, 'id' | 'startDate' | 'endDate' | 'color'>
 
 export const DATE_SEPARATOR = '-'
 
 export const NO_DATA_LABEL = 'N/D'
+
+export const DEFAULT_COLOR = '#5A9BF8'

@@ -26,7 +26,7 @@ export const MOCK_PROJECTS: Project[] = [
       },
       {
         type: 'daily',
-        name: 'Worked Hours - Code',
+        name: 'Code',
         id: 'cf-002',
         value: [
           { date: '2026-01-06', value: 5 },
@@ -38,7 +38,7 @@ export const MOCK_PROJECTS: Project[] = [
       },
       {
         type: 'daily',
-        name: 'Worked Hours - Design',
+        name: 'Design',
         id: 'cf-003',
         value: [
           { date: '2026-01-06', value: 3 },
@@ -50,7 +50,7 @@ export const MOCK_PROJECTS: Project[] = [
       },
       {
         type: 'daily',
-        name: 'Worked Hours - Meetings',
+        name: 'Meetings',
         id: 'cf-004',
         value: [
           { date: '2026-01-06', value: 2 },
@@ -65,12 +65,17 @@ export const MOCK_PROJECTS: Project[] = [
       {
         id: 'dd-001',
         fieldIds: ['cf-001'],
-        title: 'Total Commits'
+        title: 'Display of Total Commits'
       },
       {
         id: 'dd-002',
         fieldIds: ['cf-002', 'cf-003', 'cf-004'],
         title: 'Daily Worked Hours'
+      },
+      {
+        id: 'dd-003',
+        fieldIds: ['cf-002', 'cf-004'],
+        title: 'Daily Worked Hours (Testing)'
       }
     ]
   },
