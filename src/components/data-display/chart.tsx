@@ -4,6 +4,7 @@ import { useProjectsStore } from '@store'
 import { DateTime } from 'luxon'
 import { useMemo } from 'react'
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts'
+import { hueRotate } from '@/utils'
 import { ErrorCard } from './error-card'
 
 export const Chart = () => {
@@ -11,22 +12,41 @@ export const Chart = () => {
   const projects = useProjectsStore(s => s.projects)
   const project = useMemo(() => projects.find(p => p.id === projectId), [projectId, projects])
 
-  const data = useMemo(() => {
-    if (!fields) return null
+  const [chartData, chartKeys]: [ChartData, string[]] | [null, null] = useMemo(() => {
+    if (!fields) return [null, null]
 
-    const [{ value: firstFieldValues }] = fields
+    // Parse all chart data into a map with date as the key and an object of field values as the value
+    const mergedDataMap: Record<string, Record<string, number | string>> = {}
+    const keys = new Set<string>()
 
-    const dataArray = (firstFieldValues as Array<{ date: string; value: number }>)
-      .map(record => ({
-        date: record.date,
-        value: record.value
-      }))
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    for (const field of fields) {
+      if (field.type !== 'daily') break // This was already validated. All fields should be 'daily'
 
-    return dataArray
+      const { key, value: fieldValues } = field
+      keys.add(key)
+
+      for (const { date, value } of fieldValues) {
+        if (!mergedDataMap[date]) {
+          mergedDataMap[date] = {
+            [key]: value
+          }
+        } else {
+          mergedDataMap[date] = {
+            ...mergedDataMap[date],
+            [key]: value
+          }
+        }
+      }
+    }
+
+    const flattenedData = Object.entries(mergedDataMap)
+      .map(([date, values]) => ({ date, ...values }))
+      .sort((a, b) => DateTime.fromISO(a.date).toMillis() - DateTime.fromISO(b.date).toMillis())
+
+    return [flattenedData, Array.from(keys)]
   }, [fields])
 
-  if (!project || !fields || !data) {
+  if (!project || !fields || !chartData || !chartKeys) {
     return <ErrorCard />
   }
 
@@ -34,20 +54,20 @@ export const Chart = () => {
 
   return (
     <div className='w-full rounded-xl p-2 pl-0'>
-      <ChartComponent color={color ?? '#5A9BF8'} data={data} />
+      <ChartComponent color={color ?? '#5A9BF8'} data={chartData} keys={chartKeys} />
     </div>
   )
 }
 
+type ChartData = Record<string, number | string>[]
+
 interface ChartProps {
   color?: string
-  data: Array<{
-    date: string
-    value: number
-  }>
+  data: ChartData
+  keys: string[]
 }
 
-const ChartComponent = ({ color = '#5A9BF8', data }: ChartProps) => {
+const ChartComponent = ({ color = '#5A9BF8', data, keys }: ChartProps) => {
   const xAxisTickFormatter = (value: string) => {
     const date = DateTime.fromISO(value)
     return date.toFormat('MMM d')
@@ -62,34 +82,61 @@ const ChartComponent = ({ color = '#5A9BF8', data }: ChartProps) => {
     return String(value)
   }
 
-  const labelFormatter = (label: string) => {
+  const mainLabelFormatter = (label: string) => {
     const date = DateTime.fromISO(label)
     return date.toLocaleString(DateTime.DATE_MED)
   }
 
   const chartConfig = {} satisfies ChartConfig
 
+  const keyColorsMap = useMemo(() => {
+    const map: Record<string, string> = {}
+    const keysLength = keys.length
+    const hueAmount = 40
+
+    keys.forEach((key, index) => {
+      if (keysLength === 1) {
+        map[key] = color
+        return
+      }
+
+      const hueValue = (index - (keysLength - 1) / 2) * hueAmount
+      map[key] = hueRotate(color, hueValue)
+    })
+    return map
+  }, [keys, color])
+
+  const xAxisDataKey = keys[0]
+
   return (
     <ChartContainer config={chartConfig} className='max-h-56 min-h-32 w-full'>
       <BarChart data={data}>
         <CartesianGrid vertical={false} className='opacity-15' />
-        <Bar
-          dataKey='value'
-          name='Value'
-          fill={color}
-          minPointSize={value => ((value ?? 0) > 0 ? 4 : 0)}
-          radius={[4, 4, 0, 0]}
-        />
+        {keys.map(key => (
+          <Bar
+            key={key}
+            dataKey={key}
+            name={key}
+            fill={keyColorsMap[key] ?? color}
+            minPointSize={value => ((value ?? 0) > 0 ? 4 : 0)}
+            radius={[4, 4, 0, 0]}
+          />
+        ))}
         <ChartTooltip
-          cursor={{ fill: 'hsl(var(--muted))', fillOpacity: 0.05 }}
+          cursor={{ fill: 'white', fillOpacity: 0.05 }}
           content={
             <ChartTooltipContent
-              className='bg-black/75 text-white border-card-border backdrop-blur-md'
-              labelFormatter={label => <span>{labelFormatter(label)}</span>}
-              formatter={(value, name) => (
+              className='bg-black/75 border border-white/20 backdrop-blur-md'
+              labelFormatter={mainLabel => (
+                <span className='text-white'>{mainLabelFormatter(mainLabel)}</span>
+              )}
+              formatter={(value, label) => (
                 <>
-                  <div className='size-3 rounded-sm' style={{ backgroundColor: color }} />
-                  <span className='text-gray-200'>{name}</span>
+                  <div
+                    className='size-3 rounded-sm'
+                    style={{ backgroundColor: keyColorsMap[label] ?? color }}
+                  />
+                  <span className='text-gray-200'>{label}</span>
                   <span className='font-mono font-medium tabular-nums text-gray-100'>
                     {tooltipValueFormatter(value as number | string)}
                   </span>
@@ -106,7 +153,7 @@ const ChartComponent = ({ color = '#5A9BF8', data }: ChartProps) => {
           minTickGap={32}
           tickFormatter={xAxisTickFormatter}
         />
-        <YAxis tickLine={false} axisLine={false} tickMargin={16} dataKey='value' />
+        <YAxis tickLine={false} axisLine={false} tickMargin={16} dataKey={xAxisDataKey} />
       </BarChart>
     </ChartContainer>
   )

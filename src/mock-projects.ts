@@ -12,29 +12,42 @@ export const MOCK_PROJECTS: Project[] = [
     customFields: [
       {
         type: 'static',
-        key: 'total commits',
+        key: 'total-commits',
         value: 120
       },
       {
         type: 'daily',
-        key: 'daily worked hours',
+        key: 'daily-worked-hours-code',
         value: [
           { date: '2026-01-06', value: 5 },
           { date: '2026-01-07', value: 8 },
-          { date: '2026-01-08', value: 12 }
+          { date: '2026-01-08', value: 12 },
+          // Intentional one-off spike to show how the chart handles it
+          { date: '2026-01-10', value: 4 }
+        ]
+      },
+      {
+        type: 'daily',
+        key: 'daily-worked-hours-design',
+        value: [
+          { date: '2026-01-06', value: 3 },
+          { date: '2026-01-07', value: 4 },
+          { date: '2026-01-08', value: 6 },
+          { date: '2026-01-09', value: 2 },
+          { date: '2026-01-10', value: 1 }
         ]
       }
     ],
     dataDisplay: [
       {
         id: 'dd-001',
-        fieldKeys: ['total commits'],
+        fieldKeys: ['total-commits'],
         title: 'Total Commits'
       },
       {
         id: 'dd-002',
-        fieldKeys: ['daily worked hours'],
-        title: 'Daily Worked Hours'
+        fieldKeys: ['daily-worked-hours-code', 'daily-worked-hours-design'],
+        title: 'Daily Worked Hours - Code'
       }
     ]
   },

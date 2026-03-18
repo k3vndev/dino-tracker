@@ -33,20 +33,19 @@ export type ProjectStatus = keyof typeof PROJECT_STATUSES
 /**
  * Can either be a static number or a daily time series. This allows for flexibility in the types of data that can be associated with a project, such as total hours worked (static) or daily revenue (time series).
  */
-export type CustomField =
-  | {
-      type: 'static'
-      key: string
-      value: number
-    }
-  | {
-      type: 'daily'
-      key: string
-      value: Array<{
-        date: string
-        value: number
-      }>
-    }
+export type CustomField = StaticCustomField | DailyCustomField
+
+export interface StaticCustomField {
+  type: 'static'
+  key: string
+  value: number
+}
+
+export interface DailyCustomField {
+  type: 'daily'
+  key: string
+  value: ChartRecord[]
+}
 
 /** Chart settings for the project, allowing for the display of various charts based on the project's custom data. */
 export interface DataDisplay {
@@ -56,4 +55,10 @@ export interface DataDisplay {
 
   /** Whether to display the total value of the records */
   displayTotal?: boolean
+}
+
+/** Represents a single record in a daily time series chart for Chart component */
+export interface ChartRecord {
+  date: string
+  value: number
 }

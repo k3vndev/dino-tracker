@@ -20,7 +20,7 @@ export const DataDisplay = ({ fieldKeys, id, projectId, displayTotal, title }: P
     }
 
     const keysSet = new Set(fieldKeys)
-    const data = project.customFields?.filter(d => keysSet.has(d.key))
+    const data = project.customFields?.filter(field => keysSet.has(field.key))
     const dataArray = data && !Array.isArray(data) ? [data] : data
 
     // If no data is found for the provided keys, return null to avoid rendering an empty component.
@@ -29,17 +29,21 @@ export const DataDisplay = ({ fieldKeys, id, projectId, displayTotal, title }: P
       return null
     }
 
-    if (dataArray.length > 1 && dataArray.some(record => record.type === 'static')) {
-      console.warn(
-        'Static records must be the only record when multiple records are provided. Please provide either a single static record or use multiple charts.'
-      )
-      return null
+    let dataType: string | null = null
+    for (const field of dataArray) {
+      if (dataType && field.type !== dataType) {
+        console.warn(
+          `Can't mix different types of data in the same chart. Found types: ${dataType} and ${field.type}. Consider splitting them into separate charts.`
+        )
+        return null
+      }
+      dataType = field.type
     }
 
     return dataArray
   }, [fieldKeys, projectId])
 
-  const isStatic = validatedFields && validatedFields[0].type === 'static'
+  const isStatic = useMemo(() => validatedFields && validatedFields[0].type === 'static', [validatedFields])
 
   return (
     <DataDisplayContext.Provider
