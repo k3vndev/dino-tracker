@@ -1,5 +1,3 @@
-export * from './chart'
-export * from './chart-component'
 export * from './data-display'
 export * from './error-card'
 export * from './static'

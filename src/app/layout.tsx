@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { AppBackground } from '@components'
 import { APP_NAME, FONT_VARIABLES } from '@consts'
-import { AppSidebar } from '@/components/app-sidebar'
 
 const faviconPath = '/icons/favicon.svg'
 
@@ -24,9 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body
-        className={`${FONT_VARIABLES} antialiased overflow-x-hidden 2xl:px-40 xl:px-32 lg:px-24 px-8 py-(--app-margin-y) min-h-dvh w-screen font-plus`}
-      >
+      <body className={`${FONT_VARIABLES} antialiased overflow-x-hidden min-h-dvh w-screen font-plus`}>
         {children}
 
         <AppBackground />

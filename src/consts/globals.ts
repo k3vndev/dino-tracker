@@ -23,3 +23,6 @@ export const DATE_SEPARATOR = '-'
 export const NO_DATA_LABEL = 'N/D'
 
 export const DEFAULT_COLOR = '#5A9BF8'
+
+/** Default time span for charts in days */
+export const DEFAULT_CHART_TIME_SPAN = 7

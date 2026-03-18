@@ -1,3 +1,4 @@
+import { DEFAULT_CHART_TIME_SPAN } from '@consts'
 import type { CustomField, DataDisplay } from '@types'
 import { createContext, useContext } from 'react'
 
@@ -8,13 +9,17 @@ interface DataDisplayContextType extends Partial<DataDisplay> {
   fieldsMap: DataDisplayFieldsMap | null
   getFieldColor: (keyOrId: string) => string
   projectId: string
+  timeSpan: number
+  setTimeSpan: (daySpan: number) => void
 }
 
 export const DataDisplayContext = createContext<DataDisplayContextType>({
   fields: null,
   fieldsMap: null,
   getFieldColor: () => '',
-  projectId: ''
+  projectId: '',
+  timeSpan: DEFAULT_CHART_TIME_SPAN,
+  setTimeSpan: () => {}
 })
 
 export const useDataDisplayContext = () => useContext(DataDisplayContext)

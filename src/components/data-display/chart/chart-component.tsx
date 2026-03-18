@@ -4,13 +4,13 @@ import type { CustomField } from '@types'
 import { DateTime } from 'luxon'
 import { useMemo } from 'react'
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts'
-import { ErrorCard } from './error-card'
+import { ErrorCard } from '../error-card'
 
 export type FieldsMap = Record<string, Omit<CustomField, 'id'>>
 export type ChartData = Record<string, number | string>
 
 export const ChartComponent = () => {
-  const { fields, fieldsMap, getFieldColor } = useDataDisplayContext()
+  const { fields, fieldsMap, getFieldColor, timeSpan } = useDataDisplayContext()
 
   const chartData: ChartData[] | null = useMemo(() => {
     if (!fields) return null
@@ -26,20 +26,22 @@ export const ChartComponent = () => {
           mergedDataMap[date] = {
             [field.id]: value
           }
-        } else {
-          mergedDataMap[date] = {
-            ...mergedDataMap[date],
-            [field.id]: value
-          }
+          continue
+        }
+
+        mergedDataMap[date] = {
+          ...mergedDataMap[date],
+          [field.id]: value
         }
       }
     }
 
-    // Convert the merged data map into an array format suitable for the chart, sorted by date.
+    // Convert the map into an array format suitable for the chart, sorted by date and sliced to the selected time span.
     return Object.entries(mergedDataMap)
       .map(([date, values]) => ({ date, ...values }))
       .sort((a, b) => DateTime.fromISO(a.date).toMillis() - DateTime.fromISO(b.date).toMillis())
-  }, [fields])
+      .slice(timeSpan < 0 ? undefined : -timeSpan)
+  }, [fields, timeSpan])
 
   const fieldKeys = useMemo(() => (fieldsMap ? Object.keys(fieldsMap) : null), [fieldsMap])
 

@@ -1,10 +1,10 @@
-import { DEFAULT_COLOR } from '@consts'
+import { DEFAULT_CHART_TIME_SPAN, DEFAULT_COLOR } from '@consts'
 import { DataDisplayContext } from '@context'
 import { useProjectsStore } from '@store'
 import type { CustomField, DataDisplay as DataDisplayType } from '@types'
 import { hueRotate } from '@utils'
-import { useCallback, useMemo } from 'react'
-import { Chart } from './chart'
+import { useCallback, useMemo, useState } from 'react'
+import { Chart } from './chart/chart'
 import { Static } from './static'
 
 interface Props extends DataDisplayType {
@@ -14,6 +14,7 @@ interface Props extends DataDisplayType {
 export const DataDisplay = ({ fieldIds, id, projectId, displayTotal, title }: Props) => {
   const projects = useProjectsStore(s => s.projects)
   const project = useMemo(() => projects.find(p => p.id === projectId), [projectId, projects])
+  const [timeSpan, setTimeSpan] = useState(DEFAULT_CHART_TIME_SPAN)
 
   // Validate the provided fieldIds against the project's custom fields and ensure they are all of the same type.
   const validatedFields = useMemo((): CustomField[] | null => {
@@ -42,7 +43,6 @@ export const DataDisplay = ({ fieldIds, id, projectId, displayTotal, title }: Pr
       }
       dataType = field.type
     }
-
     return dataArray
   }, [fieldIds, project, projectId])
 
@@ -56,7 +56,6 @@ export const DataDisplay = ({ fieldIds, id, projectId, displayTotal, title }: Pr
       const { id: fieldId, ...fieldWithoutId } = field
       mappedFields[fieldId] = fieldWithoutId
     }
-
     return mappedFields
   }, [validatedFields])
 
@@ -64,7 +63,7 @@ export const DataDisplay = ({ fieldIds, id, projectId, displayTotal, title }: Pr
   const fieldKeys = useMemo(() => (fieldsMap ? Object.keys(fieldsMap) : null), [fieldsMap])
 
   // Generate a color for each field key, using the field's specified color if available
-  const getKeyColor = useCallback(
+  const getFieldColor = useCallback(
     (key: string) => {
       if (!fieldsMap || !fieldKeys) return DEFAULT_COLOR
 
@@ -98,7 +97,9 @@ export const DataDisplay = ({ fieldIds, id, projectId, displayTotal, title }: Pr
         title,
         fields: validatedFields,
         fieldsMap,
-        getFieldColor: getKeyColor
+        getFieldColor,
+        timeSpan,
+        setTimeSpan
       }}
     >
       <article className='w-full bg-linear-to-t from-black/90 to-black border border-white/15 rounded-xl px-5 py-4'>

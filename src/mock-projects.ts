@@ -33,7 +33,17 @@ export const MOCK_PROJECTS: Project[] = [
           { date: '2026-01-07', value: 8 },
           { date: '2026-01-08', value: 12 },
           // Intentional one-off spike to show how the chart handles it
-          { date: '2026-01-10', value: 4 }
+          { date: '2026-01-10', value: 4 },
+          { date: '2026-01-11', value: 3 },
+          { date: '2026-01-12', value: 6 },
+          { date: '2026-01-13', value: 7 },
+          { date: '2026-01-14', value: 5 },
+          { date: '2026-01-15', value: 4 },
+          { date: '2026-01-16', value: 6 },
+          { date: '2026-01-17', value: 8 },
+          { date: '2026-01-18', value: 7 },
+          { date: '2026-01-19', value: 5 },
+          { date: '2026-01-20', value: 4 }
         ]
       },
       {
@@ -63,18 +73,18 @@ export const MOCK_PROJECTS: Project[] = [
     ],
     dataDisplay: [
       {
+        id: 'dd-002',
+        fieldIds: ['cf-002', 'cf-003'],
+        title: 'Daily Worked Hours'
+      },
+      {
         id: 'dd-001',
         fieldIds: ['cf-001'],
         title: 'Display of Total Commits'
       },
       {
-        id: 'dd-002',
-        fieldIds: ['cf-002', 'cf-003', 'cf-004'],
-        title: 'Daily Worked Hours'
-      },
-      {
         id: 'dd-003',
-        fieldIds: ['cf-002', 'cf-004'],
+        fieldIds: ['cf-003', 'cf-004'],
         title: 'Daily Worked Hours (Testing)'
       }
     ]
