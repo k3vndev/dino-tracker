@@ -41,7 +41,7 @@ export const ChartComponent = ({ defaultColor = '#5A9BF8', chartData, fieldsMap 
 
     if (keys.length === 1) return defaultColor
 
-    const hueAmount = 40
+    const hueAmount = 30
     const hueValue = (index - (keys.length - 1) / 2) * hueAmount
     return hueRotate(defaultColor, hueValue)
   }

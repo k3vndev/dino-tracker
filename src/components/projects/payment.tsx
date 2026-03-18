@@ -23,9 +23,9 @@ export const Payment = ({ label, hourly = false, data, setData }: Props) => {
 
   return (
     <label
-      className={`${visibility} items-center flex-col gap-0.5 font-poppins text-xl animate-in fade-in-0 animation-duration-[250ms] group/tooltip`}
+      className={`${visibility} items-center flex-col gap-0.5 font-poppins text-xl animate-in fade-in-0 animation-duration-[250ms] group/tooltip relative`}
     >
-      <span className='text-sm text-white/50 font-semibold'>{label}</span>
+      <span className='text-sm text-white/50 font-semibold absolute -top-3 -translate-y-1/2'>{label}</span>
 
       <div className='flex items-center'>
         <span className='text-xl'>$</span>

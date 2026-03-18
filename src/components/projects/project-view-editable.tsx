@@ -33,7 +33,7 @@ export const ProjectViewEditable = ({
 
   return (
     <section
-      className='flex flex-col p-8 rounded-2xl border border-white/15 gap-10 backdrop-blur-xs shadow-element group/project'
+      className='flex flex-col p-8 rounded-2xl border border-white/15 gap-6 backdrop-blur-xs shadow-element group/project'
       style={{ background: bgLinearGradient }}
     >
       {/* Header section */}
@@ -61,7 +61,7 @@ export const ProjectViewEditable = ({
       </div>
 
       {/* Footer section */}
-      <div className='flex items-center justify-between text-white'>
+      <div className='flex items-end justify-between text-white'>
         {/* Date range */}
         <DatePicker {...{ startDate, endDate, setDates }} />
 

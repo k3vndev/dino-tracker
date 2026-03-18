@@ -49,7 +49,7 @@ export const DatePicker = ({ startDate, endDate, setDates }: Props) => {
 
   return (
     <DatePickerContext.Provider value={contextValue}>
-      <div className='relative group pr-2 cursor-pointer text-white/90'>
+      <div className='relative group pt-4 pr-2 cursor-pointer text-white/90'>
         <Popover onOpenChange={handleOpenChange} open={isOpen}>
           {/* Invisible trigger for the popover to open over the entire date display area */}
           <PopoverTrigger className='absolute left-1/2 top-0 size-0'></PopoverTrigger>

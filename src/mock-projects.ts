@@ -8,7 +8,15 @@ export const MOCK_PROJECTS: Project[] = [
     startDate: '2026-01-06',
     hourlyRate: 95,
     status: 'Active',
-    color: '#F85A5A',
+    color: '#F85A5A'
+  },
+  {
+    id: 'p-002',
+    name: 'Mobile Analytics Dashboard',
+    clientName: 'Blue Harbor',
+    startDate: '2026-02-01',
+    status: 'Not Started',
+    color: '#5A9BF8',
     customFields: [
       {
         type: 'static',
@@ -65,14 +73,6 @@ export const MOCK_PROJECTS: Project[] = [
         title: 'Daily Worked Hours'
       }
     ]
-  },
-  {
-    id: 'p-002',
-    name: 'Mobile Analytics Dashboard',
-    clientName: 'Blue Harbor',
-    startDate: '2026-02-01',
-    status: 'Not Started',
-    color: '#5A9BF8'
   },
   {
     id: 'p-003',
