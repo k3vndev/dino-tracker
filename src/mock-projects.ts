@@ -12,12 +12,14 @@ export const MOCK_PROJECTS: Project[] = [
     customFields: [
       {
         type: 'static',
-        key: 'total-commits',
+        name: 'Total Commits',
+        id: 'cf-001',
         value: 120
       },
       {
         type: 'daily',
-        key: 'daily-worked-hours-code',
+        name: 'Worked Hours - Code',
+        id: 'cf-002',
         value: [
           { date: '2026-01-06', value: 5 },
           { date: '2026-01-07', value: 8 },
@@ -28,7 +30,8 @@ export const MOCK_PROJECTS: Project[] = [
       },
       {
         type: 'daily',
-        key: 'daily-worked-hours-design',
+        name: 'Worked Hours - Design',
+        id: 'cf-003',
         value: [
           { date: '2026-01-06', value: 3 },
           { date: '2026-01-07', value: 4 },
@@ -36,18 +39,30 @@ export const MOCK_PROJECTS: Project[] = [
           { date: '2026-01-09', value: 2 },
           { date: '2026-01-10', value: 1 }
         ]
+      },
+      {
+        type: 'daily',
+        name: 'Worked Hours - Meetings',
+        id: 'cf-004',
+        value: [
+          { date: '2026-01-06', value: 2 },
+          { date: '2026-01-07', value: 1 },
+          { date: '2026-01-08', value: 1 },
+          { date: '2026-01-09', value: 3 },
+          { date: '2026-01-10', value: 2 }
+        ]
       }
     ],
     dataDisplay: [
       {
         id: 'dd-001',
-        fieldKeys: ['total-commits'],
+        fieldIds: ['cf-001'],
         title: 'Total Commits'
       },
       {
         id: 'dd-002',
-        fieldKeys: ['daily-worked-hours-code', 'daily-worked-hours-design'],
-        title: 'Daily Worked Hours - Code'
+        fieldIds: ['cf-002', 'cf-003', 'cf-004'],
+        title: 'Daily Worked Hours'
       }
     ]
   },

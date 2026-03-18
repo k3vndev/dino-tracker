@@ -9,7 +9,7 @@ interface Props extends DataDisplayType {
   projectId: string
 }
 
-export const DataDisplay = ({ fieldKeys, id, projectId, displayTotal, title }: Props) => {
+export const DataDisplay = ({ fieldIds, id, projectId, displayTotal, title }: Props) => {
   const projects = useProjectsStore(s => s.projects)
 
   const validatedFields = useMemo((): CustomField[] | null => {
@@ -19,13 +19,13 @@ export const DataDisplay = ({ fieldKeys, id, projectId, displayTotal, title }: P
       return null
     }
 
-    const keysSet = new Set(fieldKeys)
-    const data = project.customFields?.filter(field => keysSet.has(field.key))
+    const idsSet = new Set(fieldIds)
+    const data = project.customFields?.filter(field => idsSet.has(field.id))
     const dataArray = data && !Array.isArray(data) ? [data] : data
 
-    // If no data is found for the provided keys, return null to avoid rendering an empty component.
+    // If no data is found for the provided ids, return null to avoid rendering an empty component.
     if (!dataArray || dataArray.length === 0) {
-      console.warn(`No custom data found for keys: ${fieldKeys.join(', ')} in project with id ${projectId}.`)
+      console.warn(`No custom data found for ids: ${fieldIds.join(', ')} in project with id ${projectId}.`)
       return null
     }
 
@@ -41,13 +41,13 @@ export const DataDisplay = ({ fieldKeys, id, projectId, displayTotal, title }: P
     }
 
     return dataArray
-  }, [fieldKeys, projectId])
+  }, [fieldIds, projectId])
 
   const isStatic = useMemo(() => validatedFields && validatedFields[0].type === 'static', [validatedFields])
 
   return (
     <DataDisplayContext.Provider
-      value={{ fieldKeys, id, projectId, displayTotal, title, fields: validatedFields }}
+      value={{ fieldIds: fieldIds, id, projectId, displayTotal, title, fields: validatedFields }}
     >
       <article className='w-full bg-linear-to-t from-black/90 to-black border border-white/15 rounded-xl px-5 py-4'>
         {!validatedFields ? (

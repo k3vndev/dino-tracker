@@ -35,22 +35,28 @@ export type ProjectStatus = keyof typeof PROJECT_STATUSES
  */
 export type CustomField = StaticCustomField | DailyCustomField
 
-export interface StaticCustomField {
+interface BaseCustomField {
+  name: string
+  id: string
+  color?: string
+}
+
+/** Represents a static custom field, which holds a single numeric value */
+export interface StaticCustomField extends BaseCustomField {
   type: 'static'
-  key: string
   value: number
 }
 
-export interface DailyCustomField {
+/** Represents a daily custom field, which holds an array of date-value pairs for time series data */
+export interface DailyCustomField extends BaseCustomField {
   type: 'daily'
-  key: string
   value: ChartRecord[]
 }
 
 /** Chart settings for the project, allowing for the display of various charts based on the project's custom data. */
 export interface DataDisplay {
   id: string
-  fieldKeys: string[]
+  fieldIds: string[]
   title?: string
 
   /** Whether to display the total value of the records */
