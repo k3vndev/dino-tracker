@@ -1,6 +1,7 @@
-import { useDataDisplayContext } from '@/context'
+import { useDataDisplayContext } from '@context'
+import type { SelectOption } from '@types'
+import { DataDisplayHeader } from './data-display-header'
 import { ErrorCard } from './error-card'
-import { Title } from './title'
 
 export const Static = () => {
   const { fields, title, getFieldColor, fieldsMap } = useDataDisplayContext()
@@ -12,12 +13,18 @@ export const Static = () => {
   const color = getFieldColor(staticField.id)
   const staticName = fieldsMap ? fieldsMap[staticField.id].name : title
 
+  const selectOptions: SelectOption[] = [
+    { label: 'Addition', value: 0 },
+    { label: 'Comparation', value: 1 },
+    { label: 'Average', value: 2 }
+  ]
+
   return (
     <div className='text-white w-full '>
-      <Title>{title}</Title>
+      <DataDisplayHeader selectOptions={selectOptions} onSelectChange={() => {}} selectInitialValue={0} />
 
       <div className='flex flex-col items-center justify-center gap-1.5 py-5'>
-        <span className='text-5xl font-semibold'>{staticField.value as number}</span>
+        <span className='text-6xl font-semibold'>{staticField.value as number}</span>
 
         <div className='flex items-center gap-2'>
           <div className='size-4 rounded-full' style={{ backgroundColor: color }} />

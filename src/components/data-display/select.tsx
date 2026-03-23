@@ -1,5 +1,5 @@
 import {
-  Select,
+  Select as SelectComponent,
   SelectContent,
   SelectGroup,
   SelectItem,
@@ -7,29 +7,23 @@ import {
   SelectTrigger,
   SelectValue
 } from '@components/ui'
-import { DEFAULT_CHART_TIME_SPAN } from '@consts'
+import type { SelectOption } from '@types'
 
 interface Props {
   onChange: (daySpan: number) => void
+  options: SelectOption[]
+  initialValue: number
 }
 
-export const TimeSpanSelect = ({ onChange }: Props) => {
+export const Select = ({ onChange, options, initialValue }: Props) => {
   const handleValueChange = (value: string) => {
-    const daySpan = Number(value)
-    onChange(daySpan)
+    onChange(Number(value))
   }
 
-  const selectItems = [
-    { label: 'Last 7', value: 7 },
-    { label: 'Last 14', value: 14 },
-    { label: 'Last 30', value: 30 },
-    { label: 'All', value: -1 }
-  ]
-
   return (
-    <Select defaultValue={String(DEFAULT_CHART_TIME_SPAN)} onValueChange={handleValueChange}>
+    <SelectComponent defaultValue={String(initialValue)} onValueChange={handleValueChange}>
       <SelectTrigger className='w-48 bg-white/5 border border-white/20 text-white focus-visible:ring-0'>
-        <SelectValue placeholder='Select time span' defaultValue={String(DEFAULT_CHART_TIME_SPAN)} />
+        <SelectValue placeholder='Select time span' defaultValue={String(initialValue)} />
       </SelectTrigger>
       <SelectContent
         position={'item-aligned'}
@@ -37,13 +31,13 @@ export const TimeSpanSelect = ({ onChange }: Props) => {
       >
         <SelectGroup>
           <SelectLabel className='text-white/70'>Choose time span</SelectLabel>
-          {selectItems.map(({ label, value }) => (
+          {options.map(({ label, value }) => (
             <SelectItem key={value} value={String(value)}>
               {label}
             </SelectItem>
           ))}
         </SelectGroup>
       </SelectContent>
-    </Select>
+    </SelectComponent>
   )
 }
