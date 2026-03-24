@@ -4,46 +4,45 @@ import { useProjectsStore } from '@store'
 import type { CustomField, DataDisplay as DataDisplayType } from '@types'
 import { hueRotate } from '@utils'
 import { useCallback, useMemo, useState } from 'react'
-import { Chart } from './chart/chart'
+import { Daily } from './daily/daily'
 import { Static } from './static'
 
 interface Props extends DataDisplayType {
   projectId: string
 }
 
-export const DataDisplay = ({ fieldIds, id, projectId, displayTotal, title }: Props) => {
+export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) => {
   const projects = useProjectsStore(s => s.projects)
   const project = useMemo(() => projects.find(p => p.id === projectId), [projectId, projects])
   const [timeSpan, setTimeSpan] = useState(DEFAULT_CHART_TIME_SPAN)
 
   // Validate the provided fieldIds against the project's custom fields and ensure they are all of the same type.
   const validatedFields = useMemo((): CustomField[] | null => {
-    if (!project) {
+    if (!project || !project.customFields) {
       console.warn(`Project with id ${projectId} not found.`)
       return null
     }
 
+    // Create a set of the provided fieldIds for efficient lookup
     const idsSet = new Set(fieldIds)
-    const data = project.customFields?.filter(field => idsSet.has(field.id))
-    const dataArray = data && !Array.isArray(data) ? [data] : data
+    const result: CustomField[] = []
+
+    // Filter the project's custom fields to find those that match the provided fieldIds.
+    for (const field of project.customFields) {
+      const fieldIsInFieldIds = idsSet.has(field.id)
+
+      if (fieldIsInFieldIds) {
+        result.push(field)
+      }
+    }
 
     // If no data is found for the provided ids, return null to avoid rendering an empty component.
-    if (!dataArray || dataArray.length === 0) {
+    if (result.length === 0) {
       console.warn(`No custom data found for ids: ${fieldIds.join(', ')} in project with id ${projectId}.`)
       return null
     }
 
-    let dataType: string | null = null
-    for (const field of dataArray) {
-      if (dataType && field.type !== dataType) {
-        console.warn(
-          `Can't mix different types of data in the same chart. Found types: ${dataType} and ${field.type}. Consider splitting them into separate charts.`
-        )
-        return null
-      }
-      dataType = field.type
-    }
-    return dataArray
+    return result
   }, [fieldIds, project, projectId])
 
   // Create a map of field id to field data (excluding the id) for easy access when rendering the chart and legend.
@@ -59,30 +58,26 @@ export const DataDisplay = ({ fieldIds, id, projectId, displayTotal, title }: Pr
     return mappedFields
   }, [validatedFields])
 
-  // Extract the keys of the fields map for use in rendering the chart and legend, and for generating colors.
-  const fieldKeys = useMemo(() => (fieldsMap ? Object.keys(fieldsMap) : null), [fieldsMap])
-
   // Generate a color for each field key, using the field's specified color if available
   const getFieldColor = useCallback(
     (key: string) => {
-      if (!fieldsMap || !fieldKeys) return DEFAULT_COLOR
+      if (!fieldsMap || !fieldIds) return DEFAULT_COLOR
 
       const field = fieldsMap[key]
       if (!field) return DEFAULT_COLOR
-
       if (field.color) return field.color
 
       const defaultColor = project?.color || DEFAULT_COLOR
-      if (fieldKeys.length === 1) return defaultColor
+      if (fieldIds.length === 1) return defaultColor
 
       const HUE_AMOUNT = 30
-      const index = fieldKeys.indexOf(key)
+      const index = fieldIds.indexOf(key)
       if (index < 0) return defaultColor
 
-      const hueValue = (index - (fieldKeys.length - 1) / 2) * HUE_AMOUNT
+      const hueValue = (index - (fieldIds.length - 1) / 2) * HUE_AMOUNT
       return hueRotate(defaultColor, hueValue)
     },
-    [fieldKeys, fieldsMap, project?.color]
+    [fieldIds, fieldsMap, project?.color]
   )
 
   const isStatic = useMemo(() => validatedFields && validatedFields[0].type === 'static', [validatedFields])
@@ -93,13 +88,12 @@ export const DataDisplay = ({ fieldIds, id, projectId, displayTotal, title }: Pr
         fieldIds,
         id,
         projectId,
-        displayTotal,
-        title,
         fields: validatedFields,
         fieldsMap,
         getFieldColor,
         timeSpan,
-        setTimeSpan
+        setTimeSpan,
+        ...dataDisplay
       }}
     >
       <article className='w-full bg-linear-to-t from-black/90 to-black border border-white/15 rounded-xl px-5 py-4'>
@@ -108,7 +102,7 @@ export const DataDisplay = ({ fieldIds, id, projectId, displayTotal, title }: Pr
         ) : isStatic ? (
           <Static />
         ) : (
-          <Chart />
+          <Daily />
         )}
       </article>
     </DataDisplayContext.Provider>

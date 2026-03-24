@@ -13,9 +13,10 @@ interface Props {
   onChange: (daySpan: number) => void
   options: SelectOption[]
   initialValue: number
+  label: string
 }
 
-export const Select = ({ onChange, options, initialValue }: Props) => {
+export const Select = ({ onChange, options, initialValue, label }: Props) => {
   const handleValueChange = (value: string) => {
     onChange(Number(value))
   }
@@ -23,14 +24,14 @@ export const Select = ({ onChange, options, initialValue }: Props) => {
   return (
     <SelectComponent defaultValue={String(initialValue)} onValueChange={handleValueChange}>
       <SelectTrigger className='w-48 bg-white/5 border border-white/20 text-white focus-visible:ring-0'>
-        <SelectValue placeholder='Select time span' defaultValue={String(initialValue)} />
+        <SelectValue placeholder={label} defaultValue={String(initialValue)} />
       </SelectTrigger>
       <SelectContent
         position={'item-aligned'}
         className='bg-black/50 backdrop-blur-lg text-white border border-white/20'
       >
         <SelectGroup>
-          <SelectLabel className='text-white/70'>Choose time span</SelectLabel>
+          <SelectLabel className='text-white/70'>{label}</SelectLabel>
           {options.map(({ label, value }) => (
             <SelectItem key={value} value={String(value)}>
               {label}

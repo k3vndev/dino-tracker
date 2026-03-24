@@ -3,7 +3,7 @@ import { useFreshRefs } from '@hooks'
 import type { ClassName } from '@types'
 import { cn } from '@utils'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { EditableTooltip } from './editable-tooltip'
+import { EditableTooltip } from '../editable-tooltip'
 
 interface Props {
   initialText?: string

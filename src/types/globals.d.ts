@@ -57,10 +57,16 @@ export interface DailyCustomField extends BaseCustomField {
 export interface DataDisplay {
   id: string
   fieldIds: string[]
-  title?: string
+  title: string
+  type: 'daily' | 'static'
 
-  /** Whether to display the total value of the records */
-  displayTotal?: boolean
+  /**
+   * Index of the selected option for the chart, which will be used to determine the displayed data.
+   *
+   * Daily: 7, 14, 30 or All for the day span
+   * Static: Comparation, Addition, Average for the operation to perform on the field value
+   */
+  optionIndex?: number
 }
 
 /** Represents a single record in a daily time series chart for Chart component */

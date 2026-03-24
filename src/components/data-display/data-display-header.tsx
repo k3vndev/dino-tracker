@@ -1,15 +1,21 @@
 import { useDataDisplayContext } from '@context'
 import type { SelectOption } from '@types'
-import { Fields } from './fields'
+import { Fields } from './fields/fields-section'
 import { Select } from './select'
 
 interface Props {
   selectOptions: SelectOption[]
   onSelectChange: (value: number) => void
   selectInitialValue: number
+  selectLabel: string
 }
 
-export const DataDisplayHeader = ({ selectOptions, onSelectChange, selectInitialValue }: Props) => {
+export const DataDisplayHeader = ({
+  selectOptions,
+  onSelectChange,
+  selectInitialValue,
+  selectLabel
+}: Props) => {
   const { title } = useDataDisplayContext()
 
   return (
@@ -20,7 +26,12 @@ export const DataDisplayHeader = ({ selectOptions, onSelectChange, selectInitial
         <Fields />
       </div>
 
-      <Select initialValue={selectInitialValue} options={selectOptions} onChange={onSelectChange} />
+      <Select
+        initialValue={selectInitialValue}
+        options={selectOptions}
+        onChange={onSelectChange}
+        label={selectLabel}
+      />
     </header>
   )
 }

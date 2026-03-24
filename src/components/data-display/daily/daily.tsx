@@ -6,7 +6,7 @@ import { DataDisplayHeader } from '../data-display-header'
 import { ErrorCard } from '../error-card'
 import { ChartComponent } from './chart-component'
 
-export const Chart = () => {
+export const Daily = () => {
   const { fields, fieldsMap, setTimeSpan } = useDataDisplayContext()
 
   const fieldKeys = useMemo(() => (fieldsMap ? Object.keys(fieldsMap) : null), [fieldsMap])
@@ -28,6 +28,7 @@ export const Chart = () => {
         selectOptions={selectOptions}
         onSelectChange={setTimeSpan}
         selectInitialValue={DEFAULT_CHART_TIME_SPAN}
+        selectLabel='Select time span'
       />
 
       <ChartComponent />

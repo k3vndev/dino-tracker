@@ -5,7 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@shadcn/popover'
 import { formatProjectDate } from '@utils'
 import { useMemo, useState } from 'react'
 import type { DateRange } from 'react-day-picker'
-import { EditableTooltip } from '../editable-tooltip'
+import { EditableTooltip } from '../../editable-tooltip'
 import { CustomCalendar } from './custom-calendar'
 import { EditableDateDisplay } from './editable-date-display'
 
