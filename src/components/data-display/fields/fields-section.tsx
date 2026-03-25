@@ -1,7 +1,7 @@
 import { EditableTooltip } from '@components/editable-tooltip'
 import { useDataDisplayContext } from '@context'
 import { useEffect, useId, useState } from 'react'
-import { CreateFieldButton } from './create-field-button'
+import { AddFieldButton } from './add-field-button'
 import { FieldTile } from './field-tile'
 
 export const Fields = () => {
@@ -15,7 +15,7 @@ export const Fields = () => {
       const target = event.target as HTMLElement
 
       if (!target.closest(`#${elementId}`) && isEditing) {
-        setIsEditing(false)
+        // setIsEditing(false)
       }
     }
 
@@ -40,7 +40,7 @@ export const Fields = () => {
         {fieldIds.map(key => (
           <FieldTile dataKey={key} isEditing={isEditing} key={key} />
         ))}
-        {isEditing && <CreateFieldButton />}
+        {isEditing && <AddFieldButton />}
       </ul>
 
       {!isEditing && <EditableTooltip />}

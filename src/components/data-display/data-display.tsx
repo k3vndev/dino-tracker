@@ -60,10 +60,10 @@ export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) 
 
   // Generate a color for each field key, using the field's specified color if available
   const getFieldColor = useCallback(
-    (key: string) => {
+    (id: string) => {
       if (!fieldsMap || !fieldIds) return DEFAULT_COLOR
 
-      const field = fieldsMap[key]
+      const field = fieldsMap[id]
       if (!field) return DEFAULT_COLOR
       if (field.color) return field.color
 
@@ -71,7 +71,7 @@ export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) 
       if (fieldIds.length === 1) return defaultColor
 
       const HUE_AMOUNT = 30
-      const index = fieldIds.indexOf(key)
+      const index = fieldIds.indexOf(id)
       if (index < 0) return defaultColor
 
       const hueValue = (index - (fieldIds.length - 1) / 2) * HUE_AMOUNT

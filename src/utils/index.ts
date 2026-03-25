@@ -1,3 +1,4 @@
+export * from './capitalize-first'
 export * from './cn'
 export * from './format-project-date'
 export * from './get-project-bg-gradient'

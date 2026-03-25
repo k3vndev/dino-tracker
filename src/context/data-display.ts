@@ -7,7 +7,7 @@ export type DataDisplayFieldsMap = Record<string, Omit<CustomField, 'id'>>
 interface DataDisplayContextType extends Partial<DataDisplay> {
   fields: CustomField[] | null
   fieldsMap: DataDisplayFieldsMap | null
-  getFieldColor: (keyOrId: string) => string
+  getFieldColor: (id: string) => string
   projectId: string
   timeSpan: number
   setTimeSpan: (daySpan: number) => void
