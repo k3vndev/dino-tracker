@@ -1,25 +1,27 @@
 import { Icon } from '@components'
 import { useDataDisplayContext } from '@context'
+import type { CustomField } from '@types'
 
 interface Props {
-  dataKey: string
+  fieldId: string
   isEditing: boolean
 }
 
-export const FieldTile = ({ dataKey: key, isEditing }: Props) => {
-  const { fieldsMap, getFieldColor } = useDataDisplayContext()
+export const FieldTile = ({ fieldId, isEditing }: Props) => {
+  const { fieldsMap, getFieldColor, updateField } = useDataDisplayContext()
 
-  if (!fieldsMap || !fieldsMap[key]) {
+  if (!fieldsMap || !fieldsMap[fieldId]) {
     return null
   }
 
-  const color = getFieldColor(key)
+  const color = getFieldColor(fieldId)
 
   const deleteField = () => {
-    console.log('Deleted field', key)
+    const field = { ...fieldsMap[fieldId], id: fieldId } as CustomField
+    updateField(field, 'delete')
   }
 
-  const fieldName = fieldsMap[key].name
+  const fieldName = fieldsMap[fieldId].name
 
   if (isEditing) {
     return (

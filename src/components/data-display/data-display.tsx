@@ -1,5 +1,5 @@
 import { DEFAULT_CHART_TIME_SPAN, DEFAULT_COLOR } from '@consts'
-import { DataDisplayContext } from '@context'
+import { DataDisplayContext, type UpdateField } from '@context'
 import { useProjectsStore } from '@store'
 import type { CustomField, DataDisplay as DataDisplayType } from '@types'
 import { hueRotate } from '@utils'
@@ -13,6 +13,8 @@ interface Props extends DataDisplayType {
 
 export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) => {
   const projects = useProjectsStore(s => s.projects)
+  const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
+
   const project = useMemo(() => projects.find(p => p.id === projectId), [projectId, projects])
   const [timeSpan, setTimeSpan] = useState(DEFAULT_CHART_TIME_SPAN)
 
@@ -82,6 +84,27 @@ export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) 
 
   const isStatic = useMemo(() => validatedFields && validatedFields[0].type === 'static', [validatedFields])
 
+  // Function to add or remove a field from the data display configuration
+  const updateField: UpdateField = (field, action) => {
+    const projectIndex = projects.findIndex(p => p.id === projectId)
+    const dataDisplayIndex = projects[projectIndex]?.dataDisplay?.findIndex(dd => dd.id === id)
+    if (dataDisplayIndex === undefined || dataDisplayIndex === -1) return
+
+    const { dataDisplay } = projects[projectIndex]
+    if (!dataDisplay) return
+
+    // Create a new array of data displays with the updated fieldIds for the relevant data display.
+    const updatedDataDisplay = [...dataDisplay]
+
+    // Use a Set to ensure we don't add duplicate fieldIds, then convert it back to an array.
+    const idsSet = new Set(updatedDataDisplay[dataDisplayIndex].fieldIds)
+    idsSet[action](field.id) // Either add or delete the field id based on the action.
+    updatedDataDisplay[dataDisplayIndex].fieldIds = Array.from(idsSet)
+
+    // Update the store with the new data display configuration
+    setProjectAttributes(projectId, { dataDisplay: updatedDataDisplay })
+  }
+
   return (
     <DataDisplayContext.Provider
       value={{
@@ -93,6 +116,7 @@ export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) 
         getFieldColor,
         timeSpan,
         setTimeSpan,
+        updateField,
         ...dataDisplay
       }}
     >

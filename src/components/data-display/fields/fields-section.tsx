@@ -1,4 +1,4 @@
-import { EditableTooltip } from '@components/editable-tooltip'
+import { EditableTooltip } from '@components'
 import { useDataDisplayContext } from '@context'
 import { useEffect, useId, useState } from 'react'
 import { AddFieldButton } from './add-field-button'
@@ -38,7 +38,7 @@ export const Fields = () => {
     <div id={elementId} className={`relative pr-2 w-fit group ${style}`} onClick={handleClick}>
       <ul className='flex flex-wrap gap-x-2 gap-y-2'>
         {fieldIds.map(key => (
-          <FieldTile dataKey={key} isEditing={isEditing} key={key} />
+          <FieldTile fieldId={key} isEditing={isEditing} key={key} />
         ))}
         {isEditing && <AddFieldButton />}
       </ul>

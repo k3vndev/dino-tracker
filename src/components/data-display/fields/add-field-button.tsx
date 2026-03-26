@@ -14,9 +14,8 @@ import { capitalizeFirst } from '@utils'
 import { useMemo } from 'react'
 
 export const AddFieldButton = () => {
-  const { projectId, type: projectType, fieldIds, getFieldColor, id: dataDisplayId } = useDataDisplayContext()
+  const { projectId, type: projectType, fieldIds, getFieldColor, updateField } = useDataDisplayContext()
 
-  const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
   const projects = useProjectsStore(s => s.projects)
 
   const potentialFieldsToAdd: PotentialFieldsToAdd | null = useMemo(() => {
@@ -56,26 +55,6 @@ export const AddFieldButton = () => {
     if (!potentialFieldsToAdd) return 0
     return potentialFieldsToAdd.daily.length + potentialFieldsToAdd.static.length
   }, [potentialFieldsToAdd])
-
-  const updateField = (field: CustomField, action: 'add' | 'delete') => {
-    const projectIndex = projects.findIndex(p => p.id === projectId)
-    const dataDisplayIndex = projects[projectIndex]?.dataDisplay?.findIndex(dd => dd.id === dataDisplayId)
-    if (dataDisplayIndex === undefined || dataDisplayIndex === -1) return
-
-    const { dataDisplay } = projects[projectIndex]
-    if (!dataDisplay) return
-
-    // Create a new array of data displays with the updated fieldIds for the relevant data display.
-    const updatedDataDisplay = [...dataDisplay]
-
-    // Use a Set to ensure we don't add duplicate fieldIds, then convert it back to an array.
-    const idsSet = new Set(updatedDataDisplay[dataDisplayIndex].fieldIds)
-    idsSet[action](field.id) // Either add or delete the field id based on the action.
-    updatedDataDisplay[dataDisplayIndex].fieldIds = Array.from(idsSet)
-
-    // Update the store with the new data display configuration
-    setProjectAttributes(projectId, { dataDisplay: updatedDataDisplay })
-  }
 
   const buttonStyle = toAddFieldsCount > 0 ? '' : 'opacity-40 pointer-events-none'
 

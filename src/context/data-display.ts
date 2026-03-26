@@ -3,6 +3,7 @@ import type { CustomField, DataDisplay } from '@types'
 import { createContext, useContext } from 'react'
 
 export type DataDisplayFieldsMap = Record<string, Omit<CustomField, 'id'>>
+export type UpdateField = (field: CustomField, action: 'add' | 'delete') => void
 
 interface DataDisplayContextType extends Partial<DataDisplay> {
   fields: CustomField[] | null
@@ -11,6 +12,7 @@ interface DataDisplayContextType extends Partial<DataDisplay> {
   projectId: string
   timeSpan: number
   setTimeSpan: (daySpan: number) => void
+  updateField: UpdateField
 }
 
 export const DataDisplayContext = createContext<DataDisplayContextType>({
@@ -19,7 +21,8 @@ export const DataDisplayContext = createContext<DataDisplayContextType>({
   getFieldColor: () => '',
   projectId: '',
   timeSpan: DEFAULT_CHART_TIME_SPAN,
-  setTimeSpan: () => {}
+  setTimeSpan: () => {},
+  updateField: () => {}
 })
 
 export const useDataDisplayContext = () => useContext(DataDisplayContext)
