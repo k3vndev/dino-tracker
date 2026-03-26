@@ -66,6 +66,10 @@ body {
   @apply hover:brightness-[120%] transition-all active:scale-95 active:brightness-95 disabled:scale-100 disabled:brightness-50 disabled:pointer-events-none select-none not-disabled:cursor-pointer;
 }
 
+.popover-menu {
+  @apply bg-black/50 backdrop-blur-lg text-white border border-white/20;
+}
+
 @keyframes input-border {
   from {
     border-color: rgba(255, 255, 255, 0.3);

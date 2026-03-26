@@ -25,14 +25,11 @@ export const Select = ({ onChange, options, initialValue, label }: Props) => {
       <SelectTrigger className='w-48 bg-white/5 border border-white/20 text-white focus-visible:ring-0'>
         <SelectValue placeholder={label} defaultValue={String(initialValue)} />
       </SelectTrigger>
-      <SelectContent
-        position={'item-aligned'}
-        className='bg-black/50 backdrop-blur-lg text-white border border-white/20'
-      >
+      <SelectContent position={'item-aligned'} className='popover-menu'>
         <SelectGroup>
-          <SelectLabel className='text-white/70'>{label}</SelectLabel>
+          <SelectLabel className='text-white/50 text-xs'>{label}</SelectLabel>
           {options.map((option, index) => (
-            <SelectItem key={index} value={String(index)}>
+            <SelectItem key={index} value={String(index)} className='cursor-pointer'>
               {option}
             </SelectItem>
           ))}

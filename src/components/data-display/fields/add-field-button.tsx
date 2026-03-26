@@ -70,7 +70,7 @@ export const AddFieldButton = () => {
       </DropdownMenuTrigger>
 
       {potentialFieldsToAdd && (
-        <DropdownMenuContent>
+        <DropdownMenuContent className='popover-menu'>
           {Object.entries(potentialFieldsToAdd).map(([fieldType, fields]) => {
             const capitalizedType = capitalizeFirst(fieldType)
 
@@ -78,12 +78,16 @@ export const AddFieldButton = () => {
 
             return (
               <DropdownMenuGroup key={fieldType}>
-                <DropdownMenuLabel>{capitalizedType}</DropdownMenuLabel>
+                <DropdownMenuLabel className='text-white/50 text-xs'>{capitalizedType}</DropdownMenuLabel>
                 {(fields as CustomField[]).map(field => {
                   const color = getFieldColor(field.id)
 
                   return (
-                    <DropdownMenuItem key={field.id} onSelect={() => updateField(field, 'add')}>
+                    <DropdownMenuItem
+                      key={field.id}
+                      onSelect={() => updateField(field, 'add')}
+                      className='cursor-pointer'
+                    >
                       <div
                         style={{ backgroundColor: color }}
                         className='size-3 min-w-3 aspect-square rounded-full'
