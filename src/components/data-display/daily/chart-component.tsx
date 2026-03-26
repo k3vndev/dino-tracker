@@ -9,8 +9,12 @@ import { ErrorCard } from '../error-card'
 export type FieldsMap = Record<string, Omit<CustomField, 'id'>>
 export type ChartData = Record<string, number | string>
 
-export const ChartComponent = () => {
-  const { fields, fieldsMap, getFieldColor, timeSpan } = useDataDisplayContext()
+interface Props {
+  timeSpan: number
+}
+
+export const ChartComponent = ({ timeSpan }: Props) => {
+  const { fields, fieldsMap, getFieldColor } = useDataDisplayContext()
 
   const chartData: ChartData[] | null = useMemo(() => {
     if (!fields) return null

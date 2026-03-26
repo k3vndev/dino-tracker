@@ -1,12 +1,11 @@
 import { useDataDisplayContext } from '@context'
-import type { SelectOption } from '@types'
 import { Fields } from './fields/fields-section'
 import { Select } from './select'
 
 interface Props {
-  selectOptions: SelectOption[]
+  selectOptions: string[]
   onSelectChange: (value: number) => void
-  selectInitialValue: number
+  selectInitialValue?: number
   selectLabel: string
 }
 

@@ -7,22 +7,21 @@ import {
   SelectTrigger,
   SelectValue
 } from '@components/ui'
-import type { SelectOption } from '@types'
 
 interface Props {
-  onChange: (daySpan: number) => void
-  options: SelectOption[]
+  onChange: (index: number) => void
+  options: string[]
   initialValue: number
   label: string
 }
 
 export const Select = ({ onChange, options, initialValue, label }: Props) => {
-  const handleValueChange = (value: string) => {
-    onChange(Number(value))
+  const handleChange = (index: number | string) => {
+    onChange(Number(index))
   }
 
   return (
-    <SelectComponent defaultValue={String(initialValue)} onValueChange={handleValueChange}>
+    <SelectComponent defaultValue={String(initialValue)} onValueChange={handleChange}>
       <SelectTrigger className='w-48 bg-white/5 border border-white/20 text-white focus-visible:ring-0'>
         <SelectValue placeholder={label} defaultValue={String(initialValue)} />
       </SelectTrigger>
@@ -32,9 +31,9 @@ export const Select = ({ onChange, options, initialValue, label }: Props) => {
       >
         <SelectGroup>
           <SelectLabel className='text-white/70'>{label}</SelectLabel>
-          {options.map(({ label, value }) => (
-            <SelectItem key={value} value={String(value)}>
-              {label}
+          {options.map((option, index) => (
+            <SelectItem key={index} value={String(index)}>
+              {option}
             </SelectItem>
           ))}
         </SelectGroup>

@@ -74,8 +74,3 @@ export interface ChartRecord {
   date: string
   value: number
 }
-
-export interface SelectOption {
-  label: string
-  value: number | string
-}

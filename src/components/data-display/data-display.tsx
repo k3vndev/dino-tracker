@@ -1,4 +1,4 @@
-import { DEFAULT_CHART_TIME_SPAN, DEFAULT_COLOR } from '@consts'
+import { DEFAULT_COLOR } from '@consts'
 import { DataDisplayContext, type UpdateField } from '@context'
 import { useProjectsStore } from '@store'
 import type { CustomField, DataDisplay as DataDisplayType } from '@types'
@@ -16,7 +16,7 @@ export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) 
   const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
 
   const project = useMemo(() => projects.find(p => p.id === projectId), [projectId, projects])
-  const [timeSpan, setTimeSpan] = useState(DEFAULT_CHART_TIME_SPAN)
+  const [optionIndex, setOptionIndex] = useState(dataDisplay.optionIndex ?? 0)
 
   // Validate the provided fieldIds against the project's custom fields and ensure they are all of the same type.
   const validatedFields = useMemo((): CustomField[] | null => {
@@ -82,7 +82,7 @@ export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) 
     [fieldIds, fieldsMap, project?.color]
   )
 
-  const isStatic = useMemo(() => validatedFields && validatedFields[0].type === 'static', [validatedFields])
+  const isStatic = dataDisplay.type === 'static'
 
   // Function to add or remove a field from the data display configuration
   const updateField: UpdateField = (field, action) => {
@@ -114,8 +114,8 @@ export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) 
         fields: validatedFields,
         fieldsMap,
         getFieldColor,
-        timeSpan,
-        setTimeSpan,
+        optionIndex,
+        setOptionIndex,
         updateField,
         ...dataDisplay
       }}

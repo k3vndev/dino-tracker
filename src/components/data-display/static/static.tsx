@@ -1,41 +1,64 @@
 import { useDataDisplayContext } from '@context'
-import type { SelectOption } from '@types'
+import { capitalizeFirst } from '@utils'
+import { useMemo } from 'react'
 import { DataDisplayHeader } from '../data-display-header'
 import { ErrorCard } from '../error-card'
 
 export const Static = () => {
-  const { fields, title, getFieldColor, fieldsMap } = useDataDisplayContext()
+  const { fields, optionIndex, setOptionIndex } = useDataDisplayContext()
+
+  const selectedOperation = operations[optionIndex]
+
+  const staticValue: number | null = useMemo(() => {
+    // Skip comparation or uncalculable operations
+    if (selectedOperation === 'comparation' || !fields || fields.length === 0) {
+      return null
+    }
+
+    // Calculate the sum of all field values
+    let sum = 0
+    for (const field of fields) {
+      if (field.type === 'static') {
+        sum += field.value
+
+        // Sum the values of every day for daily fields
+      } else if (field.type === 'daily') {
+        sum += field.value.reduce((acc, record) => acc + record.value, 0)
+      }
+    }
+
+    // Return the sum for 'addition' or the average for 'average'
+    if (selectedOperation === 'average') {
+      return sum / fields.length
+    }
+    return sum
+  }, [fields, optionIndex])
+
   if (!fields || fields.length === 0) {
     return <ErrorCard />
   }
-
-  const [staticField] = fields // This has been validated already
-  const color = getFieldColor(staticField.id)
-  const staticName = fieldsMap ? fieldsMap[staticField.id].name : title
-
-  const selectOptions: SelectOption[] = [
-    { label: 'Comparation', value: 0 },
-    { label: 'Addition', value: 1 },
-    { label: 'Average', value: 2 }
-  ]
 
   return (
     <div className='text-white w-full '>
       <DataDisplayHeader
         selectOptions={selectOptions}
-        onSelectChange={() => {}}
-        selectInitialValue={0}
+        onSelectChange={setOptionIndex}
+        selectInitialValue={optionIndex}
         selectLabel='Select operation'
       />
 
-      <div className='flex flex-col items-center justify-center gap-1.5 py-5'>
-        <span className='text-6xl font-semibold'>{staticField.value as number}</span>
-
-        <div className='flex items-center gap-2'>
-          <div className='size-4 rounded-full' style={{ backgroundColor: color }} />
-          <h3 className='text-xl font-poppins'>{staticName}</h3>
+      {selectedOperation === 'comparation' || staticValue === null ? (
+        <span className='text-white font-poppins font-bold text-2xl m-8'>
+          A Pie chart comparing the values of each field will be displayed here
+        </span>
+      ) : (
+        <div className='flex flex-col items-center justify-center gap-1.5 py-5'>
+          <span className='text-6xl font-semibold'>{staticValue}</span>
         </div>
-      </div>
+      )}
     </div>
   )
 }
+
+const operations = ['comparation', 'addition', 'average'] as const
+const selectOptions = operations.map(o => capitalizeFirst(o))
