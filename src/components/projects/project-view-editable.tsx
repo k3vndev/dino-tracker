@@ -33,14 +33,14 @@ export const ProjectViewEditable = ({
 
   return (
     <section
-      className='flex flex-col p-8 rounded-2xl border border-white/15 gap-6 backdrop-blur-xs shadow-element group/project'
+      className='flex flex-col md:p-8 sm:p-4 p-2 rounded-2xl border border-white/15 gap-6 backdrop-blur-xs shadow-element group/project'
       style={{ background: bgLinearGradient }}
     >
       {/* Header section */}
       <div className='flex items-start justify-between gap-4'>
         <div className='flex flex-1 min-w-0 flex-col gap-0'>
           <EditableText
-            className='text-3xl font-semibold'
+            className='md:text-3xl text-xl font-semibold'
             defaultValue={PROJECT_DEFAULT_VALUES.name}
             element='h1'
             initialText={name}
@@ -48,7 +48,7 @@ export const ProjectViewEditable = ({
             multiline
           />
           <EditableText
-            className='text-lg text-white/75'
+            className='md:text-lg text-base text-white/75'
             defaultValue={PROJECT_DEFAULT_VALUES.clientName}
             element='h2'
             initialText={clientName}

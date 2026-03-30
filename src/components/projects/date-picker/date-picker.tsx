@@ -60,7 +60,7 @@ export const DatePicker = ({ startDate, endDate, setDates }: Props) => {
             onClick={handleOpenPopover}
           >
             <Icon name='calendar' className='size-5' />
-            <span className='text-lg text-nowrap'>{displayDate}</span>
+            <span className='md:text-lg text-sm text-nowrap'>{displayDate}</span>
             {!isOpen && <EditableTooltip />}
           </div>
 
