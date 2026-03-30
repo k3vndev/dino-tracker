@@ -9,9 +9,36 @@
 }
 
 body {
-  --app-sidebar-width: 400px;
+  --app-sidebar-width: 300px;
   --app-sidebar-margin: 3rem;
-  --app-margin-y: 3rem;
+
+  --app-margin-y: 2rem;
+  --app-margin-x: 1rem;
+}
+
+@media (min-width: 768px) {
+  body {
+    --app-margin-x: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    --app-margin-x: 4rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  body {
+    --app-margin-x: 8rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  body {
+    --app-sidebar-width: 400px;
+    --app-margin-x: 10rem;
+  }
 }
 
 @theme inline {
