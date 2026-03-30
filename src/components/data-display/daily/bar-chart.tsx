@@ -3,7 +3,7 @@ import { useDataDisplayContext } from '@context'
 import type { CustomField } from '@types'
 import { DateTime } from 'luxon'
 import { useMemo } from 'react'
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts'
+import { Bar, BarChart as BarChartComponent, CartesianGrid, XAxis, YAxis } from 'recharts'
 import { ErrorCard } from '../error-card'
 
 export type FieldsMap = Record<string, Omit<CustomField, 'id'>>
@@ -13,7 +13,7 @@ interface Props {
   timeSpan: number
 }
 
-export const ChartComponent = ({ timeSpan }: Props) => {
+export const BarChart = ({ timeSpan }: Props) => {
   const { fields, fieldsMap, getFieldColor } = useDataDisplayContext()
 
   const chartData: ChartData[] | null = useMemo(() => {
@@ -74,7 +74,7 @@ export const ChartComponent = ({ timeSpan }: Props) => {
 
   return (
     <ChartContainer config={CHART_CONFIG} className='max-h-56 min-h-32 w-full'>
-      <BarChart data={chartData}>
+      <BarChartComponent data={chartData}>
         <CartesianGrid vertical={false} className='opacity-15' />
         {fieldKeys.map(key => (
           <Bar
@@ -120,7 +120,7 @@ export const ChartComponent = ({ timeSpan }: Props) => {
           tickFormatter={xAxisTickFormatter}
         />
         <YAxis tickLine={false} axisLine={false} tickMargin={16} dataKey={xAxisDataKey} />
-      </BarChart>
+      </BarChartComponent>
     </ChartContainer>
   )
 }

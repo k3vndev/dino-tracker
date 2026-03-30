@@ -3,11 +3,12 @@ import { capitalizeFirst } from '@utils'
 import { useMemo } from 'react'
 import { DataDisplayHeader } from '../data-display-header'
 import { ErrorCard } from '../error-card'
+import { PieChart } from './pie-chart'
 
 export const Static = () => {
   const { fields, optionIndex, setOptionIndex } = useDataDisplayContext()
 
-  const selectedOperation = operations[optionIndex]
+  const selectedOperation = useMemo(() => operations[optionIndex], [optionIndex])
 
   const staticValue: number | null = useMemo(() => {
     // Skip comparation or uncalculable operations
@@ -48,9 +49,7 @@ export const Static = () => {
       />
 
       {selectedOperation === 'comparation' || staticValue === null ? (
-        <span className='text-white font-poppins font-bold text-2xl m-8'>
-          A Pie chart comparing the values of each field will be displayed here
-        </span>
+        <PieChart operation={selectedOperation} />
       ) : (
         <div className='flex flex-col items-center justify-center gap-1.5 py-5'>
           <span className='text-6xl font-semibold'>{staticValue}</span>
@@ -61,4 +60,5 @@ export const Static = () => {
 }
 
 const operations = ['comparation', 'addition', 'average'] as const
+export type StaticOperation = (typeof operations)[number]
 const selectOptions = operations.map(o => capitalizeFirst(o))

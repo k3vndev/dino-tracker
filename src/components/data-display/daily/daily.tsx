@@ -2,7 +2,7 @@ import { useDataDisplayContext } from '@context'
 import { useMemo } from 'react'
 import { DataDisplayHeader } from '../data-display-header'
 import { ErrorCard } from '../error-card'
-import { ChartComponent } from './chart-component'
+import { BarChart } from './bar-chart'
 
 export const Daily = () => {
   const { fields, optionIndex, setOptionIndex } = useDataDisplayContext()
@@ -23,7 +23,7 @@ export const Daily = () => {
         selectLabel='Select time span'
       />
 
-      <ChartComponent timeSpan={rawSelectOptions[optionIndex]} />
+      <BarChart timeSpan={rawSelectOptions[optionIndex]} />
     </div>
   )
 }

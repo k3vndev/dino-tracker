@@ -72,7 +72,7 @@ export const MOCK_PROJECTS: Project[] = [
       },
       {
         id: 'dd-001',
-        fieldIds: ['cf-001'],
+        fieldIds: ['cf-001', 'cf-002', 'cf-003', 'cf-004'],
         title: 'Display of Total Commits',
         type: 'static'
       },

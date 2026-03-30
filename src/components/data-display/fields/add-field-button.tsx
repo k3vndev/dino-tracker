@@ -13,7 +13,11 @@ import type { CustomField } from '@types'
 import { capitalizeFirst } from '@utils'
 import { useMemo } from 'react'
 
-export const AddFieldButton = () => {
+interface Props {
+  onOpenChange: (open: boolean) => void
+}
+
+export const AddFieldButton = ({ onOpenChange }: Props) => {
   const { projectId, type: projectType, fieldIds, getFieldColor, updateField } = useDataDisplayContext()
 
   const projects = useProjectsStore(s => s.projects)
@@ -59,7 +63,7 @@ export const AddFieldButton = () => {
   const buttonStyle = toAddFieldsCount > 0 ? '' : 'opacity-40 pointer-events-none'
 
   return (
-    <DropdownMenu>
+    <DropdownMenu onOpenChange={onOpenChange}>
       <DropdownMenuTrigger disabled={toAddFieldsCount === 0}>
         <div
           className={`border border-white/15 rounded-full px-2.5 py-0.5 flex items-center gap-0.5 bg-white/5 button ${buttonStyle}`}
