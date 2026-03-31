@@ -17,7 +17,7 @@ export default function ProjectsPage() {
           New Project
         </Button>
 
-        <section className='grid grid-cols-3 gap-4'>
+        <section className='grid 2xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4'>
           {projects.map((project, index) => (
             <ProjectTile key={project.id} data={project} index={index} />
           ))}

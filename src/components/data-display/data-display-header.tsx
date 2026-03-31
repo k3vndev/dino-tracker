@@ -12,25 +12,26 @@ interface Props {
 export const DataDisplayHeader = ({
   selectOptions,
   onSelectChange,
-  selectInitialValue,
+  selectInitialValue = 0,
   selectLabel
 }: Props) => {
   const { title } = useDataDisplayContext()
 
   return (
-    <header className='flex items-start justify-between'>
-      <div className='flex flex-col gap-y-1.5'>
+    <header className='flex flex-col items-start justify-between'>
+      <div className='flex w-full justify-between gap-4'>
         {/* Note: replace with editable text component in the future */}
-        <h3 className='font-poppins text-white font-semibold'>{title}</h3>
-        <Fields />
+        <h3 className='font-poppins text-lg text-white font-semibold'>{title}</h3>
+
+        <Select
+          initialValue={selectInitialValue}
+          options={selectOptions}
+          onChange={onSelectChange}
+          label={selectLabel}
+        />
       </div>
 
-      <Select
-        initialValue={selectInitialValue}
-        options={selectOptions}
-        onChange={onSelectChange}
-        label={selectLabel}
-      />
+      <Fields />
     </header>
   )
 }

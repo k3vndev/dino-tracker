@@ -15,14 +15,14 @@ export const Button = ({ primary, className, icon, children, ...props }: Props) 
   return (
     <button
       className={cn(
-        'flex items-center gap-2 border button rounded-lg px-6 py-2 w-fit active:translate-y-1 active:translate-x-1.5 active:scale-97 active:brightness-75',
+        'flex items-center gap-2 border button rounded-lg lg:px-6 px-3 lg:py-2 py-1.5 w-fit active:translate-y-1 active:translate-x-1.5 active:scale-97 active:brightness-75',
         style,
         className
       )}
       {...props}
     >
-      {icon && <Icon name={icon} className='size-6' />}
-      <span className='font-plus font-semibold text-nowrap'>{children}</span>
+      {icon && <Icon name={icon} className='lg:size-6 size-5' />}
+      <span className='font-plus font-semibold text-nowrap not-lg:text-sm'>{children}</span>
     </button>
   )
 }
