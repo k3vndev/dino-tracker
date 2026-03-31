@@ -28,7 +28,7 @@ export default function ProjectViewPage() {
     <AppShell className='gap-0'>
       <ProjectViewEditable {...p} />
 
-      <section className='flex items-center w-full gap-4 flex-wrap mt-4'>
+      <section className='flex items-center w-full lg:gap-4 gap-2 flex-wrap mt-4'>
         <Button icon='chart' primary>
           Register Data
         </Button>

@@ -39,6 +39,12 @@ export const Static = () => {
     return <ErrorCard />
   }
 
+  const displayWordMap: Record<StaticOperation, null | string> = {
+    comparation: null,
+    addition: 'Total',
+    average: 'Average'
+  }
+
   return (
     <div className='text-white w-full '>
       <DataDisplayHeader
@@ -51,8 +57,9 @@ export const Static = () => {
       {selectedOperation === 'comparation' || staticValue === null ? (
         <PieChart operation={selectedOperation} />
       ) : (
-        <div className='flex flex-col items-center justify-center gap-1.5 py-5'>
-          <span className='text-6xl font-semibold'>{staticValue}</span>
+        <div className='flex flex-col items-center justify-center gap-0.5 py-5'>
+          <h4 className='text-6xl font-semibold'>{staticValue}</h4>
+          <span className='text-2xl text-white/65'>{displayWordMap[selectedOperation]} value</span>
         </div>
       )}
     </div>
