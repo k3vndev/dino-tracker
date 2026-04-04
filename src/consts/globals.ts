@@ -23,3 +23,5 @@ export const DATE_SEPARATOR = '-'
 export const NO_DATA_LABEL = 'N/D'
 
 export const DEFAULT_COLOR = '#5A9BF8'
+
+export const DATA_DISPLAY_DEFAULT_TITLE = 'My Personalized Chart'

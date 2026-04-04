@@ -179,6 +179,7 @@ export const EditableText = ({
     'internal text-wrap border font-poppins px-2 py-1 rounded-lg wrap-break-word whitespace-pre-wrap min-w-20 max-w-full'
 
   const InputElement = multiline ? 'textarea' : 'input'
+  const textElementClassName = multiline ? 'line-clamp-2' : 'line-clamp-1'
 
   return (
     <div className={cn('w-full min-w-0 flex text-white text-xl', propsClassName)} ref={wrapperRef}>
@@ -187,7 +188,8 @@ export const EditableText = ({
           <TextElement
             onClick={startEditing}
             className={cn(
-              'cursor-pointer border-transparent min-w-0 max-w-full line-clamp-2 whitespace-normal overflow-hidden text-ellipsis',
+              'cursor-pointer border-transparent min-w-0 max-w-full whitespace-normal overflow-hidden text-ellipsis',
+              textElementClassName,
               internalElementClassName
             )}
             {...props}
