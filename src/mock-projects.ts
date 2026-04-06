@@ -22,12 +22,14 @@ export const MOCK_PROJECTS: Project[] = [
         type: 'static',
         name: 'Total Commits',
         id: 'cf-001',
+        color: '#F85A5A',
         value: 120
       },
       {
         type: 'daily',
         name: 'Code',
         id: 'cf-002',
+        color: '#5A9BF8',
         value: [
           { date: '2026-01-06', value: 5 },
           { date: '2026-01-07', value: 8 },
@@ -42,6 +44,7 @@ export const MOCK_PROJECTS: Project[] = [
         type: 'daily',
         name: 'Design',
         id: 'cf-003',
+        color: '#BB6BD9',
         value: [
           { date: '2026-01-06', value: 3 },
           { date: '2026-01-07', value: 4 },
@@ -54,6 +57,7 @@ export const MOCK_PROJECTS: Project[] = [
         type: 'daily',
         name: 'Meetings',
         id: 'cf-004',
+        color: '#F2C94C',
         value: [
           { date: '2026-01-06', value: 2 },
           { date: '2026-01-07', value: 1 },

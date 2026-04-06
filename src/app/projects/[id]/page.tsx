@@ -6,6 +6,7 @@ import { ProjectViewEditable } from '@components/projects'
 import { useProjectsStore } from '@store'
 import { useParams } from 'next/navigation'
 import { useMemo } from 'react'
+import { RegisterData as RegisterDataButton } from '@/components/project-view-buttons/register-data'
 
 export default function ProjectViewPage() {
   // Grab the project ID from the URL params
@@ -29,9 +30,7 @@ export default function ProjectViewPage() {
       <ProjectViewEditable {...p} />
 
       <section className='flex items-center w-full lg:gap-4 gap-2 flex-wrap mt-4'>
-        <Button icon='chart' primary>
-          Register Data
-        </Button>
+        <RegisterDataButton projectId={p.id} />
         <Button icon='settings'>Project Settings</Button>
         <Button icon='plus' primary className='ml-auto'>
           Add Chart
