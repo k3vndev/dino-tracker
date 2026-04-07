@@ -2,11 +2,11 @@ import { cn } from '@utils'
 import { useEffect, useRef } from 'react'
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
-  value: string | number
+  value?: string | number
   onChange: (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => void
 }
 
-export const TextInput = ({ value, onChange, className, ...props }: Props) => {
+export const TextInput = ({ value = '', onChange, className, ...props }: Props) => {
   const inputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {

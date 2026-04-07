@@ -1,5 +1,6 @@
 import { Icon } from '@components'
 import { CUSTOM_FIELD_DEFAULT_NAME } from '@consts'
+import { EditableFieldContext } from '@context'
 import { useGlobalStateRefresh } from '@hooks'
 import { useProjectsStore } from '@store'
 import type { CustomField } from '@types'
@@ -24,7 +25,7 @@ export const EditableField = ({ fieldId, projectId }: Props) => {
   // We need to keep the field in local state to ensure that we have the most up-to-date data, especially when the project data changes
   const [field, setField] = useState<CustomField | null>(null)
   useEffect(() => {
-    if (!field && project?.customFields) {
+    if (field === null && project?.customFields) {
       const foundField = project.customFields.find(f => f.id === fieldId)
       foundField && setField(foundField)
     }
@@ -42,7 +43,7 @@ export const EditableField = ({ fieldId, projectId }: Props) => {
   }, field)
 
   // Edits the custom field with the new data and updates the project in the store
-  const editCustomField = (newData: Partial<CustomField>) => {
+  const editField = (newData: Partial<CustomField>) => {
     setField(prev => {
       if (!prev) return prev
       return { ...prev, ...newData } as CustomField
@@ -52,19 +53,22 @@ export const EditableField = ({ fieldId, projectId }: Props) => {
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
     const { value } = e.target
     const trimmedValue = value.trim()
-    editCustomField({ name: trimmedValue })
+
+    if (trimmedValue !== value) {
+      editField({ name: trimmedValue })
+    }
   }
 
   const handleNameInputBlur = () => {
     if (!field?.name.trim()) {
-      editCustomField({ name: CUSTOM_FIELD_DEFAULT_NAME })
+      editField({ name: CUSTOM_FIELD_DEFAULT_NAME })
     }
   }
 
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
     // Handle static value change
     if (field?.type === 'static') {
-      editCustomField({ value: e.target.value as any })
+      editField({ value: e.target.value as any })
       return
     }
 
@@ -80,7 +84,7 @@ export const EditableField = ({ fieldId, projectId }: Props) => {
       const newValue = { date: selectedDate, value: numericalValue }
       newValuesArray[selectedIndex] = newValue
 
-      editCustomField({ value: newValuesArray })
+      editField({ value: newValuesArray })
     }
   }
 
@@ -92,35 +96,42 @@ export const EditableField = ({ fieldId, projectId }: Props) => {
     return foundValue ?? null
   }, [field, selectedDate])
 
+  // If the project or its custom fields are not available, we can't render the editable field
+  if (!project?.customFields) return null
+
   return (
-    <li className='flex items-center gap-5 pr-5 pl-7 py-4 odd:bg-black/50 even:bg-black/10'>
-      <div style={{ background: field?.color }} className='size-8 min-w-8 rounded-full' />
+    <EditableFieldContext.Provider
+      value={{
+        customFields: project.customFields,
+        selectedDate,
+        setSelectedDate,
+        startDate: project.startDate,
+        endDate: project.endDate,
+        fieldId,
+        field,
+        setField
+      }}
+    >
+      <li className='flex items-center gap-5 pr-5 pl-7 py-4 odd:bg-black/50 even:bg-black/10'>
+        <div style={{ background: field?.color }} className='size-8 min-w-8 rounded-full' />
 
-      <div className='flex flex-col gap-1.5 w-full'>
-        <TextInput
-          className='text-xl'
-          value={field?.name ?? ''}
-          onChange={handleNameChange}
-          placeholder='Name'
-          onBlur={handleNameInputBlur}
-        />
-        <TextInput value={currentValue ?? ''} onChange={handleValueChange} placeholder='Value' />
-      </div>
+        <div className='flex flex-col gap-1.5 w-full'>
+          <TextInput
+            className='text-xl'
+            value={field?.name}
+            onChange={handleNameChange}
+            placeholder='Name'
+            onBlur={handleNameInputBlur}
+          />
+          <TextInput value={currentValue ?? ''} onChange={handleValueChange} placeholder='Value' />
+        </div>
 
-      {field?.type === 'daily' && (
-        <DateSelector
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-          dateRange={{
-            start: project?.startDate,
-            end: project?.endDate
-          }}
-        />
-      )}
+        {field?.type === 'daily' && project?.customFields && <DateSelector />}
 
-      <button className='size-14 min-w-14 cursor-pointer rounded-full hover:bg-white/5 flex items-center justify-center button'>
-        <Icon name='trash' />
-      </button>
-    </li>
+        <button className='size-14 min-w-14 cursor-pointer rounded-full hover:bg-white/5 flex items-center justify-center button'>
+          <Icon name='trash' />
+        </button>
+      </li>
+    </EditableFieldContext.Provider>
   )
 }

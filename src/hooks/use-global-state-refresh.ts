@@ -23,5 +23,5 @@ export const useGlobalStateRefresh = <T>(refresher: (latest: T) => void, local: 
         clearTimeout(debounceRef.current)
       }
     }
-  }, [local, refresher, debounceTime])
+  }, [local, debounceTime])
 }

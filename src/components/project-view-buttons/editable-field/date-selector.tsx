@@ -1,19 +1,12 @@
 import { Icon } from '@components'
+import { useEditableFieldContext } from '@context'
 import { cn } from '@utils'
 import { DateTime } from 'luxon'
 import { useEffect, useMemo } from 'react'
+import { ValuesRepresentation } from './values-representation'
 
-interface Props {
-  dateRange?: {
-    start?: string
-    end?: string
-  }
-  selectedDate: string | null
-  setSelectedDate?: (date: string) => void
-}
-
-export const DateSelector = ({ dateRange, selectedDate, setSelectedDate }: Props) => {
-  const { start, end } = dateRange ?? {}
+export const DateSelector = () => {
+  const { selectedDate, setSelectedDate, startDate, endDate } = useEditableFieldContext()
 
   const dateDisplay = useMemo(() => {
     const current = DateTime.fromISO(selectedDate ?? '')
@@ -27,9 +20,9 @@ export const DateSelector = ({ dateRange, selectedDate, setSelectedDate }: Props
   useEffect(() => {
     if (selectedDate) return
 
-    const newSelectedDate = dateRange?.start ?? dateRange?.end ?? DateTime.now().toISODate()!
+    const newSelectedDate = startDate ?? endDate ?? DateTime.now().toISODate()!
     setSelectedDate?.(newSelectedDate)
-  }, [dateRange, selectedDate])
+  }, [startDate, endDate, selectedDate])
 
   const changeDate = (days: number) => {
     if (!selectedDate || !setSelectedDate) return
@@ -43,17 +36,21 @@ export const DateSelector = ({ dateRange, selectedDate, setSelectedDate }: Props
   const prevDay = () => changeDate(-1)
 
   return (
-    <div className='flex items-center justify-center gap-1 min-w-fit'>
-      <ChangeDateButton className='rotate-180' onClick={prevDay} />
-      {dateDisplay ? (
-        <div className='text-white flex flex-col items-center text-nowrap gap-1.5'>
-          <span className='font-plus text-sm opacity-50'>{dateDisplay.monthYear}</span>
-          <span className='font-poppins font-bold text-4xl'>{dateDisplay.day}</span>
-        </div>
-      ) : (
-        <span className='text-sm text-center text-yellow-300'>Invalid date</span>
-      )}
-      <ChangeDateButton onClick={nextDay} />
+    <div className='flex flex-col min-w-fit items-center gap-1'>
+      <div className='flex items-center justify-center gap-1'>
+        <ChangeDateButton className='rotate-180' onClick={prevDay} />
+        {dateDisplay ? (
+          <div className='text-white flex flex-col items-center text-nowrap gap-1.5'>
+            <span className='font-plus text-sm opacity-50'>{dateDisplay.monthYear}</span>
+            <span className='font-poppins font-bold text-4xl'>{dateDisplay.day}</span>
+          </div>
+        ) : (
+          <span className='text-sm text-center text-yellow-300'>Invalid date</span>
+        )}
+        <ChangeDateButton onClick={nextDay} />
+      </div>
+
+      <ValuesRepresentation />
     </div>
   )
 }
