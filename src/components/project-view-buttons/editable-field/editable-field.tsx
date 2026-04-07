@@ -2,6 +2,7 @@ import { Icon } from '@components'
 import type { CustomField } from '@types'
 import { useMemo, useState } from 'react'
 import { useProjectsStore } from '@/store'
+import { DateSelector } from './date-selector'
 import { TextInput } from './text-input'
 
 type Props = {
@@ -9,13 +10,15 @@ type Props = {
   projectId: string
 } & CustomField
 
-export const EditableField = ({ index, id, projectId, color, name, type, value }: Props) => {
+export const EditableField = ({ id, projectId, color, name, type, value }: Props) => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
+
   const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
   const projects = useProjectsStore(s => s.projects)
 
+  const project = useMemo(() => projects.find(p => p.id === projectId), [projectId, projects])
+
   const editCustomField = (newData: Partial<CustomField>) => {
-    const project = projects.find(p => p.id === projectId)
     if (!project?.customFields) return
 
     const newCustomFields = [...project.customFields]
@@ -34,26 +37,48 @@ export const EditableField = ({ index, id, projectId, color, name, type, value }
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
     if (type === 'static') {
       editCustomField({ value: e.target.value as any })
-    }
+    } else if (selectedDate) {
+      const newValuesArray = [...value]
+      const selectedIndex = newValuesArray.findIndex(v => v.date === selectedDate)
+      if (selectedIndex === -1) return
 
-    // TODO: Handle daily type
+      const numericalValue = parseFloat(e.target.value)
+      if (Number.isNaN(numericalValue)) return
+
+      const newValue = { date: selectedDate, value: numericalValue }
+      newValuesArray[selectedIndex] = newValue
+
+      editCustomField({ value: newValuesArray })
+    }
   }
 
   const currentValue = useMemo(() => {
     if (type === 'static') {
       return value
     }
-    return value.find(v => v.date === selectedDate)?.value ?? null
+    const foundValue = value.find(v => v.date === selectedDate)?.value
+    return foundValue ?? null
   }, [type, value, selectedDate])
 
   return (
-    <li className='flex items-center gap-5 px-5 py-4 odd:bg-black/65 even:bg-black/10'>
+    <li className='flex items-center gap-5 pr-5 pl-7 py-4 odd:bg-black/65 even:bg-black/10'>
       <div style={{ background: color }} className='size-8 min-w-8 rounded-full' />
 
       <div className='flex flex-col gap-1.5 w-full'>
-        <TextInput value={name} onChange={handleNameChange} />
+        <TextInput className='text-xl' value={name} onChange={handleNameChange} />
         <TextInput value={currentValue ?? ''} onChange={handleValueChange} />
       </div>
+
+      {type === 'daily' && (
+        <DateSelector
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          dateRange={{
+            start: project?.startDate,
+            end: project?.endDate
+          }}
+        />
+      )}
 
       <button className='size-14 min-w-14 cursor-pointer rounded-full hover:bg-white/5 flex items-center justify-center button'>
         <Icon name='trash' />

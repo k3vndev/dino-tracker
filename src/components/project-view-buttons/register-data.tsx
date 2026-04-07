@@ -2,7 +2,7 @@ import { Button } from '@components'
 import { useMemo, useState } from 'react'
 import { useProjectsStore } from '@/store'
 import { DialogWrapper } from '../dialog-wrapper'
-import { EditableField } from './editable-field'
+import { EditableField } from './editable-field/editable-field'
 
 interface Props {
   projectId: string
@@ -35,7 +35,7 @@ export const RegisterData = ({ projectId }: Props) => {
 
       {customFields && (
         <DialogWrapper open={isOpen} onOpenChange={handleOpenChange} title='Register Data' icon='chart'>
-          <ul className='flex flex-col overflow-x-hidden overflow-y-scroll max-h-64 border border-white/15 rounded-l-xl'>
+          <ul className='flex flex-col overflow-x-hidden overflow-y-scroll max-h-80 border border-white/15 rounded-l-xl'>
             {customFields.map((field, index) => (
               <EditableField {...field} index={index} key={field.id} projectId={projectId} />
             ))}
