@@ -1,8 +1,9 @@
 import { Icon } from '@components'
+import { CUSTOM_FIELD_DEFAULT_NAME } from '@consts'
+import { useGlobalStateRefresh } from '@hooks'
 import { useProjectsStore } from '@store'
 import type { CustomField } from '@types'
 import { useEffect, useMemo, useState } from 'react'
-import { useGlobalStateRefresh } from '@/hooks'
 import { DateSelector } from './date-selector'
 import { TextInput } from './text-input'
 
@@ -38,7 +39,6 @@ export const EditableField = ({ fieldId, projectId }: Props) => {
 
     newCustomFields[fieldIndex] = latest
     setProjectAttributes(projectId, { customFields: newCustomFields })
-    console.log('State refreshed!')
   }, field)
 
   // Edits the custom field with the new data and updates the project in the store
@@ -50,7 +50,15 @@ export const EditableField = ({ fieldId, projectId }: Props) => {
   }
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
-    editCustomField({ name: e.target.value })
+    const { value } = e.target
+    const trimmedValue = value.trim()
+    editCustomField({ name: trimmedValue })
+  }
+
+  const handleNameInputBlur = () => {
+    if (!field?.name.trim()) {
+      editCustomField({ name: CUSTOM_FIELD_DEFAULT_NAME })
+    }
   }
 
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
@@ -85,12 +93,18 @@ export const EditableField = ({ fieldId, projectId }: Props) => {
   }, [field, selectedDate])
 
   return (
-    <li className='flex items-center gap-5 pr-5 pl-7 py-4 odd:bg-black/65 even:bg-black/10'>
+    <li className='flex items-center gap-5 pr-5 pl-7 py-4 odd:bg-black/50 even:bg-black/10'>
       <div style={{ background: field?.color }} className='size-8 min-w-8 rounded-full' />
 
       <div className='flex flex-col gap-1.5 w-full'>
-        <TextInput className='text-xl' value={field?.name ?? ''} onChange={handleNameChange} />
-        <TextInput value={currentValue ?? ''} onChange={handleValueChange} />
+        <TextInput
+          className='text-xl'
+          value={field?.name ?? ''}
+          onChange={handleNameChange}
+          placeholder='Name'
+          onBlur={handleNameInputBlur}
+        />
+        <TextInput value={currentValue ?? ''} onChange={handleValueChange} placeholder='Value' />
       </div>
 
       {field?.type === 'daily' && (

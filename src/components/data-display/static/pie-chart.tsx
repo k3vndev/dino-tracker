@@ -16,11 +16,22 @@ export const PieChart = ({ operation }: Props) => {
 
     // For comparation, we want to show the sum of each field as a slice of the pie
     return fields.map(field => {
+      // If the field is static, we can directly use its value, otherwise, we need to sum up all the records' values
       const value =
         field.type === 'static' ? field.value : field.value.reduce((acc, record) => acc + record.value, 0)
       const fill = getFieldColor(field.id)
 
-      return { name: field.id, value, fill }
+      // Ensure that the value is a number, if not, set it to 0
+      let numericValue = Number.parseFloat(String(value))
+      if (Number.isNaN(numericValue)) {
+        numericValue = 0
+      }
+
+      return {
+        name: field.id,
+        value: numericValue,
+        fill
+      }
     })
   }, [fields, operation])
 
