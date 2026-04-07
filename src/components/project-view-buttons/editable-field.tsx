@@ -1,16 +1,43 @@
+import { Icon } from '@components'
 import type { CustomField } from '@types'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
+import { useProjectsStore } from '@/store'
 import { TextInput } from './text-input'
 
 type Props = {
   index: number
+  projectId: string
 } & CustomField
 
-export const EditableField = ({ index, id, color, name, type, value }: Props) => {
-  const [selectedDate, setSelectedDate] = useState<string | null>('2026-01-06')
+export const EditableField = ({ index, id, projectId, color, name, type, value }: Props) => {
+  const [selectedDate, setSelectedDate] = useState<string | null>(null)
+  const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
+  const projects = useProjectsStore(s => s.projects)
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => {}
-  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => {}
+  const editCustomField = (newData: Partial<CustomField>) => {
+    const project = projects.find(p => p.id === projectId)
+    if (!project?.customFields) return
+
+    const newCustomFields = [...project.customFields]
+    const fieldIndex = newCustomFields.findIndex(f => f.id === id)
+    if (fieldIndex === -1) return
+
+    const prevField = newCustomFields[fieldIndex]
+    newCustomFields[fieldIndex] = { ...prevField, ...newData } as CustomField
+    setProjectAttributes(projectId, { customFields: newCustomFields })
+  }
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
+    editCustomField({ name: e.target.value })
+  }
+
+  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
+    if (type === 'static') {
+      editCustomField({ value: e.target.value as any })
+    }
+
+    // TODO: Handle daily type
+  }
 
   const currentValue = useMemo(() => {
     if (type === 'static') {
@@ -27,6 +54,10 @@ export const EditableField = ({ index, id, color, name, type, value }: Props) =>
         <TextInput value={name} onChange={handleNameChange} />
         <TextInput value={currentValue ?? ''} onChange={handleValueChange} />
       </div>
+
+      <button className='size-14 min-w-14 cursor-pointer rounded-full hover:bg-white/5 flex items-center justify-center button'>
+        <Icon name='trash' />
+      </button>
     </li>
   )
 }
