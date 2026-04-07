@@ -1,33 +1,52 @@
 import { Icon } from '@components'
+import { useProjectsStore } from '@store'
 import type { CustomField } from '@types'
-import { useMemo, useState } from 'react'
-import { useProjectsStore } from '@/store'
+import { useEffect, useMemo, useState } from 'react'
+import { useGlobalStateRefresh } from '@/hooks'
 import { DateSelector } from './date-selector'
 import { TextInput } from './text-input'
 
 type Props = {
   index: number
   projectId: string
-} & CustomField
+  fieldId: string
+}
 
-export const EditableField = ({ id, projectId, color, name, type, value }: Props) => {
+export const EditableField = ({ fieldId, projectId }: Props) => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
 
+  // Global store
   const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
   const projects = useProjectsStore(s => s.projects)
-
   const project = useMemo(() => projects.find(p => p.id === projectId), [projectId, projects])
 
-  const editCustomField = (newData: Partial<CustomField>) => {
+  // We need to keep the field in local state to ensure that we have the most up-to-date data, especially when the project data changes
+  const [field, setField] = useState<CustomField | null>(null)
+  useEffect(() => {
+    if (!field && project?.customFields) {
+      const foundField = project.customFields.find(f => f.id === fieldId)
+      foundField && setField(foundField)
+    }
+  }, [project, field])
+
+  useGlobalStateRefresh(latest => {
     if (!project?.customFields) return
 
     const newCustomFields = [...project.customFields]
-    const fieldIndex = newCustomFields.findIndex(f => f.id === id)
-    if (fieldIndex === -1) return
+    const fieldIndex = newCustomFields.findIndex(f => f.id === fieldId)
+    if (fieldIndex === -1 || !latest) return
 
-    const prevField = newCustomFields[fieldIndex]
-    newCustomFields[fieldIndex] = { ...prevField, ...newData } as CustomField
+    newCustomFields[fieldIndex] = latest
     setProjectAttributes(projectId, { customFields: newCustomFields })
+    console.log('State refreshed!')
+  }, field)
+
+  // Edits the custom field with the new data and updates the project in the store
+  const editCustomField = (newData: Partial<CustomField>) => {
+    setField(prev => {
+      if (!prev) return prev
+      return { ...prev, ...newData } as CustomField
+    })
   }
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
@@ -35,10 +54,15 @@ export const EditableField = ({ id, projectId, color, name, type, value }: Props
   }
 
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
-    if (type === 'static') {
+    // Handle static value change
+    if (field?.type === 'static') {
       editCustomField({ value: e.target.value as any })
-    } else if (selectedDate) {
-      const newValuesArray = [...value]
+      return
+    }
+
+    // Handle daily value change
+    if (selectedDate) {
+      const newValuesArray = [...(field?.value ?? [])]
       const selectedIndex = newValuesArray.findIndex(v => v.date === selectedDate)
       if (selectedIndex === -1) return
 
@@ -53,23 +77,23 @@ export const EditableField = ({ id, projectId, color, name, type, value }: Props
   }
 
   const currentValue = useMemo(() => {
-    if (type === 'static') {
-      return value
+    if (field?.type === 'static') {
+      return field?.value
     }
-    const foundValue = value.find(v => v.date === selectedDate)?.value
+    const foundValue = field?.value?.find(v => v.date === selectedDate)?.value
     return foundValue ?? null
-  }, [type, value, selectedDate])
+  }, [field, selectedDate])
 
   return (
     <li className='flex items-center gap-5 pr-5 pl-7 py-4 odd:bg-black/65 even:bg-black/10'>
-      <div style={{ background: color }} className='size-8 min-w-8 rounded-full' />
+      <div style={{ background: field?.color }} className='size-8 min-w-8 rounded-full' />
 
       <div className='flex flex-col gap-1.5 w-full'>
-        <TextInput className='text-xl' value={name} onChange={handleNameChange} />
+        <TextInput className='text-xl' value={field?.name ?? ''} onChange={handleNameChange} />
         <TextInput value={currentValue ?? ''} onChange={handleValueChange} />
       </div>
 
-      {type === 'daily' && (
+      {field?.type === 'daily' && (
         <DateSelector
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}

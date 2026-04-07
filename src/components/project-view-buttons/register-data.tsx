@@ -36,8 +36,8 @@ export const RegisterData = ({ projectId }: Props) => {
       {customFields && (
         <DialogWrapper open={isOpen} onOpenChange={handleOpenChange} title='Register Data' icon='chart'>
           <ul className='flex flex-col overflow-x-hidden overflow-y-scroll max-h-80 border border-white/15 rounded-l-xl'>
-            {customFields.map((field, index) => (
-              <EditableField {...field} index={index} key={field.id} projectId={projectId} />
+            {customFields.map(({ id }, index) => (
+              <EditableField index={index} key={id} fieldId={id} projectId={projectId} />
             ))}
           </ul>
         </DialogWrapper>
