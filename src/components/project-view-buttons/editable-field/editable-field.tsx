@@ -5,6 +5,7 @@ import { useGlobalStateRefresh } from '@hooks'
 import { useProjectsStore } from '@store'
 import type { CustomField } from '@types'
 import { useEffect, useMemo, useState } from 'react'
+import { ColorSelector } from './color-selector'
 import { DateSelector } from './date-selector'
 import { TextInput } from './text-input'
 
@@ -97,7 +98,7 @@ export const EditableField = ({ fieldId, projectId }: Props) => {
   }, [field, selectedDate])
 
   // If the project or its custom fields are not available, we can't render the editable field
-  if (!project?.customFields) return null
+  if (!project?.customFields || !field) return null
 
   return (
     <EditableFieldContext.Provider
@@ -113,7 +114,7 @@ export const EditableField = ({ fieldId, projectId }: Props) => {
       }}
     >
       <li className='flex items-center gap-5 pr-5 pl-7 py-4 odd:bg-black/50 even:bg-black/10'>
-        <div style={{ background: field?.color }} className='size-8 min-w-8 rounded-full' />
+        <ColorSelector />
 
         <div className='flex flex-col gap-1.5 w-full'>
           <TextInput
