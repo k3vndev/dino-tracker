@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 export const ValuesRepresentation = () => {
   const { field, startDate, endDate, selectedDate, setSelectedDate } = useEditableFieldContext()
   const inputRef = useRef<HTMLInputElement>(null)
+  const [pointerIsDown, setPointerIsDown] = useState(false)
 
   const arrangedValues: ArrangedValue[] | null = useMemo(() => {
     if (!field || field.type !== 'daily') return null
@@ -17,19 +18,21 @@ export const ValuesRepresentation = () => {
 
     // Determine the full date range to cover, considering both the values and the provided start/end dates
     let firstDate = sorted[0].date
-    if (startDate && DateTime.fromISO(startDate) < DateTime.fromISO(firstDate)) {
+    const dateIsBefore = (a: string, b: string) => DateTime.fromISO(a) < DateTime.fromISO(b)
+
+    if (startDate && dateIsBefore(startDate, firstDate)) {
       firstDate = startDate
     }
     let lastDate = sorted[sorted.length - 1].date
-    if (endDate && DateTime.fromISO(endDate) > DateTime.fromISO(lastDate)) {
+    if (endDate && dateIsBefore(endDate, lastDate)) {
       lastDate = endDate
     }
 
     // Also consider the selected date if it exists, to ensure it's included in the range
-    if (selectedDate && DateTime.fromISO(selectedDate) < DateTime.fromISO(firstDate)) {
+    if (selectedDate && dateIsBefore(selectedDate, firstDate)) {
       firstDate = selectedDate
     }
-    if (selectedDate && DateTime.fromISO(selectedDate) > DateTime.fromISO(lastDate)) {
+    if (selectedDate && dateIsBefore(lastDate, selectedDate)) {
       lastDate = selectedDate
     }
 
@@ -58,7 +61,7 @@ export const ValuesRepresentation = () => {
 
     const percentage = 100 / length
     let gradient = 'linear-gradient(to right'
-    const [colorFilled, colorEmpty] = ['#ffffff66', '#ffffff32']
+    const [colorFilled, colorEmpty] = ['#ffffffaa', '#ffffff24']
 
     for (let i = 0; i < length; i++) {
       const startPercent = (i * percentage).toFixed(2)
@@ -76,7 +79,7 @@ export const ValuesRepresentation = () => {
     const index = arrangedValues.findIndex(v => v.date === selectedDate)
     if (index === -1) return 0
 
-    return index / (arrangedValues.length - 1)
+    return (index / (arrangedValues.length - 1)) * 100
   }, [selectedDate, arrangedValues])
 
   const [rangeValue, setRangeValue] = useState(getRangeValue())
@@ -94,8 +97,11 @@ export const ValuesRepresentation = () => {
   }
 
   useEffect(() => {
-    setRangeValue(getRangeValue())
-  }, [selectedDate])
+    if (pointerIsDown) return
+
+    const newRangeValue = getRangeValue()
+    setRangeValue(newRangeValue)
+  }, [selectedDate, pointerIsDown])
 
   const inputHandlerLeft = useMemo(() => {
     if (!arrangedValues || arrangedValues.length === 0 || !inputRef.current) return undefined
@@ -104,6 +110,10 @@ export const ValuesRepresentation = () => {
     const percentage = (rangeValue / 100) * width
     return `${percentage}px`
   }, [rangeValue])
+
+  // Handlers to track pointer state for smoother interaction and to prevent unwanted transitions while dragging
+  const handleInputPointerDown = () => setPointerIsDown(true)
+  const handleInputPointerUp = () => setPointerIsDown(false)
 
   return (
     <div
@@ -117,10 +127,15 @@ export const ValuesRepresentation = () => {
         onChange={handleInputRangeChange}
         className='absolute w-full h-4 top-1/2 -translate-y-1/2 opacity-0 cursor-pointer'
         draggable={false}
+        onPointerDown={handleInputPointerDown}
+        onPointerUp={handleInputPointerUp}
       />
       <div
         className='bg-white size-4 absolute top-1/2 -translate-1/2 rounded-full pointer-events-none'
-        style={{ left: inputHandlerLeft }}
+        style={{
+          left: inputHandlerLeft,
+          transition: pointerIsDown ? 'none' : 'left 0.2s ease'
+        }}
       />
     </div>
   )
