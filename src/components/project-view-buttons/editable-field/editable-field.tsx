@@ -33,16 +33,20 @@ export const EditableField = ({ fieldId, projectId }: Props) => {
     }
   }, [project, field])
 
-  useGlobalStateRefresh(latest => {
-    if (!project?.customFields) return
+  useGlobalStateRefresh(
+    latest => {
+      if (!project?.customFields) return
 
-    const newCustomFields = [...project.customFields]
-    const fieldIndex = newCustomFields.findIndex(f => f.id === fieldId)
-    if (fieldIndex === -1 || !latest) return
+      const newCustomFields = [...project.customFields]
+      const fieldIndex = newCustomFields.findIndex(f => f.id === fieldId)
+      if (fieldIndex === -1 || !latest) return
 
-    newCustomFields[fieldIndex] = latest
-    setProjectAttributes(projectId, { customFields: newCustomFields })
-  }, field)
+      newCustomFields[fieldIndex] = latest
+      setProjectAttributes(projectId, { customFields: newCustomFields })
+    },
+    field,
+    100
+  )
 
   // Edits the custom field with the new data and updates the project in the store
   const editField = (newData: Partial<CustomField>) => {

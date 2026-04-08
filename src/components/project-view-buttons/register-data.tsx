@@ -1,11 +1,11 @@
 import { Button } from '@components'
-import { useMemo, useState } from 'react'
-import { CUSTOM_FIELD_DEFAULT_NAME } from '@/consts'
-import { useProjectsStore } from '@/store'
-import type { CustomField } from '@/types'
-import { getRandomColor } from '@/utils'
+import { CUSTOM_FIELD_DEFAULT_NAME } from '@consts'
+import { useProjectsStore } from '@store'
+import type { CustomField } from '@types'
+import { getRandomColor } from '@utils'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { DialogWrapper } from '../dialog-wrapper'
-import { EditableField } from './editable-field/editable-field'
+import { EditableField } from './editable-field'
 
 interface Props {
   projectId: string
@@ -15,6 +15,8 @@ export const RegisterData = ({ projectId }: Props) => {
   const [isOpen, setIsOpen] = useState(false)
   const projects = useProjectsStore(s => s.projects)
   const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
+  const [buttonsDisabled, setButtonsDisabled] = useState(false)
+  const disabledTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const customFields = useMemo(() => {
     const thisProject = projects.find(p => p.id === projectId)
@@ -23,15 +25,12 @@ export const RegisterData = ({ projectId }: Props) => {
     return thisProject.customFields ?? []
   }, [projectId, projects])
 
-  const handleClick = () => {
-    setIsOpen(true)
-  }
-
-  const handleOpenChange = (open: boolean) => {
-    setIsOpen(open)
-  }
+  const handleClickMainButton = () => setIsOpen(true)
+  const handleOpenChange = (open: boolean) => setIsOpen(open)
 
   const addNewField = (type: 'daily' | 'static') => {
+    if (buttonsDisabled) return
+
     const id = crypto.randomUUID()
     const color = getRandomColor()
     const name = CUSTOM_FIELD_DEFAULT_NAME
@@ -40,16 +39,36 @@ export const RegisterData = ({ projectId }: Props) => {
 
     const updatedFields = customFields ? [newField, ...customFields] : [newField]
     setProjectAttributes(projectId, { customFields: updatedFields })
+
+    // Disable buttons for 250ms to prevent rapid clicks
+    setButtonsDisabled(true)
+    disabledTimeoutRef.current = setTimeout(() => {
+      setButtonsDisabled(false)
+    }, 250)
   }
+
+  useEffect(() => {
+    return () => {
+      if (disabledTimeoutRef.current) {
+        clearTimeout(disabledTimeoutRef.current)
+      }
+    }
+  }, [])
 
   return (
     <>
-      <Button icon='chart' primary className='relative' onClick={handleClick}>
+      <Button icon='chart' primary className='relative' onClick={handleClickMainButton}>
         Register Data
       </Button>
 
       {customFields && (
-        <DialogWrapper open={isOpen} onOpenChange={handleOpenChange} title='Register Data' icon='chart'>
+        <DialogWrapper
+          open={isOpen}
+          onOpenChange={handleOpenChange}
+          title='Register Data'
+          icon='chart'
+          ariaDescription="Register your data by creating custom fields. You can create daily fields that allow you to input values for specific dates, or static fields for information that doesn't change over time."
+        >
           <ul className='flex flex-col overflow-x-hidden overflow-y-scroll max-h-80 border border-white/15 rounded-l-xl'>
             {customFields.map(({ id }, index) => (
               <EditableField index={index} key={id} fieldId={id} projectId={projectId} />
@@ -57,10 +76,10 @@ export const RegisterData = ({ projectId }: Props) => {
           </ul>
 
           <div className='flex items-center gap-4'>
-            <Button icon='chart' primary onClick={() => addNewField('daily')}>
+            <Button icon='chart' primary onClick={() => addNewField('daily')} disabled={buttonsDisabled}>
               New Daily
             </Button>
-            <Button icon='hash' primary onClick={() => addNewField('static')}>
+            <Button icon='hash' primary onClick={() => addNewField('static')} disabled={buttonsDisabled}>
               New Static
             </Button>
           </div>
