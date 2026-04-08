@@ -4,6 +4,7 @@ import { EditableFieldContext } from '@context'
 import { useGlobalStateRefresh } from '@hooks'
 import { useProjectsStore } from '@store'
 import type { CustomField } from '@types'
+import { DateTime } from 'luxon'
 import { useEffect, useMemo, useState } from 'react'
 import { ColorSelector } from './color-selector'
 import { DateSelector } from './date-selector'
@@ -54,10 +55,7 @@ export const EditableField = ({ fieldId, projectId }: Props) => {
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
     const { value } = e.target
     const trimmedValue = value.trim()
-
-    if (trimmedValue !== value) {
-      editField({ name: trimmedValue })
-    }
+    editField({ name: trimmedValue })
   }
 
   const handleNameInputBlur = () => {
@@ -77,13 +75,23 @@ export const EditableField = ({ fieldId, projectId }: Props) => {
     if (selectedDate) {
       const newValuesArray = [...(field?.value ?? [])]
       const selectedIndex = newValuesArray.findIndex(v => v.date === selectedDate)
-      if (selectedIndex === -1) return
 
+      // Validate that the input value is a number before proceeding
       const numericalValue = parseFloat(e.target.value)
       if (Number.isNaN(numericalValue)) return
 
-      const newValue = { date: selectedDate, value: numericalValue }
-      newValuesArray[selectedIndex] = newValue
+      if (selectedIndex === -1) {
+        // A new entry is needed for the selected date
+        newValuesArray.push({ date: selectedDate, value: numericalValue })
+        // Ensure the array remains sorted by date after adding the new entry
+        newValuesArray.sort(
+          (a, b) => DateTime.fromISO(a.date).toMillis() - DateTime.fromISO(b.date).toMillis()
+        )
+      } else {
+        // An existing entry for the selected date should be updated
+        const newValue = { date: selectedDate, value: numericalValue }
+        newValuesArray[selectedIndex] = newValue
+      }
 
       editField({ value: newValuesArray })
     }

@@ -3,7 +3,14 @@ import { DateTime } from 'luxon'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 export const ValuesRepresentation = () => {
-  const { field, startDate, endDate, selectedDate, setSelectedDate } = useEditableFieldContext()
+  const {
+    field,
+    startDate: projectStartDate,
+    endDate: projectEndDate,
+    selectedDate,
+    setSelectedDate
+  } = useEditableFieldContext()
+
   const inputRef = useRef<HTMLInputElement>(null)
   const [pointerIsDown, setPointerIsDown] = useState(false)
 
@@ -17,32 +24,23 @@ export const ValuesRepresentation = () => {
     )
 
     // Determine the full date range to cover, considering both the values and the provided start/end dates
-    let firstDate = sorted[0].date
-    const dateIsBefore = (a: string, b: string) => DateTime.fromISO(a) < DateTime.fromISO(b)
+    const sortDates = (...dates: (string | undefined)[]) =>
+      dates.filter(d => !!d).sort((a, b) => DateTime.fromISO(a!).toMillis() - DateTime.fromISO(b!).toMillis())
 
-    if (startDate && dateIsBefore(startDate, firstDate)) {
-      firstDate = startDate
-    }
-    let lastDate = sorted[sorted.length - 1].date
-    if (endDate && dateIsBefore(endDate, lastDate)) {
-      lastDate = endDate
-    }
+    const arrayFirstDate = sorted[0]?.date
+    const arrayLastDate = sorted[sorted.length - 1]?.date
 
-    // Also consider the selected date if it exists, to ensure it's included in the range
-    if (selectedDate && dateIsBefore(selectedDate, firstDate)) {
-      firstDate = selectedDate
-    }
-    if (selectedDate && dateIsBefore(lastDate, selectedDate)) {
-      lastDate = selectedDate
-    }
+    const sortedStartDates = sortDates(arrayFirstDate, projectStartDate, selectedDate!)
+    const sortedEndDates = sortDates(arrayLastDate, projectEndDate, selectedDate!)
 
     // Create a set of the dates that have values for O(1) lookup
     const valuesSet = new Set(valuesArray.map(v => v.date))
-    const initialDate = DateTime.fromISO(firstDate)
+    const initialDate = DateTime.fromISO(sortedStartDates[0]!)
+    const lastDate = DateTime.fromISO(sortedEndDates[sortedEndDates.length - 1]!)
 
     // Iterate through the full date range and create an array indicating whether each date has a value
     const arranged: ArrangedValue[] = []
-    for (let dt = initialDate; dt <= DateTime.fromISO(lastDate); dt = dt.plus({ days: 1 })) {
+    for (let dt = initialDate; dt <= lastDate; dt = dt.plus({ days: 1 })) {
       arranged.push({
         date: dt.toISODate()!,
         hasValue: valuesSet.has(dt.toISODate()!)
@@ -50,7 +48,7 @@ export const ValuesRepresentation = () => {
     }
 
     return arranged
-  }, [field, startDate, endDate, selectedDate])
+  }, [field, projectStartDate, projectEndDate, selectedDate])
 
   // Background gradient that visually represents the presence of values across the date range
   const backgroundGradient = useMemo(() => {
@@ -114,6 +112,11 @@ export const ValuesRepresentation = () => {
   // Handlers to track pointer state for smoother interaction and to prevent unwanted transitions while dragging
   const handleInputPointerDown = () => setPointerIsDown(true)
   const handleInputPointerUp = () => setPointerIsDown(false)
+
+  // If there are no values or not enough values to create a meaningful representation, render a placeholder div
+  if (!arrangedValues?.length || arrangedValues.length < 2 || Number.isNaN(rangeValue)) {
+    return <div className='w-full h-1' />
+  }
 
   return (
     <div
