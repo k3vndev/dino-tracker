@@ -12,6 +12,11 @@ export const PROJECT_STATUSES = {
   Canceled: '#FF5E2D'
 } as const
 
+export const PROJECT_STATUSES_ARRAY = Object.entries(PROJECT_STATUSES).map(([status, color]) => ({
+  status,
+  color
+}))
+
 export const PROJECT_DEFAULT_VALUES = {
   name: 'My New Project',
   clientName: "My Client's Name",

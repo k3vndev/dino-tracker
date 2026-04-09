@@ -94,7 +94,7 @@ body {
 }
 
 .popover-menu {
-  @apply bg-black/60 backdrop-blur-lg text-white border border-white/20;
+  @apply bg-black/70 backdrop-blur-lg text-white border border-white/20;
 }
 
 @keyframes input-border {
