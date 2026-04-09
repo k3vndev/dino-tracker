@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import { HexColorPicker } from 'react-colorful'
 
 export const ColorSelector = () => {
-  const { field, setField } = useEditableFieldContext()
+  const { field, setField, isBeingDeleted } = useEditableFieldContext()
   const [pickerColor, setPickerColor] = useState(field?.color!)
   const [inputValue, setInputValue] = useState(pickerColor)
 
@@ -49,6 +49,7 @@ export const ColorSelector = () => {
         style={{ background: field?.color }}
         className='size-8 min-w-8 rounded-full cursor-pointer button flex items-center justify-center group'
         title='Change color'
+        disabled={isBeingDeleted}
       >
         <Icon
           name='palette'

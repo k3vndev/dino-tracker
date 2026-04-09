@@ -10,6 +10,7 @@ interface EditableFieldContextType {
   fieldId: string
   field: CustomField | null
   setField: (field: CustomField) => void
+  isBeingDeleted: boolean
 }
 
 export const EditableFieldContext = createContext<EditableFieldContextType>({
@@ -18,7 +19,8 @@ export const EditableFieldContext = createContext<EditableFieldContextType>({
   customFields: [],
   fieldId: '',
   field: null,
-  setField: () => {}
+  setField: () => {},
+  isBeingDeleted: false
 })
 
 export const useEditableFieldContext = () => useContext(EditableFieldContext)

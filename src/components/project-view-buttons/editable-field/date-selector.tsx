@@ -6,7 +6,7 @@ import { useEffect, useMemo } from 'react'
 import { ValuesRepresentation } from './values-representation'
 
 export const DateSelector = () => {
-  const { selectedDate, setSelectedDate, startDate, endDate } = useEditableFieldContext()
+  const { selectedDate, setSelectedDate, startDate, endDate, isBeingDeleted } = useEditableFieldContext()
 
   const dateDisplay = useMemo(() => {
     const current = DateTime.fromISO(selectedDate ?? '')
@@ -35,8 +35,10 @@ export const DateSelector = () => {
   const nextDay = () => changeDate(1)
   const prevDay = () => changeDate(-1)
 
+  const disabledStyle = isBeingDeleted ? 'opacity-50 pointer-events-none' : ''
+
   return (
-    <div className='flex flex-col min-w-fit items-center gap-1'>
+    <div className={`flex flex-col min-w-fit items-center gap-1 ${disabledStyle}`}>
       <div className='flex items-center justify-center gap-1'>
         <ChangeDateButton className='rotate-180' onClick={prevDay} />
         {dateDisplay ? (

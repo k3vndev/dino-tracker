@@ -18,12 +18,16 @@ export const RegisterData = ({ projectId }: Props) => {
   const [buttonsDisabled, setButtonsDisabled] = useState(false)
   const disabledTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
+  const [deletingFieldsIds, setDeletingFieldsIds] = useState<string[]>([])
+
   const customFields = useMemo(() => {
     const thisProject = projects.find(p => p.id === projectId)
     if (!thisProject) return null
 
     return thisProject.customFields ?? []
   }, [projectId, projects])
+
+  const project = useMemo(() => projects.find(p => p.id === projectId), [projectId, projects])
 
   const handleClickMainButton = () => setIsOpen(true)
   const handleOpenChange = (open: boolean) => setIsOpen(open)
@@ -55,6 +59,16 @@ export const RegisterData = ({ projectId }: Props) => {
     }
   }, [])
 
+  useEffect(() => {
+    if (deletingFieldsIds.length > 0 && !isOpen) {
+      // Delete fields
+      const updatedFields = customFields?.filter(field => !deletingFieldsIds.includes(field.id)) ?? []
+      setProjectAttributes(projectId, { customFields: updatedFields })
+
+      setDeletingFieldsIds([])
+    }
+  }, [deletingFieldsIds, isOpen])
+
   return (
     <>
       <Button icon='chart' primary className='relative' onClick={handleClickMainButton}>
@@ -71,7 +85,14 @@ export const RegisterData = ({ projectId }: Props) => {
         >
           <ul className='flex flex-col overflow-x-hidden overflow-y-scroll max-h-80 border border-white/15 rounded-l-xl'>
             {customFields.map(({ id }, index) => (
-              <EditableField index={index} key={id} fieldId={id} projectId={projectId} />
+              <EditableField
+                index={index}
+                key={id}
+                fieldId={id}
+                project={project}
+                deletingFieldsIds={deletingFieldsIds}
+                setDeletingFieldsIds={setDeletingFieldsIds}
+              />
             ))}
           </ul>
 

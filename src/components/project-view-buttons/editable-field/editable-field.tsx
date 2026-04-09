@@ -3,7 +3,7 @@ import { CUSTOM_FIELD_DEFAULT_NAME } from '@consts'
 import { EditableFieldContext } from '@context'
 import { useGlobalStateRefresh } from '@hooks'
 import { useProjectsStore } from '@store'
-import type { CustomField } from '@types'
+import type { CustomField, IconName, Project } from '@types'
 import { DateTime } from 'luxon'
 import { useEffect, useMemo, useState } from 'react'
 import { ColorSelector } from './color-selector'
@@ -12,17 +12,17 @@ import { TextInput } from './text-input'
 
 type Props = {
   index: number
-  projectId: string
   fieldId: string
+  project?: Project
+  deletingFieldsIds: string[]
+  setDeletingFieldsIds: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-export const EditableField = ({ fieldId, projectId }: Props) => {
+export const EditableField = ({ fieldId, project, deletingFieldsIds, setDeletingFieldsIds }: Props) => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
 
   // Global store
   const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
-  const projects = useProjectsStore(s => s.projects)
-  const project = useMemo(() => projects.find(p => p.id === projectId), [projectId, projects])
 
   // We need to keep the field in local state to ensure that we have the most up-to-date data, especially when the project data changes
   const [field, setField] = useState<CustomField | null>(null)
@@ -42,10 +42,10 @@ export const EditableField = ({ fieldId, projectId }: Props) => {
       if (fieldIndex === -1 || !latest) return
 
       newCustomFields[fieldIndex] = latest
-      setProjectAttributes(projectId, { customFields: newCustomFields })
+      setProjectAttributes(project.id, { customFields: newCustomFields })
     },
     field,
-    100
+    250
   )
 
   // Edits the custom field with the new data and updates the project in the store
@@ -109,6 +109,34 @@ export const EditableField = ({ fieldId, projectId }: Props) => {
     return foundValue ?? null
   }, [field, selectedDate])
 
+  const toggleDelete = () => {
+    if (!project) return
+
+    const idsSet = new Set(deletingFieldsIds)
+    if (idsSet.has(fieldId)) {
+      idsSet.delete(fieldId)
+    } else {
+      idsSet.add(fieldId)
+    }
+
+    setDeletingFieldsIds(Array.from(idsSet))
+  }
+
+  const isBeingDeleted = useMemo(() => deletingFieldsIds.includes(fieldId), [deletingFieldsIds, fieldId])
+  const classNameStyle = isBeingDeleted
+    ? 'odd:bg-red-500/10 even:bg-red-500/4 ring odd:ring-red-400/20 even:ring-red-400/40'
+    : 'odd:bg-black/50 even:bg-black/10'
+
+  const icon: { name: IconName; title: string } = isBeingDeleted
+    ? {
+        name: 'cancel',
+        title: 'Cancel deletion'
+      }
+    : {
+        name: 'trash',
+        title: 'Delete field'
+      }
+
   // If the project or its custom fields are not available, we can't render the editable field
   if (!project?.customFields || !field) return null
 
@@ -122,10 +150,11 @@ export const EditableField = ({ fieldId, projectId }: Props) => {
         endDate: project.endDate,
         fieldId,
         field,
-        setField
+        setField,
+        isBeingDeleted
       }}
     >
-      <li className='flex items-center gap-5 pr-5 pl-7 py-4 odd:bg-black/50 even:bg-black/10'>
+      <li className={`flex items-center gap-5 pr-5 pl-7 py-4 ${classNameStyle}`}>
         <ColorSelector />
 
         <div className='flex flex-col gap-1.5 w-full'>
@@ -141,8 +170,11 @@ export const EditableField = ({ fieldId, projectId }: Props) => {
 
         {field?.type === 'daily' && project?.customFields && <DateSelector />}
 
-        <button className='size-14 min-w-14 cursor-pointer rounded-full hover:bg-white/5 flex items-center justify-center button'>
-          <Icon name='trash' />
+        <button
+          className='size-14 min-w-14 cursor-pointer rounded-full hover:bg-white/5 flex items-center justify-center button group'
+          onClick={toggleDelete}
+        >
+          <Icon className='opacity-75 group-hover:opacity-100 transition' {...icon} />
         </button>
       </li>
     </EditableFieldContext.Provider>
