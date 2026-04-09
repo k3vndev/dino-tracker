@@ -1,13 +1,4 @@
-import {
-  Select as SelectComponent,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from '@components/ui'
-
+import { DropDownSelect } from '@components'
 import { PROJECT_STATUSES, PROJECT_STATUSES_ARRAY } from '@consts'
 import { useProjectsStore } from '@store'
 import type { ProjectStatus } from '@types'
@@ -50,26 +41,19 @@ export const StatusChip = ({ status, showBorder = false, className, editable = f
 
       {/* Select component */}
       {editable && (
-        <SelectComponent defaultValue={String(status)} onValueChange={handleChange}>
-          <SelectTrigger
-            className='cursor-pointer absolute z-10 size-full max-h-full left-0 top-0 rounded-none opacity-0'
-            onClick={e => e.stopPropagation()}
-          >
-            <SelectValue className='hidden' />
-          </SelectTrigger>
-          <SelectContent position='popper' className='popover-menu'>
-            <SelectGroup>
-              <SelectLabel className='text-white/50 text-xs'>Select status</SelectLabel>
-
-              {PROJECT_STATUSES_ARRAY.map(({ status, color }, index) => (
-                <SelectItem key={index} value={status} className='cursor-pointer'>
-                  <div className='size-4 rounded-full border border-white/75' style={{ background: color }} />
-                  <span>{status}</span>
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </SelectComponent>
+        <DropDownSelect
+          defaultValue={status}
+          onValueChange={handleChange}
+          label='Change status'
+          items={PROJECT_STATUSES_ARRAY}
+          valuesGetter={({ status }) => status}
+          elementsRenderer={({ status, color }) => (
+            <>
+              <div className='size-4 rounded-full border border-white/75' style={{ background: color }} />
+              <span>{status}</span>
+            </>
+          )}
+        />
       )}
     </div>
   )

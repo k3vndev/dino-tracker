@@ -4,13 +4,14 @@ import { create } from 'zustand'
 import { MOCK_PROJECTS } from '@/mock-projects'
 
 type ProjectKey = keyof Omit<Project, 'id'>
+type Attributes = Partial<Record<ProjectKey, Project[ProjectKey]>>
 
 interface ProjectsStore {
   projects: Project[]
   setProjects: (projects: ValueOrCallback<Project[]>) => void
 
   /** A helper function to update specific attributes of a project by its ID. */
-  setProjectAttributes: (id: string, attributes: Partial<Record<ProjectKey, Project[ProjectKey]>>) => void
+  setProjectAttributes: (id: string, attributes: Attributes | ((project: Project) => Attributes)) => void
 }
 
 export const useProjectsStore = create<ProjectsStore>(set => {
@@ -31,12 +32,20 @@ export const useProjectsStore = create<ProjectsStore>(set => {
           return {}
         }
 
+        // Handle attributes
+        let attr: Attributes
+        if (typeof attributes === 'function') {
+          attr = attributes(state.projects[projectIndex])
+        } else {
+          attr = attributes
+        }
+
         // Update the specific project with the new attributes while keeping the rest of its data intact
         const updatedProjects = [...prev]
 
         updatedProjects[projectIndex] = {
           ...updatedProjects[projectIndex],
-          ...(attributes as Partial<Omit<Project, 'id'>>)
+          ...(attr as Partial<Omit<Project, 'id'>>)
         }
         return { projects: updatedProjects }
       })
