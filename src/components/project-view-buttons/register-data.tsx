@@ -84,16 +84,22 @@ export const RegisterData = ({ projectId }: Props) => {
           ariaDescription="Register your data by creating custom fields. You can create daily fields that allow you to input values for specific dates, or static fields for information that doesn't change over time."
         >
           <ul className='flex flex-col overflow-x-hidden overflow-y-scroll max-h-80 border border-white/15 rounded-l-xl'>
-            {customFields.map(({ id }, index) => (
-              <EditableField
-                index={index}
-                key={id}
-                fieldId={id}
-                project={project}
-                deletingFieldsIds={deletingFieldsIds}
-                setDeletingFieldsIds={setDeletingFieldsIds}
-              />
-            ))}
+            {customFields.length ? (
+              customFields.map(({ id }, index) => (
+                <EditableField
+                  index={index}
+                  key={id}
+                  fieldId={id}
+                  project={project}
+                  deletingFieldsIds={deletingFieldsIds}
+                  setDeletingFieldsIds={setDeletingFieldsIds}
+                />
+              ))
+            ) : (
+              <div className='text-white/50 text-center py-12 px-4 bg-white/5 font-plus'>
+                No custom fields yet. Create one by clicking the buttons below!
+              </div>
+            )}
           </ul>
 
           <div className='flex items-center gap-4'>
