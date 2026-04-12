@@ -1,3 +1,3 @@
 export * from './data-display'
-export * from './error-card'
+export * from './empty-chart'
 export * from './static'

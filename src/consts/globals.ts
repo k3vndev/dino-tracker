@@ -12,6 +12,11 @@ export const PROJECT_STATUSES = {
   Canceled: '#FF5E2D'
 } as const
 
+export const PROJECT_STATUSES_ARRAY = Object.entries(PROJECT_STATUSES).map(([status, color]) => ({
+  status,
+  color
+}))
+
 export const PROJECT_DEFAULT_VALUES = {
   name: 'My New Project',
   clientName: "My Client's Name",
@@ -25,3 +30,5 @@ export const NO_DATA_LABEL = 'N/D'
 export const DEFAULT_COLOR = '#5A9BF8'
 
 export const DATA_DISPLAY_DEFAULT_TITLE = 'My Personalized Chart'
+
+export const CUSTOM_FIELD_DEFAULT_NAME = 'Untitled Field'

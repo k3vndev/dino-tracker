@@ -1,3 +1,4 @@
 export * from './data-display'
 export * from './date-picker'
+export * from './editable-field'
 export * from './projects'

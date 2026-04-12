@@ -15,10 +15,11 @@ import { useMemo } from 'react'
 
 interface Props {
   onOpenChange: (open: boolean) => void
+  isOpen: boolean
 }
 
-export const AddFieldButton = ({ onOpenChange }: Props) => {
-  const { projectId, type: projectType, fieldIds, getFieldColor, updateField } = useDataDisplayContext()
+export const AddFieldButton = ({ onOpenChange, isOpen }: Props) => {
+  const { projectId, type: projectType, fieldIds, updateField } = useDataDisplayContext()
 
   const projects = useProjectsStore(s => s.projects)
 
@@ -62,8 +63,12 @@ export const AddFieldButton = ({ onOpenChange }: Props) => {
 
   const buttonStyle = toAddFieldsCount > 0 ? '' : 'opacity-40 pointer-events-none'
 
+  const addField = (field: CustomField) => {
+    updateField(field, 'add')
+  }
+
   return (
-    <DropdownMenu onOpenChange={onOpenChange}>
+    <DropdownMenu onOpenChange={onOpenChange} open={isOpen}>
       <DropdownMenuTrigger disabled={toAddFieldsCount === 0}>
         <div
           className={`border border-white/15 rounded-full px-2.5 py-0.5 flex items-center gap-0.5 bg-white/5 button ${buttonStyle}`}
@@ -75,34 +80,28 @@ export const AddFieldButton = ({ onOpenChange }: Props) => {
 
       {potentialFieldsToAdd && (
         <DropdownMenuContent className='popover-menu'>
-          {Object.entries(potentialFieldsToAdd).map(([fieldType, fields]) => {
-            const capitalizedType = capitalizeFirst(fieldType)
-
-            if (!fields.length) return null
-
-            return (
+          {Object.entries(potentialFieldsToAdd).map(([fieldType, fields]) =>
+            fields.length ? (
               <DropdownMenuGroup key={fieldType}>
-                <DropdownMenuLabel className='text-white/50 text-xs'>{capitalizedType}</DropdownMenuLabel>
-                {(fields as CustomField[]).map(field => {
-                  const color = getFieldColor(field.id)
-
-                  return (
-                    <DropdownMenuItem
-                      key={field.id}
-                      onSelect={() => updateField(field, 'add')}
-                      className='cursor-pointer'
-                    >
-                      <div
-                        style={{ backgroundColor: color }}
-                        className='size-3 min-w-3 aspect-square rounded-full'
-                      />
-                      <span>{field.name}</span>
-                    </DropdownMenuItem>
-                  )
-                })}
+                <DropdownMenuLabel className='text-white/50 text-xs'>
+                  {capitalizeFirst(fieldType)}
+                </DropdownMenuLabel>
+                {(fields as CustomField[]).map(field => (
+                  <DropdownMenuItem
+                    key={field.id}
+                    onSelect={() => addField(field)}
+                    className='cursor-pointer'
+                  >
+                    <div
+                      style={{ backgroundColor: field.color }}
+                      className='size-3 min-w-3 aspect-square rounded-full'
+                    />
+                    <span>{field.name}</span>
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuGroup>
-            )
-          })}
+            ) : null
+          )}
         </DropdownMenuContent>
       )}
     </DropdownMenu>

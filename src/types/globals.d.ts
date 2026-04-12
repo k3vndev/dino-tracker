@@ -38,7 +38,7 @@ export type CustomField = StaticCustomField | DailyCustomField
 interface BaseCustomField {
   name: string
   id: string
-  color?: string
+  color: string
 }
 
 /** Represents a static custom field, which holds a single numeric value */

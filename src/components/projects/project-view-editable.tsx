@@ -5,7 +5,7 @@ import { useProjectsStore } from '@store'
 import type { Project } from '@types'
 import { getProjectBgGradient } from '@utils'
 import { useMemo } from 'react'
-import { DatePicker } from './date-picker/index'
+import { DatePicker } from './date-picker'
 import { Payment } from './payment'
 import { StatusChip } from './status-chip'
 
@@ -57,7 +57,7 @@ export const ProjectViewEditable = ({
           />
         </div>
 
-        <StatusChip status={status} showBorder />
+        <StatusChip status={status} projectId={id} showBorder editable />
       </div>
 
       {/* Footer section */}

@@ -4,7 +4,6 @@ import type { CustomField } from '@types'
 import { DateTime } from 'luxon'
 import { useMemo } from 'react'
 import { Bar, BarChart as BarChartComponent, CartesianGrid, XAxis, YAxis } from 'recharts'
-import { ErrorCard } from '../error-card'
 
 export type FieldsMap = Record<string, Omit<CustomField, 'id'>>
 export type ChartData = Record<string, number | string>
@@ -50,7 +49,7 @@ export const BarChart = ({ timeSpan }: Props) => {
   const fieldKeys = useMemo(() => (fieldsMap ? Object.keys(fieldsMap) : null), [fieldsMap])
 
   if (!fields || !fieldsMap || !chartData || !fieldKeys) {
-    return <ErrorCard />
+    return null
   }
 
   const xAxisTickFormatter = (value: string) => {
