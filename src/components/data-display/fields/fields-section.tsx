@@ -5,12 +5,13 @@ import { AddFieldButton } from './add-field-button'
 import { FieldTile } from './field-tile'
 
 export const Fields = () => {
-  const { fieldsMap, fieldIds } = useDataDisplayContext()
+  const { fieldIds } = useDataDisplayContext()
   const addModalIsOpenRef = useRef(false)
   const elementId = useId()
 
   // Tracks if the user is currently editing fields. Controlled by clicks inside/outside the component and the add field modal
   const [isEditing, setIsEditing] = useState(false)
+  const [modalIsOpen, setModalIsOpen] = useState(false)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -31,17 +32,21 @@ export const Fields = () => {
     return () => document.removeEventListener('click', handleClickOutside)
   }, [isEditing, elementId])
 
-  if (!fieldIds || !fieldsMap) {
-    return null
-  }
-
   const handleClick = () => {
-    if (isEditing) return
+    setModalIsOpen(false)
     setIsEditing(true)
+
+    requestAnimationFrame(() => {
+      if (!fieldIds?.length) {
+        setModalIsOpen(true)
+      }
+    })
   }
 
-  const setAddModalIsOpen = (isOpen: boolean) => {
+  const onModalOpenChange = (isOpen: boolean) => {
     addModalIsOpenRef.current = isOpen
+    setModalIsOpen(isOpen)
+
     if (!isOpen) {
       setIsEditing(false)
     }
@@ -52,10 +57,12 @@ export const Fields = () => {
   return (
     <div id={elementId} className={`relative pr-2 w-fit group ${style}`} onClick={handleClick}>
       <ul className='flex flex-wrap gap-x-2 gap-y-2'>
-        {fieldIds.map(key => (
-          <FieldTile fieldId={key} isEditing={isEditing} key={key} />
-        ))}
-        {isEditing && <AddFieldButton onOpenChange={setAddModalIsOpen} />}
+        {fieldIds?.length ? (
+          fieldIds.map(key => <FieldTile fieldId={key} isEditing={isEditing} key={key} />)
+        ) : (
+          <span className='font-plus text-white/60 select-none'>Click to add fields</span>
+        )}
+        {isEditing && <AddFieldButton onOpenChange={onModalOpenChange} isOpen={modalIsOpen} />}
       </ul>
 
       {!isEditing && <EditableTooltip />}

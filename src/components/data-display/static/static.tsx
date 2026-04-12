@@ -2,7 +2,7 @@ import { useDataDisplayContext } from '@context'
 import { capitalizeFirst } from '@utils'
 import { useMemo } from 'react'
 import { DataDisplayHeader } from '../data-display-header'
-import { ErrorCard } from '../error-card'
+import { EmptyChart } from '../empty-chart'
 import { PieChart } from './pie-chart'
 
 export const Static = () => {
@@ -35,10 +35,6 @@ export const Static = () => {
     return sum
   }, [fields, optionIndex])
 
-  if (!fields || fields.length === 0) {
-    return <ErrorCard />
-  }
-
   const displayWordMap: Record<StaticOperation, null | string> = {
     comparation: null,
     addition: 'Total',
@@ -54,13 +50,17 @@ export const Static = () => {
         selectLabel='Select operation'
       />
 
-      {selectedOperation === 'comparation' || staticValue === null ? (
-        <PieChart operation={selectedOperation} />
+      {fields?.length ? (
+        selectedOperation === 'comparation' || staticValue === null ? (
+          <PieChart operation={selectedOperation} />
+        ) : (
+          <div className='flex flex-col items-center justify-center gap-0.5 py-5'>
+            <h4 className='text-6xl font-semibold'>{staticValue}</h4>
+            <span className='text-2xl text-white/65'>{displayWordMap[selectedOperation]} value</span>
+          </div>
+        )
       ) : (
-        <div className='flex flex-col items-center justify-center gap-0.5 py-5'>
-          <h4 className='text-6xl font-semibold'>{staticValue}</h4>
-          <span className='text-2xl text-white/65'>{displayWordMap[selectedOperation]} value</span>
-        </div>
+        <EmptyChart icon='hash' />
       )}
     </div>
   )

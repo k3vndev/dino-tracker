@@ -121,13 +121,7 @@ export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) 
       }}
     >
       <article className='w-full bg-linear-to-t from-black/90 to-black border border-white/15 rounded-xl px-5 py-4'>
-        {!validatedFields ? (
-          <span>No data available due to invalid configuration.</span>
-        ) : isStatic ? (
-          <Static />
-        ) : (
-          <Daily />
-        )}
+        {isStatic ? <Static /> : <Daily />}
       </article>
     </DataDisplayContext.Provider>
   )
