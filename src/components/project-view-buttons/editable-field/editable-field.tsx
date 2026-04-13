@@ -1,7 +1,7 @@
 import { Icon } from '@components'
 import { CUSTOM_FIELD_DEFAULT_NAME } from '@consts'
 import { EditableFieldContext } from '@context'
-import { useGlobalStateRefresh } from '@hooks'
+import { useGlobalStateRefresh, useResponsiveness } from '@hooks'
 import { useProjectsStore } from '@store'
 import type { CustomField, IconName, Project } from '@types'
 import { DateTime } from 'luxon'
@@ -20,6 +20,7 @@ type Props = {
 
 export const EditableField = ({ fieldId, project, deletingFieldsIds, setDeletingFieldsIds }: Props) => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
+  const { media } = useResponsiveness()
 
   // Global store
   const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
@@ -125,7 +126,7 @@ export const EditableField = ({ fieldId, project, deletingFieldsIds, setDeleting
   const isBeingDeleted = useMemo(() => deletingFieldsIds.includes(fieldId), [deletingFieldsIds, fieldId])
   const classNameStyle = isBeingDeleted
     ? 'odd:bg-red-500/10 even:bg-red-500/4 ring odd:ring-red-400/20 even:ring-red-400/40'
-    : 'odd:bg-black/50 even:bg-black/10'
+    : 'odd:bg-black/60 even:bg-black/10'
 
   const icon: { name: IconName; title: string } = isBeingDeleted
     ? {
@@ -154,28 +155,49 @@ export const EditableField = ({ fieldId, project, deletingFieldsIds, setDeleting
         isBeingDeleted
       }}
     >
-      <li className={`flex items-center gap-5 pr-5 pl-7 py-4 ${classNameStyle}`}>
-        <ColorSelector />
+      <li className={`flex flex-col items-center gap-5 pr-5 pl-7 py-4 ${classNameStyle}`}>
+        {/* Title and value inputs */}
+        {!media.sm && (
+          <div className='flex flex-col gap-1.5 w-full'>
+            <TextInput
+              className='text-xl'
+              value={field?.name}
+              onChange={handleNameChange}
+              placeholder='Name'
+              onBlur={handleNameInputBlur}
+            />
+            <TextInput value={currentValue ?? ''} onChange={handleValueChange} placeholder='Value' />
+          </div>
+        )}
 
-        <div className='flex flex-col gap-1.5 w-full'>
-          <TextInput
-            className='text-xl'
-            value={field?.name}
-            onChange={handleNameChange}
-            placeholder='Name'
-            onBlur={handleNameInputBlur}
-          />
-          <TextInput value={currentValue ?? ''} onChange={handleValueChange} placeholder='Value' />
+        <div className='flex items-center gap-5 w-full justify-between'>
+          <ColorSelector />
+
+          {/* Title and value inputs */}
+          {media.sm && (
+            <div className='flex flex-col gap-1.5 w-full'>
+              <TextInput
+                className='text-xl'
+                value={field?.name}
+                onChange={handleNameChange}
+                placeholder='Name'
+                onBlur={handleNameInputBlur}
+              />
+              <TextInput value={currentValue ?? ''} onChange={handleValueChange} placeholder='Value' />
+            </div>
+          )}
+
+          {/* Date selector */}
+          {field?.type === 'daily' && project?.customFields && <DateSelector />}
+
+          {/* Delete button */}
+          <button
+            className='size-14 min-w-14 cursor-pointer rounded-full hover:bg-white/5 flex items-center justify-center button group'
+            onClick={toggleDelete}
+          >
+            <Icon className='opacity-75 group-hover:opacity-100 transition' {...icon} />
+          </button>
         </div>
-
-        {field?.type === 'daily' && project?.customFields && <DateSelector />}
-
-        <button
-          className='size-14 min-w-14 cursor-pointer rounded-full hover:bg-white/5 flex items-center justify-center button group'
-          onClick={toggleDelete}
-        >
-          <Icon className='opacity-75 group-hover:opacity-100 transition' {...icon} />
-        </button>
       </li>
     </EditableFieldContext.Provider>
   )

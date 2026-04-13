@@ -83,7 +83,7 @@ export const RegisterData = ({ projectId }: Props) => {
           icon='chart'
           ariaDescription="Register your data by creating custom fields. You can create daily fields that allow you to input values for specific dates, or static fields for information that doesn't change over time."
         >
-          <ul className='flex flex-col overflow-x-hidden overflow-y-scroll max-h-80 border border-white/15 rounded-l-xl'>
+          <ul className='flex flex-col overflow-x-hidden overflow-y-scroll max-h-80 border border-white/15 rounded-xl'>
             {customFields.length ? (
               customFields.map(({ id }, index) => (
                 <EditableField
@@ -102,7 +102,7 @@ export const RegisterData = ({ projectId }: Props) => {
             )}
           </ul>
 
-          <div className='flex items-center gap-4'>
+          <div className='flex items-center gap-4 flex-wrap'>
             <Button icon='chart' primary onClick={() => addNewField('daily')} disabled={buttonsDisabled}>
               New Daily
             </Button>

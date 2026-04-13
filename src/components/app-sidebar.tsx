@@ -32,7 +32,7 @@ export const AppSidebar = () => {
   ]
 
   return (
-    <aside className='fixed lg:bg-linear-to-r lg:from-black/90 lg:to-black/30 bg-black/75 lg:w-(--app-sidebar-width) sm:px-8 px-4 lg:py-12 py-2 rounded-2xl border border-white/10 lg:backdrop-blur-xs backdrop-blur-xl lg:top-(--app-margin-y) lg:bottom-(--app-margin-y) flex lg:flex-col not-lg:items-center lg:gap-10 gap-8 shadow-element bottom-4 not-lg:justify-between left-(--app-margin-x) w-[calc(100vw-2*var(--app-margin-x))] z-50'>
+    <aside className='fixed lg:bg-linear-to-r lg:from-black/75 lg:to-black/25 bg-black/75 lg:w-(--app-sidebar-width) sm:px-8 px-4 lg:py-12 py-2 rounded-2xl border border-white/10 lg:backdrop-blur-xs backdrop-blur-xl lg:top-(--app-margin-y) lg:bottom-(--app-margin-y) flex lg:flex-col not-lg:items-center lg:gap-10 gap-8 shadow-element bottom-4 not-lg:justify-between left-(--app-margin-x) w-[calc(100vw-2*var(--app-margin-x))] z-50'>
       <AppName />
 
       <ul className='flex lg:flex-col lg:gap-2 gap-0.5'>
@@ -74,7 +74,7 @@ const AppName = () => {
   const imageSize = 128
 
   return (
-    <h1 className='flex items-center gap-2.5'>
+    <h1 className='flex items-center gap-2.5 bg-black border border-white/10 rounded-xl lg:p-4 p-2'>
       <Image
         className='sm:size-12 size-8 sm:min-w-12 min-w-8 saturate-150 object-cover'
         src='/favicon.png'
