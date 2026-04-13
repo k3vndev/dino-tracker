@@ -1,6 +1,6 @@
 import type { Project } from '@types'
 
-export const APP_NAME = 'Dino Tracker'
+export const APP_NAME = 'WorkTrack'
 
 /** Defines the possible statuses a project can have, along with their associated colors. */
 export const PROJECT_STATUSES = {

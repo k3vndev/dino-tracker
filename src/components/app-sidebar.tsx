@@ -3,6 +3,7 @@
 import { HoverAnimatedBox, Icon } from '@components'
 import { APP_NAME } from '@consts'
 import type { SidebarItem } from '@types'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -70,13 +71,20 @@ const SidebarItemTile = ({ name, path, icon }: SidebarItem) => {
 
 const AppName = () => {
   const [namePart1, namePart2] = APP_NAME.split(' ')
+  const imageSize = 128
 
   return (
     <h1 className='flex items-center gap-2.5'>
-      <Icon name='favicon' className='sm:size-12 size-8 sm:min-w-12 min-w-8 saturate-150' />
+      <Image
+        className='sm:size-12 size-8 sm:min-w-12 min-w-8 saturate-150 object-cover'
+        src='/favicon.png'
+        width={imageSize}
+        height={imageSize}
+        alt='App logo'
+      />
 
       <div className='flex items-center gap-1.5 font-poppins 2xl:text-3xl text-2xl text-white text-nowrap not-lg:hidden'>
-        <span className='font-semibold'>{namePart1}</span>
+        <span className='font-light'>{namePart1}</span>
         <span className='font-bold'>{namePart2}</span>
       </div>
     </h1>

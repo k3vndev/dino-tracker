@@ -26,7 +26,7 @@ const spotlightsConfig = {
   size: { min: 5, max: 40 },
   left: { min: 0, max: 100 },
   top: { min: 0, max: 100 },
-  opacity: { min: 0.025, max: 0.12 },
+  opacity: { min: 0.033, max: 0.15 },
   animationDuration: { min: 5, max: 40 },
   colorRange: { min: -30, max: 30 }
 }

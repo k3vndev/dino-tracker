@@ -3,7 +3,7 @@ import { AppBackground, AppSpotlights } from '@components/background'
 import { APP_NAME, FONT_VARIABLES } from '@consts'
 import type { Metadata } from 'next'
 
-const faviconPath = '/icons/favicon.svg'
+const faviconPath = '/favicon.png'
 
 export const metadata: Metadata = {
   title: APP_NAME,
