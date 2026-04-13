@@ -1,7 +1,7 @@
-import type { Metadata } from 'next'
 import './globals.css'
-import { AppBackground } from '@components'
+import { AppBackground, AppSpotlights } from '@components/background'
 import { APP_NAME, FONT_VARIABLES } from '@consts'
+import type { Metadata } from 'next'
 
 const faviconPath = '/icons/favicon.svg'
 
@@ -27,6 +27,7 @@ export default function RootLayout({
         {children}
 
         <AppBackground />
+        <AppSpotlights />
       </body>
     </html>
   )

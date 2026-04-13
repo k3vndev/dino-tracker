@@ -120,7 +120,7 @@ export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) 
         ...dataDisplay
       }}
     >
-      <article className='w-full bg-linear-to-t from-black/90 to-black border border-white/15 rounded-xl px-5 py-4'>
+      <article className='w-full bg-linear-to-t from-black/80 to-black/95 backdrop-blur-lg border border-white/15 rounded-xl px-5 py-4'>
         {isStatic ? <Static /> : <Daily />}
       </article>
     </DataDisplayContext.Provider>

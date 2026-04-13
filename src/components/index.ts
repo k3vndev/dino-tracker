@@ -1,4 +1,3 @@
-export * from './app-background'
 export * from './app-shell'
 export * from './app-sidebar'
 export * from './button'
