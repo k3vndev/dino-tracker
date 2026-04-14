@@ -1,10 +1,9 @@
-import { Button } from '@components'
+import { Button, DialogWrapper } from '@components'
 import { CUSTOM_FIELD_DEFAULT_NAME } from '@consts'
 import { useProjectsStore } from '@store'
 import type { CustomField } from '@types'
 import { getRandomColor } from '@utils'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { DialogWrapper } from '../dialog-wrapper'
 import { EditableField } from './editable-field'
 
 interface Props {

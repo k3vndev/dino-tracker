@@ -5,9 +5,9 @@ import { useProjectsStore } from '@store'
 import type { Project } from '@types'
 import { getProjectBgGradient } from '@utils'
 import { useMemo } from 'react'
+import { StatusChip } from '../status-chip'
 import { DatePicker } from './date-picker'
 import { Payment } from './payment'
-import { StatusChip } from './status-chip'
 
 export const ProjectViewEditable = ({
   id,

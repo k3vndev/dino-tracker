@@ -2,11 +2,9 @@
 
 import { AppShell, Button } from '@components'
 import { DataDisplay } from '@components/data-display'
-import {
-  AddChart as AddChartButton,
-  RegisterData as RegisterDataButton
-} from '@components/project-view-buttons'
 import { ProjectViewEditable } from '@components/projects'
+import { AddChart as AddChartButton } from '@components/projects/view/buttons'
+import { RegisterData as RegisterDataButton } from '@components/projects/view/buttons/register-data'
 import { useProjectsStore } from '@store'
 import { useParams } from 'next/navigation'
 import { useMemo } from 'react'

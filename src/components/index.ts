@@ -1,6 +1,7 @@
 export * from './app-shell'
 export * from './app-sidebar'
 export * from './button'
+export * from './dialog-wrapper'
 export * from './drop-down-select'
 export * from './editable-tooltip'
 export * from './hover-animated-box'

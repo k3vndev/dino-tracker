@@ -1,8 +1,8 @@
 import { Button, DropDownSelect, Icon } from '@components'
+import { DATA_DISPLAY_DEFAULT_TITLE } from '@consts'
 import { useProjectsStore } from '@store'
 import type { DataDisplay, IconName } from '@types'
 import { useState } from 'react'
-import { DATA_DISPLAY_DEFAULT_TITLE } from '@/consts'
 
 interface Props {
   projectId: string
