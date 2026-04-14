@@ -19,16 +19,18 @@ type Spotlight = {
   color: string
 }
 
+const COLOR_RANGE = 25
+
 const spotlightsConfig = {
-  maxElements: 33,
-  maxFailedIterations: 30,
+  maxElements: 15,
+  maxFailedIterations: 15,
   gap: 10,
   size: { min: 5, max: 40 },
   left: { min: 0, max: 100 },
   top: { min: 0, max: 100 },
-  opacity: { min: 0.033, max: 0.15 },
+  opacity: { min: 0.1, max: 0.2 },
   animationDuration: { min: 5, max: 40 },
-  colorRange: { min: -30, max: 30 }
+  colorRange: { min: -COLOR_RANGE, max: COLOR_RANGE }
 }
 
 const randomInRange = ({ min, max }: MinMax) => Math.random() * (max - min) + min
@@ -94,7 +96,7 @@ export const AppSpotlights = () => {
   }, [pathname])
 
   return (
-    <div className='fixed size-full left-0 top-0 z-10 pointer-events-none overflow-clip'>
+    <div className='fixed size-full left-0 top-0 z-999 pointer-events-none overflow-clip'>
       {spotlights.map((light, index) => (
         <div
           key={index}

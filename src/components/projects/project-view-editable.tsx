@@ -33,9 +33,14 @@ export const ProjectViewEditable = ({
 
   return (
     <section
-      className='flex flex-col md:p-8 sm:p-4 p-2 rounded-2xl border border-white/15 gap-6 backdrop-blur-xs shadow-element group/project'
+      className='flex flex-col md:p-8 sm:p-4 p-2 rounded-2xl border border-white/15 gap-6 backdrop-blur-xs shadow-element group/project relative'
       style={{ background: bgLinearGradient }}
     >
+      <div
+        className='absolute size-full top-0 left-0 bg-cover bg-center opacity-15 pointer-events-none blur-[2px]'
+        style={{ backgroundImage: 'url(/burger-sample.jpg)' }}
+      />
+
       {/* Header section */}
       <div className='flex items-start justify-between gap-4'>
         <div className='flex flex-1 min-w-0 flex-col gap-0'>
