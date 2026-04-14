@@ -184,7 +184,7 @@ body {
   }
 }
 
-#app-background {
+.squares-pattern {
   --color: #ffffff10;
   --thickness: 1px;
   --size: 2rem;

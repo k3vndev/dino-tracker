@@ -1,5 +1,5 @@
 import './globals.css'
-import { AppBackground, AppSpotlights } from '@components/background'
+import { Spotlights } from '@components/background'
 import { APP_NAME, FONT_VARIABLES } from '@consts'
 import type { Metadata } from 'next'
 
@@ -26,8 +26,7 @@ export default function RootLayout({
       <body className={`${FONT_VARIABLES} antialiased overflow-x-hidden min-h-dvh w-screen font-plus`}>
         {children}
 
-        <AppBackground />
-        <AppSpotlights />
+        <Spotlights />
       </body>
     </html>
   )

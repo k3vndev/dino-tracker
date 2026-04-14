@@ -74,3 +74,9 @@ export interface ChartRecord {
   date: string
   value: number
 }
+
+export interface LandingFeature {
+  title: string
+  desc: string
+  icon: IconName
+}

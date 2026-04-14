@@ -1,2 +1,2 @@
-export * from './app-background'
-export * from './app-spotlights'
+export * from './dot-pattern'
+export * from './spotlights'

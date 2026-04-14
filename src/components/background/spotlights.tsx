@@ -35,7 +35,7 @@ const spotlightsConfig = {
 
 const randomInRange = ({ min, max }: MinMax) => Math.random() * (max - min) + min
 
-export const AppSpotlights = () => {
+export const Spotlights = () => {
   const pathname = usePathname()
   const [spotlights, setSpotlights] = useState<Spotlight[]>([])
   const projects = useProjectsStore(s => s.projects)

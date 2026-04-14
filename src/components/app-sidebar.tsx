@@ -74,10 +74,7 @@ const AppName = () => {
   const imageSize = 128
 
   return (
-    <h1
-      className='flex items-center gap-2.5 bg-black border border-white/10 rounded-xl lg:p-4 p-2'
-      id='app-background'
-    >
+    <h1 className='flex items-center gap-2.5 bg-black border border-white/10 rounded-xl lg:p-4 p-2 squares-pattern'>
       <Image
         className='sm:size-12 size-8 sm:min-w-12 min-w-8 saturate-150 object-cover'
         src='/favicon.png'
