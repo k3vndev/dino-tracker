@@ -1,4 +1,4 @@
-import { Button } from '@components'
+import { LinkButton } from '@components'
 import { DotsPattern } from '@components/background'
 import { Feature, TextGradient } from '@components/landing'
 import type { LandingFeature } from '@types'
@@ -23,9 +23,9 @@ export default function LandingPage() {
             Track projects, log hours, and get clear insights without the mess.
           </h2>
 
-          <Button primary icon='arrow' className='mt-12'>
+          <LinkButton primary icon='arrow' className='mt-12' href='/projects'>
             Take control of your time
-          </Button>
+          </LinkButton>
         </div>
       </section>
 
@@ -33,8 +33,7 @@ export default function LandingPage() {
         <DotsPattern className='top-0 h-full w-full absolute [&>#gradient]:bg-black/40' />
 
         <h2 className='font-poppins text-white text-6xl font-bold text-center mb-12'>
-          <TextGradient>Track</TextGradient>, <TextGradient>everything</TextGradient>,{' '}
-          <TextGradient>anytime</TextGradient>.
+          Track, <TextGradient>everything</TextGradient>, <TextGradient>anytime</TextGradient>.
         </h2>
 
         <div className='flex items-center justify-center w-full gap-8 h-fit'>
@@ -43,9 +42,9 @@ export default function LandingPage() {
           ))}
         </div>
 
-        <Button primary icon='arrow' className='mt-12'>
+        <LinkButton primary icon='arrow' className='mt-12' href='/projects'>
           Take control of your time
-        </Button>
+        </LinkButton>
       </section>
     </main>
   )
