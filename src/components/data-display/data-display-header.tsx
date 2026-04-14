@@ -1,6 +1,6 @@
 import { DATA_DISPLAY_DEFAULT_TITLE } from '@consts'
 import { useDataDisplayContext } from '@context'
-import { useProjectsStore } from '@/store'
+import { useProjectsStore } from '@store'
 import { EditableText } from '../projects'
 import { Fields } from './fields/fields-section'
 import { Select } from './select'
@@ -39,7 +39,7 @@ export const DataDisplayHeader = ({
   }
 
   return (
-    <header className='flex flex-col items-start justify-between'>
+    <header className='flex flex-col items-start gap-1 justify-between'>
       <div className='flex w-full justify-between gap-4'>
         <EditableText
           element='h3'

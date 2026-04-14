@@ -32,7 +32,7 @@ export default function ProjectViewPage() {
     <AppShell className='gap-0'>
       <ProjectViewEditable {...project} />
 
-      <section className='flex items-center w-full lg:gap-4 gap-2 flex-wrap mt-4'>
+      <section className='flex sm:items-center not-sm:flex-col w-full lg:gap-4 gap-2 flex-wrap mt-4'>
         <RegisterDataButton projectId={project.id} />
         <Button icon='settings'>Project Settings</Button>
         <AddChartButton projectId={project.id} />

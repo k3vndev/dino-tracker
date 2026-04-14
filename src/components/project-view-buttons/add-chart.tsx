@@ -39,7 +39,7 @@ export const AddChart = ({ projectId }: Props) => {
   }
 
   return (
-    <div className='ml-auto relative'>
+    <div className='sm:ml-auto relative'>
       <Button icon='plus' primary onPointerDown={() => setIsOpen(true)}>
         Add Chart
       </Button>
@@ -51,10 +51,10 @@ export const AddChart = ({ projectId }: Props) => {
         open={isOpen}
         onOpenChange={setIsOpen}
         valuesGetter={({ type }) => type}
-        className={{ trigger: 'translate-y-2 pointer-events-none', item: 'group/select-item py-3 px-2' }}
+        className={{ trigger: 'translate-y-2 pointer-events-none', item: 'py-3 px-2' }}
         elementsRenderer={({ icon, label }) => (
           <>
-            <Icon name={icon} className='group-hover/select-item:invert size-5' />
+            <Icon name={icon} className='group-focus/select-item:invert focus:invert size-5' />
             <span>{label}</span>
           </>
         )}

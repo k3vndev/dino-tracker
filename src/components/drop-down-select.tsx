@@ -72,7 +72,7 @@ export const DropDownSelect = <T extends object>({
             <SelectItem
               key={index}
               value={valuesGetter(item, index)}
-              className={cn('cursor-pointer', className?.item)}
+              className={cn('cursor-pointer group/select-item', className?.item)}
             >
               {elementsRenderer(item, index)}
             </SelectItem>

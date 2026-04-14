@@ -20,7 +20,7 @@ type Spotlight = {
 }
 
 const spotlightsConfig = {
-  maxElements: 20,
+  maxElements: 33,
   maxFailedIterations: 30,
   gap: 10,
   size: { min: 5, max: 40 },

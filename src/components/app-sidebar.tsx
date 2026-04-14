@@ -74,7 +74,10 @@ const AppName = () => {
   const imageSize = 128
 
   return (
-    <h1 className='flex items-center gap-2.5 bg-black border border-white/10 rounded-xl lg:p-4 p-2'>
+    <h1
+      className='flex items-center gap-2.5 bg-black border border-white/10 rounded-xl lg:p-4 p-2'
+      id='app-background'
+    >
       <Image
         className='sm:size-12 size-8 sm:min-w-12 min-w-8 saturate-150 object-cover'
         src='/favicon.png'
@@ -84,8 +87,8 @@ const AppName = () => {
       />
 
       <div className='flex items-center gap-1.5 font-poppins 2xl:text-3xl text-2xl text-white text-nowrap not-lg:hidden'>
-        <span className='font-light'>{namePart1}</span>
-        <span className='font-bold'>{namePart2}</span>
+        <span>{namePart1}</span>
+        <span>{namePart2}</span>
       </div>
     </h1>
   )

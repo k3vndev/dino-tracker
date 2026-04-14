@@ -183,3 +183,34 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+#app-background {
+  --color: #ffffff10;
+  --thickness: 1px;
+  --size: 2rem;
+  --offset: 0.5rem;
+
+  background-image:
+    linear-gradient(
+      to right,
+      var(--color) var(--thickness),
+      transparent var(--thickness)
+    ),
+    linear-gradient(
+      to bottom,
+      var(--color) var(--thickness),
+      transparent var(--thickness)
+    );
+
+  background-size: var(--size) var(--size);
+  background-position: var(--offset) var(--offset);
+
+  div {
+    animation: blur-pulse 2s ease-in-out both alternate infinite;
+
+    &:nth-child(2) {
+      animation-delay: 500ms;
+      animation-duration: 2.5s;
+    }
+  }
+}
