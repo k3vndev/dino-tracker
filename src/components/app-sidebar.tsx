@@ -74,20 +74,22 @@ const AppName = () => {
   const imageSize = 128
 
   return (
-    <h1 className='flex items-center gap-2.5 bg-black border border-white/10 rounded-xl lg:p-4 p-2 squares-pattern'>
-      <Image
-        className='sm:size-12 size-8 sm:min-w-12 min-w-8 saturate-150 object-cover'
-        src='/favicon.png'
-        width={imageSize}
-        height={imageSize}
-        alt='App logo'
-      />
+    <Link href='/'>
+      <h1 className='flex items-center gap-2.5 bg-black border border-white/10 rounded-xl lg:p-4 p-2 squares-pattern'>
+        <Image
+          className='sm:size-12 size-8 sm:min-w-12 min-w-8 saturate-150 object-cover'
+          src='/favicon.png'
+          width={imageSize}
+          height={imageSize}
+          alt='App logo'
+        />
 
-      <div className='flex items-center gap-1.5 font-poppins 2xl:text-3xl text-2xl text-white text-nowrap not-lg:hidden'>
-        <span>{namePart1}</span>
-        <span>{namePart2}</span>
-      </div>
-    </h1>
+        <div className='flex items-center gap-1.5 font-poppins 2xl:text-3xl text-2xl text-white text-nowrap not-lg:hidden'>
+          <span>{namePart1}</span>
+          <span>{namePart2}</span>
+        </div>
+      </h1>
+    </Link>
   )
 }
 

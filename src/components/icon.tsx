@@ -12,8 +12,8 @@ export const Icon = ({ name, className, ...props }: IconProps) => (
   <Image
     src={`/icons/${name}.svg`}
     alt={name}
-    width={32}
-    height={32}
+    width={64}
+    height={64}
     draggable={false}
     className={cn('size-8', className)}
     {...props}
