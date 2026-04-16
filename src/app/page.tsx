@@ -16,14 +16,14 @@ export default function LandingPage() {
   const footerIconsSize = 32
 
   return (
-    <main className='flex flex-col items-start text-2xl bg-[#111] min-h-screen'>
-      <section className='flex px-64 py-40 w-full gap-8 items-center'>
+    <main className='flex flex-col items-start text-2xl min-h-screen bg-[#111]'>
+      <section className='flex not-lg:flex-col 2xl:px-64 xl:px-32 lg:px-16 px-8 lg:py-40 sm:py-32 py-20 w-full gap-8 items-center bg-linear-to-b from-[#0c0c0c] to-[#111]'>
         <div className='flex flex-col max-w-2xl'>
-          <h1 className='font-poppins text-white text-7xl font-bold'>
+          <h1 className='font-poppins text-white lg:text-7xl text-5xl font-bold'>
             Your <TextGradient>work</TextGradient>, finally under <TextGradient>control</TextGradient>.
           </h1>
 
-          <h2 className='font-plus font-semibold text-4xl text-white/60 mt-6'>
+          <h2 className='font-plus font-semibold lg:text-4xl text-2xl text-white/60 mt-6'>
             Track projects, log hours, and get clear insights without the mess.
           </h2>
 
@@ -37,14 +37,14 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className='z-10 w-full relative py-40 flex flex-col items-center'>
+      <section className='z-10 w-full relative lg:py-40 sm:py-32 py-20 flex flex-col items-center'>
         <DotsPattern className='top-0 h-full w-full absolute [&>#gradient]:bg-black/40' />
 
-        <h2 className='font-poppins text-white text-6xl font-bold text-center mb-12'>
+        <h2 className='font-poppins text-white lg:text-6xl text-4xl font-bold text-center mb-12 px-8'>
           Track, <TextGradient>everything</TextGradient>, <TextGradient>anytime</TextGradient>.
         </h2>
 
-        <div className='flex items-center justify-center w-full gap-8 h-fit'>
+        <div className='grid 2xl:grid-cols-4 md:grid-cols-2 grid-cols-1 w-fit gap-8 h-fit'>
           {features.map((feature, index) => (
             <Feature {...feature} key={index} index={index} />
           ))}
@@ -55,7 +55,7 @@ export default function LandingPage() {
         </LinkButton>
       </section>
 
-      <footer className='flex justify-between bg-black border-t-2 border-white/10 w-full py-8 px-32'>
+      <footer className='flex justify-between bg-black border-t-2 border-white/10 w-full py-8 md:px-32 sm:px-16 px-8 flex-wrap gap-x-8 gap-y-4'>
         <h2 className='flex items-center gap-2 cursor-default'>
           <Image src='/favicon.png' alt='App icon' width={footerIconsSize} height={footerIconsSize} />
           <span className='text-white font-poppins'>WorkTrack</span>
