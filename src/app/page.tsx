@@ -1,6 +1,5 @@
-import { LinkButton } from '@components'
 import { DotsPattern } from '@components/background'
-import { Feature, TextGradient } from '@components/landing'
+import { CTAButton, Feature, TextGradient } from '@components/landing'
 import type { LandingFeature } from '@types'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -27,13 +26,18 @@ export default function LandingPage() {
             Track projects, log hours, and get clear insights without the mess.
           </h2>
 
-          <LinkButton primary icon='arrow' className='mt-12' href='/projects'>
-            Take control of your time
-          </LinkButton>
+          <CTAButton />
         </div>
 
         <div className='size-full overflow-clip border-2 border-white/10 rounded-2xl'>
-          <Image src='/landing-pic.png' className='size-full' alt='' width={813} height={693} />
+          <Image
+            src='/landing.gif'
+            className='size-full'
+            alt='A freelance project dashboard, with charts and info display'
+            width={800}
+            height={653}
+            draggable={false}
+          />
         </div>
       </section>
 
@@ -50,9 +54,7 @@ export default function LandingPage() {
           ))}
         </div>
 
-        <LinkButton primary icon='arrow' className='mt-12' href='/projects'>
-          Take control of your time
-        </LinkButton>
+        <CTAButton />
       </section>
 
       <footer className='flex justify-between bg-black border-t-2 border-white/10 w-full py-8 md:px-32 sm:px-16 px-8 flex-wrap gap-x-8 gap-y-4'>
