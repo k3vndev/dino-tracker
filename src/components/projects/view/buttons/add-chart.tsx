@@ -1,4 +1,4 @@
-import { Button, DropDownSelect, Icon } from '@components'
+import { Button, DropdownSelect, type DropdownSelectItem } from '@components'
 import { DATA_DISPLAY_DEFAULT_TITLE } from '@consts'
 import { useProjectsStore } from '@store'
 import type { DataDisplay, IconName } from '@types'
@@ -16,12 +16,12 @@ export const AddChart = ({ projectId }: Props) => {
     {
       icon: 'chart',
       label: 'New daily',
-      type: 'daily'
+      value: 'daily'
     },
     {
       icon: 'hash',
       label: 'New static',
-      type: 'static'
+      value: 'static'
     }
   ]
 
@@ -44,27 +44,22 @@ export const AddChart = ({ projectId }: Props) => {
         Add Chart
       </Button>
 
-      <DropDownSelect
-        defaultValue='0'
+      <DropdownSelect
         items={options}
         onValueChange={handleAddNewChart}
         open={isOpen}
         onOpenChange={setIsOpen}
-        valuesGetter={({ type }) => type}
-        className={{ trigger: 'translate-y-2 pointer-events-none', item: 'py-3 px-2' }}
-        elementsRenderer={({ icon, label }) => (
-          <>
-            <Icon name={icon} className='group-focus/select-item:invert focus:invert size-5' />
-            <span>{label}</span>
-          </>
-        )}
+        className={{
+          trigger: 'translate-y-2 pointer-events-none',
+          item: 'py-3 px-2'
+        }}
       />
     </div>
   )
 }
 
-interface Option {
+interface Option extends DropdownSelectItem {
   icon: IconName
   label: string
-  type: DataDisplay['type']
+  value: DataDisplay['type']
 }

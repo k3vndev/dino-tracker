@@ -1,8 +1,8 @@
 import { useDataDisplayContext } from '@context'
 import { capitalizeFirst } from '@utils'
 import { useMemo } from 'react'
-import { DataDisplayHeader } from '../data-display-header'
 import { EmptyChart } from '../empty-chart'
+import { Header as DataDisplayHeader } from '../header'
 import { PieChart } from './pie-chart'
 
 export const Static = () => {

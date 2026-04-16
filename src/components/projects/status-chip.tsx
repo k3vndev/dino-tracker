@@ -1,8 +1,9 @@
-import { DropDownSelect } from '@components'
+import { DropdownSelect, type DropdownSelectItem } from '@components'
 import { PROJECT_STATUSES, PROJECT_STATUSES_ARRAY } from '@consts'
 import { useProjectsStore } from '@store'
 import type { ProjectStatus } from '@types'
 import { cn } from '@utils'
+import { useMemo } from 'react'
 
 interface Props {
   status: ProjectStatus
@@ -24,6 +25,11 @@ export const StatusChip = ({ status, showBorder = false, className, editable = f
     setProjectAttributes(projectId, { status: newStatus })
   }
 
+  const selectItems = useMemo(
+    () => PROJECT_STATUSES_ARRAY.map(({ color, status }) => ({ color, label: status })),
+    []
+  ) satisfies DropdownSelectItem[]
+
   const editableClassName = editable ? 'cursor-pointer button' : 'cursor-default'
 
   return (
@@ -41,16 +47,14 @@ export const StatusChip = ({ status, showBorder = false, className, editable = f
 
       {/* Select component */}
       {editable && (
-        <DropDownSelect
-          defaultValue={status}
+        <DropdownSelect
           onValueChange={handleChange}
           label='Change status'
-          items={PROJECT_STATUSES_ARRAY}
-          valuesGetter={({ status }) => status}
-          elementsRenderer={({ status, color }) => (
+          items={selectItems}
+          elementsRenderer={({ label, color }) => (
             <>
               <div className='size-4 rounded-full border border-white/75' style={{ background: color }} />
-              <span>{status}</span>
+              <span>{label}</span>
             </>
           )}
         />

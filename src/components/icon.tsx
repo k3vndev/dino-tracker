@@ -15,7 +15,7 @@ export const Icon = ({ name, className, ...props }: IconProps) => (
     width={64}
     height={64}
     draggable={false}
-    className={cn('size-8', className)}
+    className={cn('icon size-8', className)}
     {...props}
   />
 )

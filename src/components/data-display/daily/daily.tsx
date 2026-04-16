@@ -1,6 +1,6 @@
 import { useDataDisplayContext } from '@context'
-import { DataDisplayHeader } from '../data-display-header'
 import { EmptyChart } from '../empty-chart'
+import { Header as DataDisplayHeader } from '../header'
 import { BarChart } from './bar-chart'
 
 export const Daily = () => {

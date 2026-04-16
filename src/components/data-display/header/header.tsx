@@ -1,9 +1,10 @@
 import { DATA_DISPLAY_DEFAULT_TITLE } from '@consts'
 import { useDataDisplayContext } from '@context'
 import { useProjectsStore } from '@store'
-import { EditableText } from '../projects'
-import { Fields } from './fields/fields-section'
-import { Select } from './select'
+import { EditableText } from '../../projects'
+import { Fields } from '../fields/fields-section'
+import { Select } from '../select'
+import { MoreDropdown } from './more-dropdown'
 
 interface Props {
   selectOptions: string[]
@@ -12,12 +13,7 @@ interface Props {
   selectLabel: string
 }
 
-export const DataDisplayHeader = ({
-  selectOptions,
-  onSelectChange,
-  selectInitialValue = 0,
-  selectLabel
-}: Props) => {
+export const Header = ({ selectOptions, onSelectChange, selectInitialValue = 0, selectLabel }: Props) => {
   const { title, projectId, id: dataDisplayId } = useDataDisplayContext()
   const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
   const projects = useProjectsStore(s => s.projects)
@@ -49,12 +45,15 @@ export const DataDisplayHeader = ({
           setState={setTitle}
         />
 
-        <Select
-          initialValue={selectInitialValue}
-          options={selectOptions}
-          onChange={onSelectChange}
-          label={selectLabel}
-        />
+        <div className='flex items-center gap-2'>
+          <Select
+            initialValue={selectInitialValue}
+            options={selectOptions}
+            onChange={onSelectChange}
+            label={selectLabel}
+          />
+          <MoreDropdown />
+        </div>
       </div>
 
       <Fields />
