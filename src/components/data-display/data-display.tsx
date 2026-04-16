@@ -47,6 +47,12 @@ export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) 
     return result
   }, [fieldIds, project, projectId])
 
+  const projectIndex = useMemo(() => projects.findIndex(p => p.id === projectId), [projects, projectId])
+  const dataDisplayIndex = useMemo(
+    () => projects[projectIndex]?.dataDisplay?.findIndex(dd => dd.id === id) ?? -1,
+    [projectIndex, id]
+  )
+
   // Create a map of field id to field data (excluding the id) for easy access when rendering the chart and legend.
   const fieldsMap = useMemo(() => {
     if (!validatedFields) return null
@@ -86,9 +92,7 @@ export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) 
 
   // Function to add or remove a field from the data display configuration
   const updateField: UpdateField = (field, action) => {
-    const projectIndex = projects.findIndex(p => p.id === projectId)
-    const dataDisplayIndex = projects[projectIndex]?.dataDisplay?.findIndex(dd => dd.id === id)
-    if (dataDisplayIndex === undefined || dataDisplayIndex === -1) return
+    if (dataDisplayIndex === -1) return
 
     const { dataDisplay } = projects[projectIndex]
     if (!dataDisplay) return
@@ -117,6 +121,8 @@ export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) 
         optionIndex,
         setOptionIndex,
         updateField,
+        projectIndex,
+        dataDisplayIndex,
         ...dataDisplay
       }}
     >
