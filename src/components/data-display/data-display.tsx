@@ -1,10 +1,10 @@
 import { DEFAULT_COLOR } from '@consts'
 import { DataDisplayContext, type UpdateField } from '@context'
 import { useProjectsStore } from '@store'
-import type { CustomField, DataDisplay as DataDisplayType } from '@types'
+import type { CustomField, DataDisplay as DataDisplayType, Project } from '@types'
 import { hueRotate } from '@utils'
 import { useCallback, useMemo, useState } from 'react'
-import { Daily } from './daily/daily'
+import { Daily } from './daily'
 import { Static } from './static'
 
 interface Props extends DataDisplayType {
@@ -15,8 +15,15 @@ export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) 
   const projects = useProjectsStore(s => s.projects)
   const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
 
-  const project = useMemo(() => projects.find(p => p.id === projectId), [projectId, projects])
   const [optionIndex, setOptionIndex] = useState(dataDisplay.optionIndex ?? 0)
+
+  const projectIndex = useMemo(() => projects.findIndex(p => p.id === projectId), [projects, projectId])
+  const dataDisplayIndex = useMemo(
+    () => projects[projectIndex]?.dataDisplay?.findIndex(dd => dd.id === id) ?? -1,
+    [projectIndex, id]
+  )
+
+  const project: Project | undefined = useMemo(() => projects[projectIndex], [projectIndex, projects])
 
   // Validate the provided fieldIds against the project's custom fields and ensure they are all of the same type.
   const validatedFields = useMemo((): CustomField[] | null => {
@@ -46,12 +53,6 @@ export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) 
 
     return result
   }, [fieldIds, project, projectId])
-
-  const projectIndex = useMemo(() => projects.findIndex(p => p.id === projectId), [projects, projectId])
-  const dataDisplayIndex = useMemo(
-    () => projects[projectIndex]?.dataDisplay?.findIndex(dd => dd.id === id) ?? -1,
-    [projectIndex, id]
-  )
 
   // Create a map of field id to field data (excluding the id) for easy access when rendering the chart and legend.
   const fieldsMap = useMemo(() => {
@@ -95,7 +96,7 @@ export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) 
     if (dataDisplayIndex === -1) return
 
     const { dataDisplay } = projects[projectIndex]
-    if (!dataDisplay) return
+    if (!dataDisplay?.length) return
 
     // Create a new array of data displays with the updated fieldIds for the relevant data display.
     const updatedDataDisplay = [...dataDisplay]

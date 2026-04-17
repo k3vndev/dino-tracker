@@ -14,23 +14,22 @@ interface Props {
 }
 
 export const Header = ({ selectOptions, onSelectChange, selectInitialValue = 0, selectLabel }: Props) => {
-  const { title, projectId, id: dataDisplayId } = useDataDisplayContext()
+  const { title, projectId, dataDisplayIndex, projectIndex } = useDataDisplayContext()
   const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
   const projects = useProjectsStore(s => s.projects)
 
   const setTitle = (newTitle: string) => {
-    const foundProject = projects.find(p => p.id === projectId)
+    const foundProject = projects[projectIndex]
     if (!foundProject) return
 
     const { dataDisplay } = foundProject
     const newDataDisplayList = [...(dataDisplay ?? [])]
     if (!newDataDisplayList) return
 
-    const index = newDataDisplayList?.findIndex(dd => dd.id === dataDisplayId)
-    if (index === -1) return
+    if (dataDisplayIndex === -1) return
 
     // Set state
-    newDataDisplayList[index].title = newTitle
+    newDataDisplayList[dataDisplayIndex].title = newTitle
     setProjectAttributes(projectId, { dataDisplay: newDataDisplayList })
   }
 

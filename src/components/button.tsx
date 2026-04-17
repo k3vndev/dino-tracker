@@ -5,7 +5,10 @@ import Link from 'next/link'
 
 // --- Button ---
 
-type ButtonProps = React.HtmlHTMLAttributes<HTMLElement> & ButtonBase
+type ButtonProps = React.HtmlHTMLAttributes<HTMLElement> &
+  ButtonBase & {
+    disabled?: boolean
+  }
 
 export const Button = ({ primary, icon, className, children, ...props }: ButtonProps) => (
   <button className={getButtonClassName(className, primary)} {...props}>

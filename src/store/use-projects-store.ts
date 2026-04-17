@@ -23,7 +23,7 @@ export const useProjectsStore = create<ProjectsStore>(set => {
 
     setProjectAttributes: (id, attributes) =>
       set(state => {
-        const prev = [...state.projects]
+        const prev = structuredClone(state.projects)
         const projectIndex = prev.findIndex(p => p.id === id)
 
         // Check if the project exists before attempting to update it
@@ -36,18 +36,19 @@ export const useProjectsStore = create<ProjectsStore>(set => {
         let attr: Attributes
         if (typeof attributes === 'function') {
           attr = attributes(state.projects[projectIndex])
+          console.log('Set project arrtibutes was called and returned: ', attr)
         } else {
           attr = attributes
         }
 
-        // Update the specific project with the new attributes while keeping the rest of its data intact
-        const updatedProjects = [...prev]
+        console.log('Set project attributes has been called with attr', attr)
 
-        updatedProjects[projectIndex] = {
-          ...updatedProjects[projectIndex],
+        // Update the specific project with the new attributes while keeping the rest of its data intact
+        prev[projectIndex] = {
+          ...prev[projectIndex],
           ...(attr as Partial<Omit<Project, 'id'>>)
         }
-        return { projects: updatedProjects }
+        return { projects: prev }
       })
   }
 })
