@@ -218,6 +218,7 @@ body {
 
 .animation-slide-in-from-bottom {
   animation: slide-in-from-bottom 0.8s var(--ease-out-back) backwards;
+  animation-delay: var(--tw-animation-delay, 0s);
 }
 
 @keyframes slide-in-from-bottom {
@@ -234,6 +235,7 @@ body {
 
 .animation-appear {
   animation: appear 0.5s var(--ease-out-back) backwards;
+  animation-delay: var(--tw-animation-delay, 0s);
 }
 
 @keyframes appear {
