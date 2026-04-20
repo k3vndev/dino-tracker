@@ -30,7 +30,7 @@ export default function ProjectViewPage() {
     <AppShell className='gap-0'>
       <ProjectViewEditable {...project} />
 
-      <section className='flex sm:items-center not-sm:flex-col w-full lg:gap-4 gap-2 flex-wrap mt-4'>
+      <section className='flex sm:items-center not-sm:flex-col w-full lg:gap-4 gap-2 flex-wrap mt-4 animation-slide-in-from-bottom'>
         <RegisterDataButton projectId={project.id} />
         <Button icon='settings'>Project Settings</Button>
         <AddChartButton projectId={project.id} />
@@ -38,7 +38,7 @@ export default function ProjectViewPage() {
 
       <section className='flex items-center flex-col gap-4 mt-8'>
         {project.dataDisplay?.map((dataDisplay, index) => (
-          <DataDisplay key={index} {...dataDisplay} projectId={project.id} />
+          <DataDisplay key={index} {...dataDisplay} projectId={project.id} index={index} />
         ))}
       </section>
     </AppShell>

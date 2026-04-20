@@ -1,7 +1,7 @@
 import { Icon } from '@components'
 import { useDashboardContext } from '@context'
 import type { ClassName, Project } from '@types'
-import { cn, formatProjectDate, getProjectBgGradient } from '@utils'
+import { calcAnimationDelay, cn, formatProjectDate, getProjectBgGradient } from '@utils'
 import Link from 'next/link'
 import { useMemo } from 'react'
 import { StatusChip } from './status-chip'
@@ -34,7 +34,7 @@ export const ProjectTile = ({ data: p, index, className, style, onClick, ...prop
         className
       )}
       onClick={handleClick}
-      style={{ background, animationDelay: `${index * 100}ms`, ...style }}
+      style={{ background, animationDelay: calcAnimationDelay(index, 100), ...style }}
       {...props}
     >
       <Link className='flex flex-col justify-between gap-4 px-5 py-4 size-full' href={`/projects/${p.id}`}>

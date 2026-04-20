@@ -3,6 +3,7 @@
 import { HoverAnimatedBox, Icon } from '@components'
 import { APP_NAME } from '@consts'
 import type { SidebarItem } from '@types'
+import { calcAnimationDelay } from '@utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -36,8 +37,8 @@ export const AppSidebar = () => {
       <AppName />
 
       <ul className='flex lg:flex-col lg:gap-2 gap-0.5'>
-        {items.map(item => (
-          <SidebarItemTile key={item.path} {...item} />
+        {items.map((item, index) => (
+          <SidebarItemTile key={item.path} {...item} index={index} />
         ))}
       </ul>
 
@@ -46,7 +47,11 @@ export const AppSidebar = () => {
   )
 }
 
-const SidebarItemTile = ({ name, path, icon }: SidebarItem) => {
+interface SidebarItemTileProps extends SidebarItem {
+  index: number
+}
+
+const SidebarItemTile = ({ name, path, icon, index }: SidebarItemTileProps) => {
   const pathname = usePathname()
   const isActive = pathname === path
 
@@ -58,7 +63,8 @@ const SidebarItemTile = ({ name, path, icon }: SidebarItem) => {
     <li>
       <Link
         href={path}
-        className={`flex items-center gap-4 text-white lg:px-6 px-3 lg:py-4 py-2 rounded-lg relative group overflow-clip ${activeClassName}`}
+        className={`flex items-center gap-4 text-white lg:px-6 px-3 lg:py-4 py-2 rounded-lg relative group overflow-clip animation-appear ${activeClassName}`}
+        style={{ animationDelay: calcAnimationDelay(index, 100, 100) }}
       >
         <Icon name={icon} className='lg:min-w-8 lg:size-7 min-w-7 size-8 *:text-blue-500' />
         <span className='text-xl font-plus not-lg:hidden'>{name}</span>
