@@ -1,7 +1,7 @@
+import { EditableText } from '@components/projects/view'
 import { DATA_DISPLAY_DEFAULT_TITLE } from '@consts'
 import { useDataDisplayContext } from '@context'
 import { useProjectsStore } from '@store'
-import { EditableText } from '../../projects'
 import { Fields } from '../fields/fields-section'
 import { Select } from '../select'
 import { MoreDropdown } from './more-dropdown'

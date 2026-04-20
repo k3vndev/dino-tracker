@@ -1,4 +1,4 @@
-import { EditableText } from '@components/projects'
+import { EditableText } from '@components/projects/view'
 import { PROJECT_DEFAULT_VALUES } from '@consts'
 import type { DatePickerDates } from '@context'
 import { useProjectsStore } from '@store'

@@ -1,4 +1,3 @@
-export * from '../editable-tooltip'
+export * from './create-new-project-button'
 export * from './project-tile'
-export * from './view/editable-text'
-export * from './view/project-view-editable'
+export * from './status-chip'

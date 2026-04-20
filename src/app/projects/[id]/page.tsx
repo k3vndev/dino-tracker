@@ -2,7 +2,7 @@
 
 import { AppShell, Button } from '@components'
 import { DataDisplay } from '@components/data-display'
-import { ProjectViewEditable } from '@components/projects'
+import { ProjectViewEditable } from '@components/projects/view'
 import { AddChart as AddChartButton } from '@components/projects/view/buttons'
 import { RegisterData as RegisterDataButton } from '@components/projects/view/buttons/register-data'
 import { useProjectsStore } from '@store'

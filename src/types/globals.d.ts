@@ -20,6 +20,8 @@ export interface Project {
   finalPayment?: number
   status: ProjectStatus
   color?: string
+  createdAt?: string
+  updatedAt?: string
 
   /** Custom records associated with the project, such as total hours worked or daily revenue. */
   customFields?: CustomField[]

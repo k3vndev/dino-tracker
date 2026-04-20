@@ -20,7 +20,7 @@ export const PROJECT_STATUSES_ARRAY = Object.entries(PROJECT_STATUSES).map(([sta
 export const PROJECT_DEFAULT_VALUES = {
   name: 'My New Project',
   clientName: "My Client's Name",
-  status: 'Not Started'
+  status: 'Active'
 } as const satisfies Omit<Project, 'id' | 'startDate' | 'endDate' | 'color'>
 
 export const DATE_SEPARATOR = '-'
