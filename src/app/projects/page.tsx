@@ -1,8 +1,8 @@
 'use client'
 
 import { AppShell } from '@components'
-import { CreateNewProjectButton, ProjectTile } from '@components/projects'
-import { ProjectsContext } from '@context'
+import { CreateProjectButton, ProjectTile } from '@components/projects'
+import { DashboardContext } from '@context'
 import { useProjectsStore } from '@store'
 import { DateTime } from 'luxon'
 import { useMemo, useState } from 'react'
@@ -24,9 +24,9 @@ export default function ProjectsPage() {
   )
 
   return (
-    <ProjectsContext.Provider value={{ projectsDisabled, setProjectsDisabled }}>
+    <DashboardContext.Provider value={{ projectsDisabled, setProjectsDisabled }}>
       <AppShell>
-        <CreateNewProjectButton />
+        <CreateProjectButton />
 
         <section className='grid 2xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4'>
           {sortedProjects.map((project, index) => (
@@ -34,6 +34,6 @@ export default function ProjectsPage() {
           ))}
         </section>
       </AppShell>
-    </ProjectsContext.Provider>
+    </DashboardContext.Provider>
   )
 }

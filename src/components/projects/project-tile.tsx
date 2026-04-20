@@ -1,5 +1,5 @@
 import { Icon } from '@components'
-import { useProjectsContext } from '@context'
+import { useDashboardContext } from '@context'
 import type { ClassName, Project } from '@types'
 import { cn, formatProjectDate, getProjectBgGradient } from '@utils'
 import Link from 'next/link'
@@ -12,11 +12,11 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
 }
 
 export const ProjectTile = ({ data: p, index, className, style, onClick, ...props }: Props) => {
-  const { projectsDisabled } = useProjectsContext()
+  const { projectsDisabled } = useDashboardContext()
   const background = useMemo(() => getProjectBgGradient(p.color), [p.color])
 
   const styleClass: ClassName = projectsDisabled
-    ? 'brightness-90 cursor-not-allowed opacity-90'
+    ? 'brightness-90 pointer-events-none opacity-50'
     : 'hover:brightness-110 hover:border-white/50 hover:shadow-lg transition active:brightness-95 active:scale-95'
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -29,12 +29,12 @@ export const ProjectTile = ({ data: p, index, className, style, onClick, ...prop
   return (
     <article
       className={cn(
-        'rounded-2xl border shadow-black/50 border-white/25 min-h-48 backdrop-blur-md shadow-element',
+        'rounded-2xl border shadow-black/50 border-white/25 min-h-48 backdrop-blur-md shadow-element animation-appear transition',
         styleClass,
         className
       )}
       onClick={handleClick}
-      style={{ background, ...style }}
+      style={{ background, animationDelay: `${index * 100}ms`, ...style }}
       {...props}
     >
       <Link className='flex flex-col justify-between gap-4 px-5 py-4 size-full' href={`/projects/${p.id}`}>

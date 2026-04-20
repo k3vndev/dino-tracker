@@ -100,7 +100,7 @@ export const Spotlights = () => {
       {spotlights.map((light, index) => (
         <div
           key={index}
-          className='absolute rounded-full aspect-square blur-3xl'
+          className='absolute rounded-full aspect-square blur-3xl opacity-50 animate-in fade-in'
           style={{
             width: `${light.size}vw`,
             height: `${light.size}vw`,
