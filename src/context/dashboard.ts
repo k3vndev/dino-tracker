@@ -1,13 +1,13 @@
 import { createContext, useContext } from 'react'
 
-interface ProjectsContextType {
+interface DashboardContextType {
   projectsDisabled: boolean
   setProjectsDisabled: (disabled: boolean) => void
 }
 
-export const ProjectsContext = createContext<ProjectsContextType>({
+export const DashboardContext = createContext<DashboardContextType>({
   projectsDisabled: false,
   setProjectsDisabled: () => {}
 })
 
-export const useProjectsContext = () => useContext(ProjectsContext)
+export const useDashboardContext = () => useContext(DashboardContext)

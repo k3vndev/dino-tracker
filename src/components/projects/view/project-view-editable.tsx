@@ -33,7 +33,7 @@ export const ProjectViewEditable = ({
 
   return (
     <section
-      className='flex flex-col md:p-8 sm:p-4 p-2 rounded-2xl border border-white/15 gap-6 backdrop-blur-xs shadow-element group/project relative'
+      className='flex flex-col md:p-8 sm:p-4 p-2 rounded-2xl border border-white/15 gap-6 backdrop-blur-xs shadow-element group/project relative animation-appear'
       style={{ background: bgLinearGradient }}
     >
       <div

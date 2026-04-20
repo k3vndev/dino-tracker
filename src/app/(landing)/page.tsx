@@ -18,18 +18,18 @@ export default function LandingPage() {
     <main className='flex flex-col items-start text-2xl min-h-screen bg-[#111]'>
       <section className='flex not-lg:flex-col 2xl:px-64 xl:px-32 lg:px-16 px-8 lg:py-40 sm:py-32 py-20 w-full gap-8 items-center bg-linear-to-b from-[#0c0c0c] to-[#111]'>
         <div className='flex flex-col max-w-2xl'>
-          <h1 className='font-poppins text-white lg:text-7xl text-5xl font-bold'>
+          <h1 className='font-poppins text-white lg:text-7xl text-5xl font-bold animation-slide-in-from-bottom delay-0'>
             Your <TextGradient>work</TextGradient>, finally under <TextGradient>control</TextGradient>.
           </h1>
 
-          <h2 className='font-plus font-semibold lg:text-4xl text-2xl text-white/60 mt-6'>
+          <h2 className='font-plus font-semibold lg:text-4xl text-2xl text-white/60 mt-6 animation-slide-in-from-bottom delay-200'>
             Track projects, log hours, and get clear insights without the mess.
           </h2>
 
-          <CTAButton />
+          <CTAButton className='delay-400' />
         </div>
 
-        <div className='size-full overflow-clip border-2 border-white/10 rounded-2xl'>
+        <div className='size-full overflow-clip border-2 border-white/10 rounded-2xl animation-appear delay-100'>
           <Image
             src='/landing.gif'
             className='size-full'
@@ -44,7 +44,7 @@ export default function LandingPage() {
       <section className='z-10 w-full relative lg:py-40 sm:py-32 py-20 flex flex-col items-center'>
         <DotsPattern className='top-0 h-full w-full absolute [&>#gradient]:bg-black/40' />
 
-        <h2 className='font-poppins text-white lg:text-6xl text-4xl font-bold text-center mb-12 px-8'>
+        <h2 className='font-poppins text-white lg:text-6xl text-4xl font-bold text-center mb-12 px-8 animation-slide-in-from-bottom'>
           Track, <TextGradient>everything</TextGradient>, <TextGradient>anytime</TextGradient>.
         </h2>
 
@@ -54,7 +54,7 @@ export default function LandingPage() {
           ))}
         </div>
 
-        <CTAButton />
+        <CTAButton className='delay-500' />
       </section>
 
       <footer className='flex justify-between bg-black border-t-2 border-white/10 w-full py-8 md:px-32 sm:px-16 px-8 flex-wrap gap-x-8 gap-y-4'>

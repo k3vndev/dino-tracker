@@ -36,12 +36,9 @@ export const useProjectsStore = create<ProjectsStore>(set => {
         let attr: Attributes
         if (typeof attributes === 'function') {
           attr = attributes(state.projects[projectIndex])
-          console.log('Set project arrtibutes was called and returned: ', attr)
         } else {
           attr = attributes
         }
-
-        console.log('Set project attributes has been called with attr', attr)
 
         // Update the specific project with the new attributes while keeping the rest of its data intact
         prev[projectIndex] = {

@@ -2,16 +2,17 @@ import { DEFAULT_COLOR } from '@consts'
 import { DataDisplayContext, type UpdateField } from '@context'
 import { useProjectsStore } from '@store'
 import type { CustomField, DataDisplay as DataDisplayType, Project } from '@types'
-import { hueRotate } from '@utils'
+import { calcAnimationDelay, hueRotate } from '@utils'
 import { useCallback, useMemo, useState } from 'react'
 import { Daily } from './daily'
 import { Static } from './static'
 
 interface Props extends DataDisplayType {
   projectId: string
+  index: number
 }
 
-export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) => {
+export const DataDisplay = ({ fieldIds, id, projectId, index, ...dataDisplay }: Props) => {
   const projects = useProjectsStore(s => s.projects)
   const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
 
@@ -127,7 +128,10 @@ export const DataDisplay = ({ fieldIds, id, projectId, ...dataDisplay }: Props) 
         ...dataDisplay
       }}
     >
-      <article className='w-full bg-linear-to-t from-black/80 to-black/95 backdrop-blur-lg border border-white/15 rounded-xl px-5 py-4 group/data-display'>
+      <article
+        className='w-full bg-linear-to-t from-black/80 to-black/95 backdrop-blur-lg border border-white/15 rounded-xl px-5 py-4 group/data-display animation-slide-in-from-bottom'
+        style={{ animationDelay: calcAnimationDelay(index, 250, 150) }}
+      >
         {isStatic ? <Static /> : <Daily />}
       </article>
     </DataDisplayContext.Provider>
