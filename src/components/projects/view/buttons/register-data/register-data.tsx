@@ -1,21 +1,19 @@
 import { Button, DialogWrapper } from '@components'
 import { CUSTOM_FIELD_DEFAULT_NAME } from '@consts'
+import { useProjectContext } from '@context'
 import { useProjectsStore } from '@store'
 import type { CustomField } from '@types'
 import { getRandomColor } from '@utils'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { EditableField } from './editable-field'
 
-interface Props {
-  projectId: string
-}
-
-export const RegisterData = ({ projectId }: Props) => {
+export const RegisterData = () => {
   const [isOpen, setIsOpen] = useState(false)
   const projects = useProjectsStore(s => s.projects)
   const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
   const [buttonsDisabled, setButtonsDisabled] = useState(false)
   const disabledTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const { id: projectId } = useProjectContext()
 
   const [deletingFieldsIds, setDeletingFieldsIds] = useState<string[]>([])
 

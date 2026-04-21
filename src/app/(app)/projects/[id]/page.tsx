@@ -1,10 +1,12 @@
 'use client'
 
-import { AppShell, Button } from '@components'
+import { AppShell } from '@components'
 import { DataDisplay } from '@components/data-display'
 import { ProjectViewEditable } from '@components/projects/view'
 import { AddChart as AddChartButton } from '@components/projects/view/buttons'
+import { ProjectSettingsButton } from '@components/projects/view/buttons/project-settings'
 import { RegisterData as RegisterDataButton } from '@components/projects/view/buttons/register-data'
+import { ProjectContext } from '@context'
 import { useProjectsStore } from '@store'
 import { useParams } from 'next/navigation'
 import { useMemo } from 'react'
@@ -27,20 +29,22 @@ export default function ProjectViewPage() {
   }
 
   return (
-    <AppShell className='gap-0'>
-      <ProjectViewEditable {...project} />
+    <ProjectContext.Provider value={project}>
+      <AppShell className='gap-0'>
+        <ProjectViewEditable {...project} />
 
-      <section className='flex sm:items-center not-sm:flex-col w-full lg:gap-4 gap-2 flex-wrap mt-4 animation-slide-in-from-bottom'>
-        <RegisterDataButton projectId={project.id} />
-        <Button icon='settings'>Project Settings</Button>
-        <AddChartButton projectId={project.id} />
-      </section>
+        <section className='flex sm:items-center not-sm:flex-col w-full lg:gap-4 gap-2 flex-wrap mt-4 animation-slide-in-from-bottom'>
+          <RegisterDataButton />
+          <ProjectSettingsButton />
+          <AddChartButton />
+        </section>
 
-      <section className='flex items-center flex-col gap-4 mt-8'>
-        {project.dataDisplay?.map((dataDisplay, index) => (
-          <DataDisplay key={index} {...dataDisplay} projectId={project.id} index={index} />
-        ))}
-      </section>
-    </AppShell>
+        <section className='flex items-center flex-col gap-4 mt-8'>
+          {project.dataDisplay?.map((dataDisplay, index) => (
+            <DataDisplay key={index} {...dataDisplay} index={index} />
+          ))}
+        </section>
+      </AppShell>
+    </ProjectContext.Provider>
   )
 }

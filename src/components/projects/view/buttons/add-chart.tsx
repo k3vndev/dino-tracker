@@ -1,16 +1,14 @@
 import { Button, DropdownSelect, type DropdownSelectItem } from '@components'
 import { DATA_DISPLAY_DEFAULT_TITLE } from '@consts'
+import { useProjectContext } from '@context'
 import { useProjectsStore } from '@store'
 import type { DataDisplay, IconName } from '@types'
 import { useState } from 'react'
 
-interface Props {
-  projectId: string
-}
-
-export const AddChart = ({ projectId }: Props) => {
+export const AddChart = () => {
   const [isOpen, setIsOpen] = useState(false)
   const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
+  const { id: projectId } = useProjectContext()
 
   const options: Option[] = [
     {
