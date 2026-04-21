@@ -1,7 +1,7 @@
-import './globals.css'
 import { Spotlights } from '@components/background'
 import { APP_NAME, FONT_VARIABLES } from '@consts'
 import type { Metadata } from 'next'
+import './globals.css'
 
 const faviconPath = '/favicon.png'
 
