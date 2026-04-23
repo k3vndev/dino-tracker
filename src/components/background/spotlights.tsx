@@ -3,7 +3,7 @@
 import { useProjectsStore } from '@store'
 import { hueRotate } from '@utils'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 type MinMax = {
   min: number
@@ -19,8 +19,6 @@ type Spotlight = {
   color: string
 }
 
-const COLOR_RANGE = 25
-
 const spotlightsConfig = {
   maxElements: 15,
   maxFailedIterations: 15,
@@ -30,7 +28,7 @@ const spotlightsConfig = {
   top: { min: 0, max: 100 },
   opacity: { min: 0.1, max: 0.2 },
   animationDuration: { min: 5, max: 40 },
-  colorRange: { min: -COLOR_RANGE, max: COLOR_RANGE }
+  colorRange: 25
 }
 
 const randomInRange = ({ min, max }: MinMax) => Math.random() * (max - min) + min
@@ -40,60 +38,79 @@ export const Spotlights = () => {
   const [spotlights, setSpotlights] = useState<Spotlight[]>([])
   const projects = useProjectsStore(s => s.projects)
 
+  const generateColor = (baseColor: string) =>
+    hueRotate(
+      baseColor,
+      randomInRange({
+        min: -spotlightsConfig.colorRange,
+        max: spotlightsConfig.colorRange
+      })
+    )
+
+  const projectId = useMemo(() => {
+    const regResult = pathname.match(/\/projects\/([^/?]+)/)?.[1]
+    return regResult || null
+  }, [pathname])
+
+  // Generate spotlights on mount and when project changes
+  // Everything is generated randomly on mount, but colors are updated when project changes to match the new project's color scheme
   useEffect(() => {
     const newSpotlights: Spotlight[] = []
     let failedIterations = 0
     let colorToUse = '#5A9BF8'
 
     // Try to extract a project id from URL and use its color
-    const regResult = pathname.match(/\/projects\/([^/?]+)/)?.[1]
-    if (regResult) {
-      const project = projects.find(p => p.id === regResult)
+    const project = projects.find(p => p.id === projectId)
+    colorToUse = project?.color || colorToUse
 
-      if (project?.color) {
-        colorToUse = project.color
-      }
-    }
+    if (spotlights.length === 0) {
+      // Generate spotlight candidates
+      while (
+        newSpotlights.length < spotlightsConfig.maxElements &&
+        failedIterations < spotlightsConfig.maxFailedIterations
+      ) {
+        const candidate: Spotlight = {
+          size: randomInRange(spotlightsConfig.size),
+          left: randomInRange(spotlightsConfig.left),
+          top: randomInRange(spotlightsConfig.top),
+          opacity: randomInRange(spotlightsConfig.opacity),
+          animationDuration: randomInRange(spotlightsConfig.animationDuration),
+          color: generateColor(colorToUse)
+        }
 
-    // Generate spotlight candidates
-    while (
-      newSpotlights.length < spotlightsConfig.maxElements &&
-      failedIterations < spotlightsConfig.maxFailedIterations
-    ) {
-      const candidate: Spotlight = {
-        size: randomInRange(spotlightsConfig.size),
-        left: randomInRange(spotlightsConfig.left),
-        top: randomInRange(spotlightsConfig.top),
-        opacity: randomInRange(spotlightsConfig.opacity),
-        animationDuration: randomInRange(spotlightsConfig.animationDuration),
-        color: hueRotate(colorToUse, randomInRange(spotlightsConfig.colorRange))
-      }
+        const overlaps = newSpotlights.some(item => {
+          const dx = candidate.left - item.left
+          const dy = candidate.top - item.top
+          const distance = Math.hypot(dx, dy)
+          const minDistance = candidate.size / 2 + item.size / 2 + spotlightsConfig.gap
 
-      const overlaps = newSpotlights.some(item => {
-        const dx = candidate.left - item.left
-        const dy = candidate.top - item.top
-        const distance = Math.hypot(dx, dy)
-        const minDistance = candidate.size / 2 + item.size / 2 + spotlightsConfig.gap
+          return distance < minDistance
+        })
 
-        return distance < minDistance
-      })
+        if (overlaps) {
+          failedIterations += 1
+          continue
+        }
 
-      if (overlaps) {
-        failedIterations += 1
-        continue
+        newSpotlights.push(candidate)
       }
 
-      newSpotlights.push(candidate)
-    }
-
-    if (newSpotlights.length < spotlightsConfig.maxElements) {
-      console.warn(
-        '[SpotlightsBackground] Spotlights generation stopped early after reaching max failed iterations.'
+      if (newSpotlights.length < spotlightsConfig.maxElements) {
+        console.warn(
+          '[SpotlightsBackground] Spotlights generation stopped early after reaching max failed iterations.'
+        )
+      }
+      setSpotlights(newSpotlights)
+    } else {
+      // Update colors based on project changes
+      setSpotlights(prev =>
+        prev.map(light => ({
+          ...light,
+          color: generateColor(colorToUse)
+        }))
       )
     }
-
-    setSpotlights(newSpotlights)
-  }, [pathname])
+  }, [projectId, projects, pathname])
 
   return (
     <div className='fixed size-full left-0 top-0 z-999 pointer-events-none overflow-clip'>
