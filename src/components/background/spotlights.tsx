@@ -88,7 +88,7 @@ export const Spotlights = () => {
 
     if (newSpotlights.length < spotlightsConfig.maxElements) {
       console.warn(
-        '[InstallSectionBackground] Spiral generation stopped early after reaching max failed iterations.'
+        '[SpotlightsBackground] Spotlights generation stopped early after reaching max failed iterations.'
       )
     }
 

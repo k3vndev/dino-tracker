@@ -3,8 +3,9 @@ import { PROJECT_DEFAULT_VALUES } from '@consts'
 import type { DatePickerDates } from '@context'
 import { useProjectsStore } from '@store'
 import type { Project } from '@types'
-import { getProjectBgGradient } from '@utils'
+import { getProjectBg } from '@utils'
 import { useMemo } from 'react'
+import { ImageDisplay } from '../image-display'
 import { StatusChip } from '../status-chip'
 import { DatePicker } from './date-picker'
 import { Payment } from './payment'
@@ -12,6 +13,7 @@ import { Payment } from './payment'
 export const ProjectViewEditable = ({
   id,
   name,
+  img,
   status,
   clientName,
   startDate,
@@ -20,7 +22,6 @@ export const ProjectViewEditable = ({
   hourlyRate,
   color
 }: Project) => {
-  const bgLinearGradient = useMemo(() => getProjectBgGradient(color, 0.3, 40), [color])
   const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
 
   const setName = (name: string) => setProjectAttributes(id, { name })
@@ -31,15 +32,14 @@ export const ProjectViewEditable = ({
   const setFinalPayment = (finalPayment: number) => setProjectAttributes(id, { finalPayment })
   const setHourlyRate = (hourlyRate: number) => setProjectAttributes(id, { hourlyRate })
 
+  const background = useMemo(() => getProjectBg(color, img), [color, img])
+
   return (
     <section
       className='flex flex-col md:p-8 sm:p-4 p-2 rounded-2xl border border-white/15 gap-6 backdrop-blur-xs shadow-element group/project relative animation-appear'
-      style={{ background: bgLinearGradient }}
+      style={{ background: background.gradient }}
     >
-      <div
-        className='absolute size-full top-0 left-0 bg-cover bg-center opacity-15 pointer-events-none blur-[2px]'
-        style={{ backgroundImage: 'url(/burger-sample.jpg)' }}
-      />
+      <ImageDisplay imgCSS={background.image} />
 
       {/* Header section */}
       <div className='flex items-start justify-between gap-4'>

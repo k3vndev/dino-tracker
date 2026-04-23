@@ -13,6 +13,7 @@ export interface SidebarItem {
 export interface Project {
   id: string
   name?: string
+  img?: string
   clientName?: string
   startDate?: string
   endDate?: string

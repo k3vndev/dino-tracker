@@ -13,6 +13,7 @@ export const MOCK_PROJECTS: Project[] = [
   {
     id: 'p-002',
     name: 'Mobile Analytics Dashboard',
+    img: '/burger-sample.jpg',
     clientName: 'Blue Harbor',
     startDate: '2026-01-06',
     status: 'Not Started',
