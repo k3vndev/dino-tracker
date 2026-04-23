@@ -1,11 +1,10 @@
 import { Button, DialogWrapper } from '@components'
-import { useProjectContext } from '@context'
 import { useState } from 'react'
+import { ColorSelector } from './color-selector'
 import { FieldWrapper } from './field-wrapper'
 import { ImageSelector } from './image-selector'
 
 export const ProjectSettingsButton = () => {
-  const { color } = useProjectContext()
   const [isOpen, setIsOpen] = useState(false)
 
   const handleClick = () => setIsOpen(true)
@@ -22,8 +21,12 @@ export const ProjectSettingsButton = () => {
         </FieldWrapper>
 
         <FieldWrapper label='Color palette'>
-          <div className='w-full h-10 rounded-lg border border-white/20' style={{ backgroundColor: color }} />
+          <ColorSelector />
         </FieldWrapper>
+
+        <Button className='mt-8 justify-self-end' icon='cross' primary onClick={() => setIsOpen(false)}>
+          All Done
+        </Button>
       </DialogWrapper>
     </>
   )

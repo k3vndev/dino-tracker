@@ -32,3 +32,15 @@ export const DEFAULT_COLOR = '#5A9BF8'
 export const DATA_DISPLAY_DEFAULT_TITLE = 'My Personalized Chart'
 
 export const CUSTOM_FIELD_DEFAULT_NAME = 'Untitled Field'
+
+export const COLORS = [
+  '#FF6633',
+  '#FFB399',
+  '#FF33FF',
+  '#FFFF99',
+  '#00B3E6',
+  '#E6B333',
+  '#3366E6',
+  '#999966',
+  '#99FF99'
+]
