@@ -17,20 +17,20 @@ export const ColorSelector = () => {
   }, pickerColor)
 
   return (
-    <div className='h-fit w-full flex items-center sm:gap-4 gap-2'>
+    <div className='h-fit w-full flex items-center sm:gap-8 gap-3'>
       <ColorInput
         color={color || pickerColor}
         onChange={setPickerColor}
-        className={{ trigger: 'sm:min-h-16 sm:size-16 sm:min-w-16 min-h-12 size-12 min-w-12' }}
+        className={{ trigger: 'sm:min-h-20 sm:size-20 sm:min-w-20 min-h-12 size-12 min-w-12' }}
       />
 
-      <div className='w-0 h-full border-r-2 border-dashed border-white/20' />
+      <div className='w-0 h-2/3 border-r-2 border-dashed border-white/20' />
 
-      <ul className='grid gap-1 grid-cols-5 h-full sm:w-fit w-full'>
+      <ul className='grid grid-cols-5 h-full w-full rounded-sm overflow-clip gap-0.5'>
         {COLORS.map(c => (
           <li
             key={c}
-            className='sm:w-16 w-full rounded-sm button'
+            className='w-full button'
             style={{ backgroundColor: c }}
             onClick={() => setPickerColor(c)}
           />

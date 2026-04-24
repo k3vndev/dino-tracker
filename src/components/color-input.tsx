@@ -2,6 +2,7 @@
 
 import { Icon } from '@components'
 import { Popover, PopoverContent, PopoverTrigger } from '@components/ui'
+import { COLORS } from '@consts'
 import { cn, validateColor } from '@utils'
 import { useEffect, useState } from 'react'
 import { HexColorPicker } from 'react-colorful'
@@ -72,13 +73,25 @@ export const ColorInput = ({ color, onChange, disabled, title, className }: Prop
 
       <PopoverContent className={cn('popover-menu flex flex-col', className?.content)}>
         <h3 className='font-poppins mb-2'>Select color</h3>
-        <HexColorPicker className='min-w-full' color={pickerColor} onChange={setPickerColor} />
+        <HexColorPicker className='min-w-full max-h-40' color={pickerColor} onChange={setPickerColor} />
         <input
           className='border border-white/15 focus:border-white/40 outline-none py-1 px-3 font-mono text-lg rounded-md mt-3'
           value={inputValue}
           onChange={handleInputChange}
           onBlur={handleInputBlur}
         />
+
+        {/* Predefined colors */}
+        <ul className='flex w-full h-5 mt-4 rounded-md overflow-clip gap-0.5'>
+          {COLORS.map(color => (
+            <li
+              key={color}
+              style={{ background: color }}
+              className='size-full button'
+              onClick={() => setPickerColor(color)}
+            />
+          ))}
+        </ul>
       </PopoverContent>
     </Popover>
   )

@@ -24,7 +24,7 @@ export const ProjectSettingsButton = () => {
           <ColorSelector />
         </FieldWrapper>
 
-        <Button className='mt-8 justify-self-end' icon='cross' primary onClick={() => setIsOpen(false)}>
+        <Button className='mt-8' icon='cross' primary onClick={() => setIsOpen(false)}>
           All Done
         </Button>
       </DialogWrapper>

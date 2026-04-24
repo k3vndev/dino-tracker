@@ -34,13 +34,14 @@ export const DATA_DISPLAY_DEFAULT_TITLE = 'My Personalized Chart'
 export const CUSTOM_FIELD_DEFAULT_NAME = 'Untitled Field'
 
 export const COLORS = [
-  '#FF6633',
-  '#FFB399',
-  '#FF33FF',
-  '#FFFF99',
-  '#00B3E6',
-  '#E6B333',
-  '#3366E6',
-  '#999966',
-  '#99FF99'
+  '#53CBF3', // light blue
+  '#3366E6', // blue
+  '#6367FF', // purple
+  '#FE81D4', // pink
+  '#BD114A', // wine red
+  '#FEEE91', // light yellow
+  '#FFC300', // gold
+  '#FFB399', // beige
+  '#999966', // olive
+  '#99FF99' // light green
 ]
