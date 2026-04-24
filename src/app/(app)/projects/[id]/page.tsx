@@ -1,6 +1,6 @@
 'use client'
 
-import { AppShell } from '@components'
+import { AppShell, Icon } from '@components'
 import { DataDisplay } from '@components/data-display'
 import { ProjectViewEditable } from '@components/projects/view'
 import { AddChart as AddChartButton } from '@components/projects/view/buttons'
@@ -16,13 +16,20 @@ export default function ProjectViewPage() {
   const projects = useProjectsStore(s => s.projects)
   const { id } = useParams()
   const project = useMemo(() => projects.find(p => p.id === id), [id, projects])
+  const hydrated = useProjectsStore(s => s.hydrated)
 
   if (!project) {
     return (
       <AppShell>
         <section className='flex items-center text-white text-center font-poppins flex-col w-full justify-center gap-2 size-64 bg-white/5 rounded-xl border border-white/10 backdrop-blur-xs'>
-          <h2 className='font-semibold text-2xl'>404</h2>
-          <h1 className='font-bold text-4xl'>Project Not Found</h1>
+          {hydrated ? (
+            <>
+              <h2 className='font-semibold text-2xl'>404</h2>
+              <h1 className='font-bold text-4xl'>Project Not Found</h1>
+            </>
+          ) : (
+            <Icon name='loading' className='size-16 animate-spin' />
+          )}
         </section>
       </AppShell>
     )

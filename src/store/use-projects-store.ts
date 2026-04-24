@@ -1,5 +1,5 @@
 import type { Project } from '@types'
-import { generateNewProject, StateSetter, type ValueOrCallback } from '@utils'
+import { StateSetter, type ValueOrCallback } from '@utils'
 import { create } from 'zustand'
 
 type ProjectKey = keyof Omit<Project, 'id'>
@@ -11,13 +11,16 @@ interface ProjectsStore {
 
   /** A helper function to update specific attributes of a project by its ID. */
   setProjectAttributes: (id: string, attributes: Attributes | ((project: Project) => Attributes)) => void
+
+  hydrated: boolean
+  setHydrated: (hydrated: ValueOrCallback<boolean>) => void
 }
 
 export const useProjectsStore = create<ProjectsStore>(set => {
   const { setState } = new StateSetter<ProjectsStore>(set)
 
   return {
-    projects: [generateNewProject()],
+    projects: [],
     setProjects: projects => setState('projects', projects),
 
     setProjectAttributes: (id, attributes) =>
@@ -45,6 +48,9 @@ export const useProjectsStore = create<ProjectsStore>(set => {
           ...(attr as Partial<Omit<Project, 'id'>>)
         }
         return { projects: prev }
-      })
+      }),
+
+    hydrated: false,
+    setHydrated: hydrated => setState('hydrated', hydrated)
   }
 })

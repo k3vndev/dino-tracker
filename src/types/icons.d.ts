@@ -1,1 +1,1 @@
-export type IconName = 'arrow' | 'calendar' | 'camera-plus' | 'cancel' | 'chart' | 'chevron' | 'clock' | 'cross' | 'dashboard' | 'dots-vertical' | 'edit' | 'hash' | 'palette' | 'plus' | 'settings' | 'switch-vertical' | 'trash'
+export type IconName = 'arrow' | 'calendar' | 'camera-plus' | 'cancel' | 'chart' | 'chevron' | 'clock' | 'cross' | 'dashboard' | 'dots-vertical' | 'edit' | 'hash' | 'loading' | 'palette' | 'plus' | 'settings' | 'switch-vertical' | 'trash'

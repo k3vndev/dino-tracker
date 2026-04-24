@@ -1,10 +1,7 @@
 import { Button } from '@components'
-import { DATA_DISPLAY_DEFAULT_TITLE, PROJECT_DEFAULT_VALUES } from '@consts'
 import { useDashboardContext } from '@context'
 import { useProjectsStore } from '@store'
-import type { Project } from '@types'
-import { getRandomColor } from '@utils'
-import { DateTime } from 'luxon'
+import { generateNewProject } from '@utils'
 import { useRouter } from 'next/navigation'
 
 export const CreateProjectButton = () => {
@@ -13,35 +10,13 @@ export const CreateProjectButton = () => {
   const { setProjectsDisabled } = useDashboardContext()
 
   const handleClick = () => {
-    const nowISO = DateTime.now().toISO()
-    const newProjectId = crypto.randomUUID()
-
-    const newProject: Project = {
-      id: newProjectId,
-      name: PROJECT_DEFAULT_VALUES.name,
-      clientName: PROJECT_DEFAULT_VALUES.clientName,
-      status: PROJECT_DEFAULT_VALUES.status,
-      color: getRandomColor(),
-      createdAt: nowISO,
-      updatedAt: nowISO,
-      customFields: [],
-      dataDisplay: [
-        {
-          id: crypto.randomUUID(),
-          title: DATA_DISPLAY_DEFAULT_TITLE,
-          type: 'daily',
-          fieldIds: []
-        }
-      ],
-      startDate: DateTime.now().toISODate()
-    }
-
-    // Add the new project to the projects store
+    // Generate a new project and add it to the store
+    const newProject = generateNewProject()
     setProjects(prev => [newProject, ...prev])
 
     // Navigate to the new project's page
     setProjectsDisabled(true)
-    router.push(`/projects/${newProjectId}`)
+    router.push(`/projects/${newProject.id}`)
   }
 
   return (

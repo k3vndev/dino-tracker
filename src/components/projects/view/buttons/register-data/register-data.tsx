@@ -3,7 +3,7 @@ import { CUSTOM_FIELD_DEFAULT_NAME } from '@consts'
 import { useProjectContext } from '@context'
 import { useProjectsStore } from '@store'
 import type { CustomField } from '@types'
-import { getRandomColor } from '@utils'
+import { randomColor } from '@utils'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { EditableField } from './editable-field'
 
@@ -33,7 +33,7 @@ export const RegisterData = () => {
     if (buttonsDisabled) return
 
     const id = crypto.randomUUID()
-    const color = getRandomColor()
+    const color = randomColor()
     const name = CUSTOM_FIELD_DEFAULT_NAME
     const value = type === 'daily' ? [] : null
     const newField = { id, name, type, color, value } as CustomField

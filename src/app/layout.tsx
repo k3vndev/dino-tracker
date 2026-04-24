@@ -2,6 +2,7 @@ import { Spotlights } from '@components/background'
 import { APP_NAME, FONT_VARIABLES } from '@consts'
 import type { Metadata } from 'next'
 import './globals.css'
+import { StoreStateHandler } from '@components'
 
 const faviconPath = '/favicon.png'
 
@@ -24,8 +25,8 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${FONT_VARIABLES} antialiased overflow-x-hidden min-h-dvh w-screen font-plus`}>
+        <StoreStateHandler />
         {children}
-
         <Spotlights />
       </body>
     </html>

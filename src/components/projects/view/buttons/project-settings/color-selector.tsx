@@ -3,12 +3,12 @@ import { COLORS } from '@consts'
 import { useProjectContext } from '@context'
 import { useGlobalStateRefresh } from '@hooks'
 import { useProjectsStore } from '@store'
-import { getRandomColor } from '@utils'
+import { randomColor } from '@utils'
 import { useState } from 'react'
 
 export const ColorSelector = () => {
   const { color, id: projectId } = useProjectContext()
-  const [pickerColor, setPickerColor] = useState(color ?? getRandomColor())
+  const [pickerColor, setPickerColor] = useState(color ?? randomColor())
   const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
 
   useGlobalStateRefresh(latest => {
