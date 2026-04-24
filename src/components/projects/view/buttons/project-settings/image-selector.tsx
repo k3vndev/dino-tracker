@@ -16,8 +16,11 @@ export const ImageSelector = () => {
   const updateProjectImage = (file: File) => {
     if (!file.type.startsWith('image/')) return
 
-    const newImageSrc = URL.createObjectURL(file)
-    setProjectAttributes(projectId, { img: newImageSrc })
+    const reader = new FileReader()
+    reader.onload = () => {
+      setProjectAttributes(projectId, { img: reader.result as string })
+    }
+    reader.readAsDataURL(file)
   }
 
   const isImageDragEvent = (e: DragEvent<HTMLDivElement>) =>
