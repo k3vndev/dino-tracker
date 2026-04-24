@@ -1,3 +1,4 @@
+import { COLORS_MAP } from '@consts'
 import type { Project } from '@types'
 
 export const MOCK_PROJECTS: Project[] = [
@@ -8,7 +9,7 @@ export const MOCK_PROJECTS: Project[] = [
     startDate: '2026-01-06',
     hourlyRate: 95,
     status: 'Active',
-    color: '#F85A5A'
+    color: COLORS_MAP.RED
   },
   {
     id: 'p-002',
@@ -17,20 +18,20 @@ export const MOCK_PROJECTS: Project[] = [
     clientName: 'Blue Harbor',
     startDate: '2026-01-06',
     status: 'Not Started',
-    color: '#5A9BF8',
+    color: COLORS_MAP.PURPLE,
     customFields: [
       {
         type: 'static',
         name: 'Total Commits',
         id: 'cf-001',
-        color: '#F85A5A',
+        color: COLORS_MAP.PINK,
         value: 120
       },
       {
         type: 'daily',
         name: 'Code',
         id: 'cf-002',
-        color: '#5A9BF8',
+        color: COLORS_MAP.LIGHT_BLUE,
         value: [
           { date: '2026-01-06', value: 5 },
           { date: '2026-01-07', value: 8 },
@@ -45,7 +46,7 @@ export const MOCK_PROJECTS: Project[] = [
         type: 'daily',
         name: 'Design',
         id: 'cf-003',
-        color: '#BB6BD9',
+        color: COLORS_MAP.PURPLE,
         value: [
           { date: '2026-01-06', value: 3 },
           { date: '2026-01-07', value: 4 },
@@ -58,7 +59,7 @@ export const MOCK_PROJECTS: Project[] = [
         type: 'daily',
         name: 'Meetings',
         id: 'cf-004',
-        color: '#F2C94C',
+        color: COLORS_MAP.GOLD,
         value: [
           { date: '2026-01-06', value: 2 },
           { date: '2026-01-07', value: 1 },
@@ -97,7 +98,7 @@ export const MOCK_PROJECTS: Project[] = [
     endDate: '2026-01-30',
     finalPayment: 4200,
     status: 'Not Yet Paid',
-    color: '#F2C94C'
+    color: COLORS_MAP.GOLD
   },
   {
     id: 'p-004',
@@ -106,7 +107,7 @@ export const MOCK_PROJECTS: Project[] = [
     endDate: '2025-12-20',
     finalPayment: 9800,
     status: 'Completed',
-    color: '#6FCF97'
+    color: COLORS_MAP.LIGHT_GREEN
   },
   {
     id: 'p-005',
@@ -114,6 +115,6 @@ export const MOCK_PROJECTS: Project[] = [
     clientName: 'Sunset Media',
     startDate: '2026-01-22',
     status: 'Paused',
-    color: '#BB6BD9'
+    color: COLORS_MAP.LIGHT_BLUE
   }
 ]

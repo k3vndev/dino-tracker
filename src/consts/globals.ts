@@ -33,15 +33,17 @@ export const DATA_DISPLAY_DEFAULT_TITLE = 'My Personalized Chart'
 
 export const CUSTOM_FIELD_DEFAULT_NAME = 'Untitled Field'
 
-export const COLORS = [
-  '#53CBF3', // light blue
-  '#3366E6', // blue
-  '#6367FF', // purple
-  '#FE81D4', // pink
-  '#BD114A', // wine red
-  '#FEEE91', // light yellow
-  '#FFC300', // gold
-  '#FFB399', // beige
-  '#999966', // olive
-  '#99FF99' // light green
-]
+export const COLORS_MAP = {
+  LIGHT_BLUE: '#53CBF3',
+  BLUE: '#3366E6',
+  PURPLE: '#6367FF',
+  PINK: '#FE81D4',
+  RED: '#FF0087',
+  LIGHT_YELLOW: '#FEEE91',
+  GOLD: '#FFC300',
+  BEIGE: '#FFB399',
+  OLIVE: '#999966',
+  LIGHT_GREEN: '#99FF99'
+} as const
+
+export const COLORS = Object.values(COLORS_MAP)

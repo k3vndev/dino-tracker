@@ -82,8 +82,10 @@ export const EditableField = ({ fieldId, project, deletingFieldsIds, setDeleting
       const selectedIndex = newValuesArray.findIndex(v => v.date === selectedDate)
 
       // Validate that the input value is a number before proceeding
-      const numericalValue = parseFloat(e.target.value)
-      if (Number.isNaN(numericalValue)) return
+      const inputValue = e.target.value.trim()
+      const numericalValue = inputValue === '' ? null : parseFloat(inputValue)
+
+      if (numericalValue !== null && Number.isNaN(numericalValue)) return
 
       if (selectedIndex === -1) {
         // A new entry is needed for the selected date
