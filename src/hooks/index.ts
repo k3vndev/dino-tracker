@@ -1,4 +1,5 @@
 export * from './use-debounce'
 export * from './use-fresh-refs'
 export * from './use-global-state-refresh'
+export * from './use-is-touch-screen'
 export * from './use-responsiveness'

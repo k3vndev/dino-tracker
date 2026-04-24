@@ -13,6 +13,7 @@ export interface SidebarItem {
 export interface Project {
   id: string
   name?: string
+  img?: string
   clientName?: string
   startDate?: string
   endDate?: string
@@ -74,7 +75,7 @@ export interface DataDisplay {
 /** Represents a single record in a daily time series chart for Chart component */
 export interface ChartRecord {
   date: string
-  value: number
+  value: number | null
 }
 
 export interface LandingFeature {

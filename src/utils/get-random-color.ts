@@ -1,16 +1,6 @@
-const colors = [
-  '#FF6633',
-  '#FFB399',
-  '#FF33FF',
-  '#FFFF99',
-  '#00B3E6',
-  '#E6B333',
-  '#3366E6',
-  '#999966',
-  '#99FF99'
-]
+import { COLORS } from '@consts'
 
 export const getRandomColor = () => {
-  const randomIndex = Math.floor(Math.random() * colors.length)
-  return colors[randomIndex].toLowerCase()
+  const randomIndex = Math.floor(Math.random() * COLORS.length)
+  return COLORS[randomIndex].toLowerCase()
 }

@@ -1,9 +1,10 @@
 import { Icon } from '@components'
 import { useDashboardContext } from '@context'
 import type { ClassName, Project } from '@types'
-import { calcAnimationDelay, cn, formatProjectDate, getProjectBgGradient } from '@utils'
+import { calcAnimationDelay, cn, formatProjectDate, getProjectBg } from '@utils'
 import Link from 'next/link'
 import { useMemo } from 'react'
+import { ImageDisplay } from './image-display'
 import { StatusChip } from './status-chip'
 
 interface Props extends React.HTMLAttributes<HTMLElement> {
@@ -13,7 +14,7 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
 
 export const ProjectTile = ({ data: p, index, className, style, onClick, ...props }: Props) => {
   const { projectsDisabled } = useDashboardContext()
-  const background = useMemo(() => getProjectBgGradient(p.color), [p.color])
+  const background = useMemo(() => getProjectBg(p.color, p.img), [p.color, p.img])
 
   const styleClass: ClassName = projectsDisabled
     ? 'brightness-90 pointer-events-none opacity-50'
@@ -34,10 +35,12 @@ export const ProjectTile = ({ data: p, index, className, style, onClick, ...prop
         className
       )}
       onClick={handleClick}
-      style={{ background, animationDelay: calcAnimationDelay(index, 100), ...style }}
+      style={{ background: background.gradient, animationDelay: calcAnimationDelay(index, 100), ...style }}
       {...props}
     >
       <Link className='flex flex-col justify-between gap-4 px-5 py-4 size-full' href={`/projects/${p.id}`}>
+        <ImageDisplay imgCSS={background.image} />
+
         {/* Header section */}
         <div className='flex items-start justify-between gap-4'>
           <div className='flex min-w-0 flex-1 flex-col gap-1.5'>

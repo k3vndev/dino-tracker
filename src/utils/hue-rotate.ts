@@ -99,6 +99,12 @@ const hslToRgb = (hue: number, saturation: number, lightness: number) => {
   }
 }
 
+/**
+ * Applies a hue rotation to a hex color string by a specified degree amount.
+ * @param hexColor The input color in hex format (e.g., "#RRGGBB" or "#RGB")
+ * @param degree The amount to rotate the hue, in degrees (positive or negative)
+ * @returns The resulting color in hex format after applying the hue rotation. If the input color is invalid, it returns the original input.
+ */
 export const hueRotate = (hexColor: string, degree: number) => {
   const rgb = hexToRgb(hexColor)
   if (!rgb) return hexColor

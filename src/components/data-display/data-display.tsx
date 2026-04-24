@@ -1,5 +1,5 @@
 import { DEFAULT_COLOR } from '@consts'
-import { DataDisplayContext, type UpdateField } from '@context'
+import { DataDisplayContext, type UpdateField, useProjectContext } from '@context'
 import { useProjectsStore } from '@store'
 import type { CustomField, DataDisplay as DataDisplayType, Project } from '@types'
 import { calcAnimationDelay, hueRotate } from '@utils'
@@ -8,15 +8,14 @@ import { Daily } from './daily'
 import { Static } from './static'
 
 interface Props extends DataDisplayType {
-  projectId: string
   index: number
 }
 
-export const DataDisplay = ({ fieldIds, id, projectId, index, ...dataDisplay }: Props) => {
+export const DataDisplay = ({ fieldIds, id, index, ...dataDisplay }: Props) => {
   const projects = useProjectsStore(s => s.projects)
   const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
-
   const [optionIndex, setOptionIndex] = useState(dataDisplay.optionIndex ?? 0)
+  const { id: projectId } = useProjectContext()
 
   const projectIndex = useMemo(() => projects.findIndex(p => p.id === projectId), [projects, projectId])
   const dataDisplayIndex = useMemo(
