@@ -2,6 +2,21 @@ import type { Project } from '@types'
 
 export const APP_NAME = 'WorkTrack'
 
+// -- Colors --
+export const COLORS_MAP = {
+  LIGHT_BLUE: '#53CBF3',
+  BLUE: '#3366E6',
+  PURPLE: '#6367FF',
+  PINK: '#FE81D4',
+  RED: '#FF0087',
+  LIGHT_YELLOW: '#FEEE91',
+  GOLD: '#FFC300',
+  BEIGE: '#FFB399',
+  OLIVE: '#999966',
+  LIGHT_GREEN: '#99FF99'
+} as const
+export const COLORS = Object.values(COLORS_MAP)
+
 /** Defines the possible statuses a project can have, along with their associated colors. */
 export const PROJECT_STATUSES = {
   'Not Started': '#151515',
@@ -32,18 +47,3 @@ export const DEFAULT_COLOR = '#5A9BF8'
 export const DATA_DISPLAY_DEFAULT_TITLE = 'My Personalized Chart'
 
 export const CUSTOM_FIELD_DEFAULT_NAME = 'Untitled Field'
-
-export const COLORS_MAP = {
-  LIGHT_BLUE: '#53CBF3',
-  BLUE: '#3366E6',
-  PURPLE: '#6367FF',
-  PINK: '#FE81D4',
-  RED: '#FF0087',
-  LIGHT_YELLOW: '#FEEE91',
-  GOLD: '#FFC300',
-  BEIGE: '#FFB399',
-  OLIVE: '#999966',
-  LIGHT_GREEN: '#99FF99'
-} as const
-
-export const COLORS = Object.values(COLORS_MAP)

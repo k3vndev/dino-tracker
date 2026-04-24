@@ -1,7 +1,6 @@
 import type { Project } from '@types'
-import { StateSetter, type ValueOrCallback } from '@utils'
+import { generateNewProject, StateSetter, type ValueOrCallback } from '@utils'
 import { create } from 'zustand'
-import { MOCK_PROJECTS } from '@/mock-projects'
 
 type ProjectKey = keyof Omit<Project, 'id'>
 type Attributes = Partial<Record<ProjectKey, Project[ProjectKey]>>
@@ -18,7 +17,7 @@ export const useProjectsStore = create<ProjectsStore>(set => {
   const { setState } = new StateSetter<ProjectsStore>(set)
 
   return {
-    projects: MOCK_PROJECTS,
+    projects: [generateNewProject()],
     setProjects: projects => setState('projects', projects),
 
     setProjectAttributes: (id, attributes) =>
