@@ -30,6 +30,7 @@ export const ColorInput = ({ color, onChange, disabled, title, className }: Prop
       setPickerColor(value)
       return
     }
+
     setInputValue(value)
   }
 
@@ -45,13 +46,13 @@ export const ColorInput = ({ color, onChange, disabled, title, className }: Prop
 
   useEffect(() => {
     onChange(pickerColor)
+    setInputValue(pickerColor)
   }, [pickerColor])
 
   useEffect(() => {
     if (color === pickerColor) return
 
     setPickerColor(color)
-    setInputValue(color)
   }, [color])
 
   return (

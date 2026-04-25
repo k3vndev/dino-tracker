@@ -27,14 +27,18 @@ export const ColorSelector = () => {
       <div className='w-0 h-2/3 border-r-2 border-dashed border-white/20' />
 
       <ul className='grid grid-cols-5 h-full w-full rounded-sm overflow-clip gap-0.5'>
-        {COLORS.map(c => (
-          <li
-            key={c}
-            className='w-full button'
-            style={{ backgroundColor: c }}
-            onClick={() => setPickerColor(c)}
-          />
-        ))}
+        {COLORS.map(c => {
+          const isSelected = c.toLowerCase() === color?.toLowerCase()
+
+          return (
+            <li
+              key={c}
+              className={`w-full button relative overflow-clip ${isSelected ? 'after:absolute after:size-6 after:bg-white after:border after:border-black/60 after:left-0 after:top-0 after:content-[""] after:rotate-45 after:-translate-1/2' : ''}`}
+              style={{ backgroundColor: c }}
+              onClick={() => setPickerColor(c)}
+            />
+          )
+        })}
       </ul>
     </div>
   )
