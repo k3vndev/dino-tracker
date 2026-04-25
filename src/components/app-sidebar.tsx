@@ -21,11 +21,6 @@ export const AppSidebar = () => {
       icon: 'settings'
     },
     {
-      name: 'Trash',
-      path: '/trash',
-      icon: 'trash'
-    },
-    {
       name: 'Analytics',
       icon: 'chart',
       path: '/analytics'
