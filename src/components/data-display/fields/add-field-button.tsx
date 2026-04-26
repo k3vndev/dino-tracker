@@ -8,53 +8,18 @@ import {
   DropdownMenuTrigger
 } from '@components/ui'
 import { useDataDisplayContext } from '@context'
-import { useProjectsStore } from '@store'
-import type { CustomField } from '@types'
+import type { CustomField, PotentialFieldsToAdd } from '@types'
 import { capitalizeFirst } from '@utils'
 import { useMemo } from 'react'
 
 interface Props {
   onOpenChange: (open: boolean) => void
   isOpen: boolean
+  potentialFieldsToAdd?: PotentialFieldsToAdd | null
 }
 
-export const AddFieldButton = ({ onOpenChange, isOpen }: Props) => {
-  const { projectId, type: projectType, fieldIds, updateField } = useDataDisplayContext()
-
-  const projects = useProjectsStore(s => s.projects)
-
-  const potentialFieldsToAdd: PotentialFieldsToAdd | null = useMemo(() => {
-    const proj = projects.find(p => p.id === projectId)
-    const { customFields } = proj || {}
-
-    if (!customFields || !projectType) return null
-
-    const idsSet = new Set(fieldIds)
-    const dailyFields: CustomField[] = []
-    const staticFields: CustomField[] = []
-
-    for (const field of customFields) {
-      // For static charts we want to show all the fields, for daily we want to show only the daily ones.
-      const isInvalidDaily = projectType === 'daily' && field.type !== 'daily'
-      const isAlreadyAdded = idsSet.has(field.id)
-
-      if (isInvalidDaily || isAlreadyAdded) {
-        continue
-      }
-
-      // Separate daily and static fields for better organization in the UI.
-      if (field.type === 'daily') {
-        dailyFields.push(field)
-      } else {
-        staticFields.push(field)
-      }
-    }
-
-    return {
-      daily: dailyFields,
-      static: staticFields
-    }
-  }, [projects, projectId, projectType, fieldIds])
+export const AddFieldButton = ({ onOpenChange, isOpen, potentialFieldsToAdd }: Props) => {
+  const { updateField } = useDataDisplayContext()
 
   const toAddFieldsCount = useMemo(() => {
     if (!potentialFieldsToAdd) return 0
@@ -106,9 +71,4 @@ export const AddFieldButton = ({ onOpenChange, isOpen }: Props) => {
       )}
     </DropdownMenu>
   )
-}
-
-interface PotentialFieldsToAdd {
-  daily: CustomField[]
-  static: CustomField[]
 }

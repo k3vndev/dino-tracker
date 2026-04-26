@@ -1,3 +1,4 @@
+import { useIsTouchScreen } from '@/hooks'
 import { EditableText } from './editable-text'
 
 interface Props {
@@ -8,7 +9,8 @@ interface Props {
 }
 
 export const Payment = ({ label, hourly = false, data, setData }: Props) => {
-  const visibility = data === undefined ? 'hidden group-hover/project:flex' : 'flex'
+  const isTouchScreen = useIsTouchScreen()
+  const visibility = data === undefined && !isTouchScreen ? 'hidden group-hover/project:flex' : 'flex'
 
   const handleSetData = (txt: string) => {
     const numericValue = Number.parseFloat(txt.trim())

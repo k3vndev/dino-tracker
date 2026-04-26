@@ -83,3 +83,8 @@ export interface LandingFeature {
   desc: string
   icon: IconName
 }
+
+export interface PotentialFieldsToAdd {
+  daily: CustomField[]
+  static: CustomField[]
+}

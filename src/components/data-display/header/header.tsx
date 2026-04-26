@@ -35,7 +35,7 @@ export const Header = ({ selectOptions, onSelectChange, selectInitialValue = 0, 
 
   return (
     <header className='flex flex-col items-start gap-1 justify-between'>
-      <div className='flex w-full justify-between gap-4'>
+      <div className='flex w-full justify-between gap-x-4 gap-y-2 not-sm:flex-col-reverse'>
         <EditableText
           element='h3'
           className='-translate-x-2'
@@ -44,7 +44,7 @@ export const Header = ({ selectOptions, onSelectChange, selectInitialValue = 0, 
           setState={setTitle}
         />
 
-        <div className='flex items-center gap-2'>
+        <div className='flex items-center gap-2 not-sm:ml-auto'>
           <Select
             initialValue={selectInitialValue}
             options={selectOptions}

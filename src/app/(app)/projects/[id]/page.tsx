@@ -44,7 +44,7 @@ export default function ProjectViewPage() {
           <AddChartButton />
         </section>
 
-        <section className='flex items-center flex-col gap-4 mt-8'>
+        <section className='flex items-center flex-col gap-4 mt-8 pb-16 sm:pb-20 lg:pb-0'>
           {project.dataDisplay?.map((dataDisplay, index) => (
             <DataDisplay key={index} {...dataDisplay} index={index} />
           ))}

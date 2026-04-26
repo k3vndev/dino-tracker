@@ -71,7 +71,7 @@ export const ProjectViewEditable = ({
         <DatePicker {...{ startDate, endDate, setDates }} />
 
         {/* Payment or Rate */}
-        <div className='flex items-center gap-10'>
+        <div className='flex items-center lg:gap-10 sm:gap-5 gap-2'>
           <Payment label='FINAL' data={finalPayment} setData={setFinalPayment} />
           <Payment label='HOURLY' data={hourlyRate} hourly setData={setHourlyRate} />
         </div>
