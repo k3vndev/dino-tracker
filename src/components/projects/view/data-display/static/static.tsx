@@ -24,7 +24,7 @@ export const Static = () => {
 
         // Sum the values of every day for daily fields
       } else if (field.type === 'daily') {
-        sum += field.value.reduce((acc, record) => acc + record.value, 0)
+        sum += field.value.reduce((acc, record) => acc + (record.value ?? 0), 0)
       }
     }
 

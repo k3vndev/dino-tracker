@@ -19,7 +19,7 @@ export const BarChart = ({ timeSpan }: Props) => {
     if (!fields) return null
 
     // Parse all chart data into a map with date as the key and an object of field values as the value.
-    const mergedDataMap: Record<string, Record<string, number | string>> = {}
+    const mergedDataMap: Record<string, Record<string, number | string | null>> = {}
 
     for (const field of fields) {
       if (field.type !== 'daily') break // This was already validated. All fields should be 'daily'

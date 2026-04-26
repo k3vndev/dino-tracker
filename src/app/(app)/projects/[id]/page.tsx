@@ -1,11 +1,11 @@
 'use client'
 
 import { AppShell, NotFoundScreen } from '@components'
-import { DataDisplay } from '@components/data-display'
 import { ProjectViewEditable } from '@components/projects/view'
 import { AddChart as AddChartButton } from '@components/projects/view/buttons'
 import { ProjectSettingsButton } from '@components/projects/view/buttons/project-settings'
 import { RegisterData as RegisterDataButton } from '@components/projects/view/buttons/register-data'
+import { DataDisplay } from '@components/projects/view/data-display'
 import { ProjectContext } from '@context'
 import { useProjectsStore } from '@store'
 import { useParams } from 'next/navigation'
