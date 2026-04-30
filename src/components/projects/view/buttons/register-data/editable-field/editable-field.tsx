@@ -20,7 +20,7 @@ type Props = {
 
 export const EditableField = ({ fieldId, project, deletingFieldsIds, setDeletingFieldsIds }: Props) => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
-  const [currentValue, setCurrentValue] = useState('')
+  const [currentValue, setCurrentValue] = useState<string | null>(null)
   const { media } = useResponsiveness()
 
   // Global store
@@ -35,13 +35,21 @@ export const EditableField = ({ fieldId, project, deletingFieldsIds, setDeleting
     }
   }, [project, field])
 
-  // Initialize the current value based on the field type and selected date
+  // Initializes the current value. For daily fields, it continues to update the current value based on the selected date
   useEffect(() => {
-    const rawValue =
-      field?.type === 'static' ? field?.value : field?.value?.find(v => v.date === selectedDate)?.value
-    const value = rawValue?.toString() ?? ''
-    setCurrentValue(value)
-  }, [selectedDate])
+    if (!field) return
+
+    // Handle daily fields by finding the value for the selected date
+    if (field.type === 'daily') {
+      const dailyValue = field.value?.find(v => v.date === selectedDate)?.value?.toString() ?? ''
+      setCurrentValue(dailyValue)
+    }
+
+    // Handle static fields by setting the current value to the field's value
+    if (currentValue === null) {
+      setCurrentValue(field.value?.toString() ?? '')
+    }
+  }, [selectedDate, field])
 
   // Ensures that whenever the field data changes, the project in the global store is updated accordingly
   useGlobalStateRefresh(
