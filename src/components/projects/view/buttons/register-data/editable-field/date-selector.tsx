@@ -42,9 +42,13 @@ export const DateSelector = () => {
       <div className='flex items-center justify-center gap-1'>
         <ChangeDateButton className='rotate-180' onClick={prevDay} />
         {dateDisplay ? (
-          <div className='text-white flex flex-col items-center text-nowrap gap-1.5'>
-            <span className='font-plus text-sm opacity-50'>{dateDisplay.monthYear}</span>
-            <span className='font-poppins font-bold text-4xl'>{dateDisplay.day}</span>
+          <div className='text-white flex flex-col items-center text-nowrap gap-1.5 size-16 relative'>
+            <span className='font-plus text-sm opacity-50 absolute left-1/2 -translate-x-1/2 top-0'>
+              {dateDisplay.monthYear}
+            </span>
+            <span className='font-poppins font-bold text-4xl absolute left-1/2 -translate-x-1/2 bottom-0'>
+              {dateDisplay.day}
+            </span>
           </div>
         ) : (
           <span className='text-sm text-center text-yellow-300'>Invalid date</span>

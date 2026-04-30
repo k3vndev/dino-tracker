@@ -91,6 +91,7 @@ export const Fields = () => {
   }, [projects, projectId, projectType, fieldIds])
 
   const hasFieldsToAdd = !!potentialFieldsToAdd?.daily.length || !!potentialFieldsToAdd?.static.length
+
   const displayText = hasFieldsToAdd
     ? 'Click to add fields'
     : 'Create custom fields in Register Data to display here'
@@ -112,7 +113,7 @@ export const Fields = () => {
         )}
       </ul>
 
-      {!isEditing && <EditableTooltip />}
+      {!isEditing && hasFieldsToAdd && <EditableTooltip />}
     </div>
   )
 }

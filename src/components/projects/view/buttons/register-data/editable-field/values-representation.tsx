@@ -23,6 +23,8 @@ export const ValuesRepresentation = () => {
       (a, b) => DateTime.fromISO(a.date).toMillis() - DateTime.fromISO(b.date).toMillis()
     )
 
+    if (sorted.length === 0) return null
+
     // Determine the full date range to cover, considering both the values and the provided start/end dates
     const sortDates = (...dates: (string | undefined)[]) =>
       dates.filter(d => !!d).sort((a, b) => DateTime.fromISO(a!).toMillis() - DateTime.fromISO(b!).toMillis())

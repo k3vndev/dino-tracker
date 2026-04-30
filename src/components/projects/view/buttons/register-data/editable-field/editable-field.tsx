@@ -20,6 +20,7 @@ type Props = {
 
 export const EditableField = ({ fieldId, project, deletingFieldsIds, setDeletingFieldsIds }: Props) => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
+  const [currentValue, setCurrentValue] = useState('')
   const { media } = useResponsiveness()
 
   // Global store
@@ -34,6 +35,15 @@ export const EditableField = ({ fieldId, project, deletingFieldsIds, setDeleting
     }
   }, [project, field])
 
+  // Initialize the current value based on the field type and selected date
+  useEffect(() => {
+    const rawValue =
+      field?.type === 'static' ? field?.value : field?.value?.find(v => v.date === selectedDate)?.value
+    const value = rawValue?.toString() ?? ''
+    setCurrentValue(value)
+  }, [selectedDate])
+
+  // Ensures that whenever the field data changes, the project in the global store is updated accordingly
   useGlobalStateRefresh(
     latest => {
       if (!project?.customFields) return
@@ -69,10 +79,39 @@ export const EditableField = ({ fieldId, project, deletingFieldsIds, setDeleting
     }
   }
 
+  // This function ensures that the input value is always a valid number, allowing for one optional dot for decimal values. It returns both the global numeric value and the local string representation to maintain the user's input format.
+  // Negative numbers are not allowed
+  const parseValue = (value: string) => {
+    let dotCount = 0
+    let validated = ''
+
+    for (let i = 0; i < value.length; i++) {
+      const char = value[i]
+      // Handle dots
+      if (char === '.' && ++dotCount <= 1) {
+        validated += char
+      }
+      // Handle digits
+      const numberValue = parseInt(char, 10)
+      if (!Number.isNaN(numberValue)) {
+        validated += char
+      }
+    }
+
+    // Convert the validated string to a number for global state, while keeping the original format for local state to reflect the user's input accurately
+    const global =
+      validated === '' ? undefined : +(validated.endsWith('.') ? validated.slice(0, -1) : validated)
+
+    return { global, local: validated }
+  }
+
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
     // Handle static value change
     if (field?.type === 'static') {
-      editField({ value: e.target.value as any })
+      const { global, local } = parseValue(e.target.value)
+
+      editField({ value: global })
+      setCurrentValue(local)
       return
     }
 
@@ -82,35 +121,30 @@ export const EditableField = ({ fieldId, project, deletingFieldsIds, setDeleting
       const selectedIndex = newValuesArray.findIndex(v => v.date === selectedDate)
 
       // Validate that the input value is a number before proceeding
-      const inputValue = e.target.value.trim()
-      const numericalValue = inputValue === '' ? null : parseFloat(inputValue)
+      const { global, local } = parseValue(e.target.value)
+      setCurrentValue(local)
 
-      if (numericalValue !== null && Number.isNaN(numericalValue)) return
-
-      if (selectedIndex === -1) {
+      if (selectedIndex === -1 && global !== undefined && global !== null) {
         // A new entry is needed for the selected date
-        newValuesArray.push({ date: selectedDate, value: numericalValue })
+        newValuesArray.push({ date: selectedDate, value: global })
         // Ensure the array remains sorted by date after adding the new entry
         newValuesArray.sort(
           (a, b) => DateTime.fromISO(a.date).toMillis() - DateTime.fromISO(b.date).toMillis()
         )
       } else {
         // An existing entry for the selected date should be updated
-        const newValue = { date: selectedDate, value: numericalValue }
-        newValuesArray[selectedIndex] = newValue
+        if (global !== undefined && global !== null) {
+          const newValue = { date: selectedDate, value: global }
+          newValuesArray[selectedIndex] = newValue
+        } else {
+          // If the input is cleared, we remove the entry for that date
+          newValuesArray.splice(selectedIndex, 1)
+        }
       }
 
       editField({ value: newValuesArray })
     }
   }
-
-  const currentValue = useMemo(() => {
-    if (field?.type === 'static') {
-      return field?.value
-    }
-    const foundValue = field?.value?.find(v => v.date === selectedDate)?.value
-    return foundValue ?? null
-  }, [field, selectedDate])
 
   const toggleDelete = () => {
     if (!project) return

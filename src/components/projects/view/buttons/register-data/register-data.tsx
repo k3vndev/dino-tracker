@@ -13,7 +13,7 @@ export const RegisterData = () => {
   const setProjectAttributes = useProjectsStore(s => s.setProjectAttributes)
   const [buttonsDisabled, setButtonsDisabled] = useState(false)
   const disabledTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-  const { id: projectId } = useProjectContext()
+  const { id: projectId, dataDisplay: projectDataDisplay } = useProjectContext()
 
   const [deletingFieldsIds, setDeletingFieldsIds] = useState<string[]>([])
 
@@ -59,10 +59,20 @@ export const RegisterData = () => {
   useEffect(() => {
     if (deletingFieldsIds.length > 0 && !isOpen) {
       // Delete fields
-      const updatedFields = customFields?.filter(field => !deletingFieldsIds.includes(field.id)) ?? []
+      const deletedFieldsIds = deletingFieldsIds
+      const updatedFields = customFields?.filter(field => !deletedFieldsIds.includes(field.id)) ?? []
       setProjectAttributes(projectId, { customFields: updatedFields })
 
       setDeletingFieldsIds([])
+
+      // Update project's data display settings to remove references to deleted fields
+      if (!projectDataDisplay) return
+
+      const updatedDataDisplay = projectDataDisplay.map(dd => {
+        const filteredFieldIds = dd.fieldIds.filter(id => !deletedFieldsIds.includes(id))
+        return { ...dd, fieldIds: filteredFieldIds }
+      })
+      setProjectAttributes(projectId, { dataDisplay: updatedDataDisplay })
     }
   }, [deletingFieldsIds, isOpen])
 

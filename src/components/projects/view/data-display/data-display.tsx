@@ -34,6 +34,8 @@ export const DataDisplay = ({ fieldIds, id, index, ...dataDisplay }: Props) => {
 
     // Create a set of the provided fieldIds for efficient lookup
     const idsSet = new Set(fieldIds)
+    if (idsSet.size === 0) return null
+
     const result: CustomField[] = []
 
     // Filter the project's custom fields to find those that match the provided fieldIds.
@@ -47,7 +49,6 @@ export const DataDisplay = ({ fieldIds, id, index, ...dataDisplay }: Props) => {
 
     // If no data is found for the provided ids, return null to avoid rendering an empty component.
     if (result.length === 0) {
-      console.warn(`No custom data found for ids: ${fieldIds.join(', ')} in project with id ${projectId}.`)
       return null
     }
 

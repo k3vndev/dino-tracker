@@ -75,7 +75,7 @@ export interface DataDisplay {
 /** Represents a single record in a daily time series chart for Chart component */
 export interface ChartRecord {
   date: string
-  value: number | null
+  value: number
 }
 
 export interface LandingFeature {
