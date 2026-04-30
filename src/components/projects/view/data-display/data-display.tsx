@@ -111,6 +111,17 @@ export const DataDisplay = ({ fieldIds, id, index, ...dataDisplay }: Props) => {
     setProjectAttributes(projectId, { dataDisplay: updatedDataDisplay })
   }
 
+  const fieldsHaveData = useMemo(
+    () =>
+      !!validatedFields?.length &&
+      validatedFields?.some(
+        field =>
+          (field.type === 'daily' && field.value.length > 0) ||
+          (field.type === 'static' && field.value !== undefined && field.value !== null)
+      ),
+    [validatedFields]
+  )
+
   return (
     <DataDisplayContext.Provider
       value={{
@@ -125,6 +136,7 @@ export const DataDisplay = ({ fieldIds, id, index, ...dataDisplay }: Props) => {
         updateField,
         projectIndex,
         dataDisplayIndex,
+        fieldsHaveData,
         ...dataDisplay
       }}
     >

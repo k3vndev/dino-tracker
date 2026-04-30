@@ -1,17 +1,10 @@
 import { useDataDisplayContext } from '@context'
-import { useMemo } from 'react'
 import { EmptyChart } from '../empty-chart'
 import { Header as DataDisplayHeader } from '../header'
 import { BarChart } from './bar-chart'
 
 export const Daily = () => {
-  const { optionIndex, setOptionIndex, fields } = useDataDisplayContext()
-
-  const hasFields = useMemo(() => !!fields?.length, [fields])
-  const fieldsHaveData = useMemo(
-    () => hasFields && fields?.some(field => field.type === 'daily' && field.value.length > 0),
-    [fields, hasFields]
-  )
+  const { optionIndex, setOptionIndex, fields, fieldsHaveData } = useDataDisplayContext()
 
   return (
     <div className='w-full rounded-xl p-2 pl-0 pt-0 flex flex-col gap-6'>
@@ -22,13 +15,10 @@ export const Daily = () => {
         selectLabel='Select time span'
       />
 
-      {hasFields && fieldsHaveData ? (
+      {fields?.length && fieldsHaveData ? (
         <BarChart timeSpan={rawSelectOptions[optionIndex]} />
       ) : (
-        <EmptyChart
-          icon='chart'
-          label={!fieldsHaveData ? 'No data available. Fields need data to be displayed!' : undefined}
-        />
+        <EmptyChart icon='chart' />
       )}
     </div>
   )

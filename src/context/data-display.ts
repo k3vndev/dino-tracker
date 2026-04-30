@@ -14,6 +14,7 @@ interface DataDisplayContextType extends Partial<DataDisplay> {
   updateField: UpdateField
   projectIndex: number
   dataDisplayIndex: number
+  fieldsHaveData: boolean
 }
 
 export const DataDisplayContext = createContext<DataDisplayContextType>({
@@ -25,7 +26,8 @@ export const DataDisplayContext = createContext<DataDisplayContextType>({
   setOptionIndex: () => {},
   updateField: () => {},
   projectIndex: -1,
-  dataDisplayIndex: -1
+  dataDisplayIndex: -1,
+  fieldsHaveData: false
 })
 
 export const useDataDisplayContext = () => useContext(DataDisplayContext)

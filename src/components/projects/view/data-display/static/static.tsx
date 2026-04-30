@@ -6,7 +6,7 @@ import { Header as DataDisplayHeader } from '../header'
 import { PieChart } from './pie-chart'
 
 export const Static = () => {
-  const { fields, optionIndex, setOptionIndex } = useDataDisplayContext()
+  const { fields, optionIndex, setOptionIndex, fieldsHaveData } = useDataDisplayContext()
 
   const selectedOperation = useMemo(() => operations[optionIndex], [optionIndex])
 
@@ -50,7 +50,7 @@ export const Static = () => {
         selectLabel='Select operation'
       />
 
-      {fields?.length ? (
+      {fields?.length && fieldsHaveData ? (
         selectedOperation === 'comparation' || staticValue === null ? (
           <PieChart operation={selectedOperation} />
         ) : (
